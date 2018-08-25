@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.service;
 
+import ar.edu.unq.epers.bichomon.backend.dao.MySQL.EspecieDAOMySQL;
 import ar.edu.unq.epers.bichomon.backend.service.data.DataService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieServiceImpl;
@@ -21,7 +22,10 @@ public class ServiceFactory {
 	 * @return un objeto que implementa {@link EspecieService}
 	 */
 	public EspecieService getEspecieService() {
-		return new EspecieServiceImpl(new EspecieDAOMock());
+		return new EspecieServiceImpl(
+				//new EspecieDAOMock()
+				new EspecieDAOMySQL()
+		);
 	}
 	
 	/**

@@ -1,12 +1,14 @@
 create table especie
 (
-  id             int                      not null
+  id             int auto_increment
     primary key,
-  tipo           varchar(50) charset utf8 null,
-  cantidadBichos int                      null,
-  altura         int                      null,
-  nombre         varchar(50) charset utf8 null,
-  peso           int                      null
+  nombre         varchar(50) charset utf8  null,
+  altura         int                       null,
+  peso           int                       null,
+  tipo           varchar(50)               null,
+  urlFoto        varchar(100) charset utf8 null,
+  cantidadBichos int                       null,
+  energiaInicial int                       null
 );
 
 

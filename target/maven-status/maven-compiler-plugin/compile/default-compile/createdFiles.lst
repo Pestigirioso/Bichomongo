@@ -1,0 +1,15 @@
+ar/edu/unq/epers/bichomon/backend/model/especie/TipoBicho.class
+ar/edu/unq/epers/bichomon/backend/service/especie/EspecieNoExistente.class
+ar/edu/unq/epers/bichomon/backend/service/ServiceFactory.class
+ar/edu/unq/epers/bichomon/backend/dao/MySQL/EspecieDAOMySQL.class
+ar/edu/unq/epers/bichomon/backend/dao/MySQL/ConnectionBlock.class
+ar/edu/unq/epers/bichomon/frontend/app/BichomonWebApp.class
+ar/edu/unq/epers/bichomon/backend/model/bicho/Bicho.class
+ar/edu/unq/epers/bichomon/backend/model/especie/Especie.class
+ar/edu/unq/epers/bichomon/backend/service/especie/EspecieServiceImpl.class
+ar/edu/unq/epers/bichomon/backend/dao/EspecieDAO.class
+ar/edu/unq/epers/bichomon/backend/service/data/DataService.class
+ar/edu/unq/epers/bichomon/backend/service/especie/EspecieService.class
+ar/edu/unq/epers/bichomon/frontend/app/JsonObjectMapperProvider.class
+ar/edu/unq/epers/bichomon/frontend/mock/EspecieDAOMock.class
+ar/edu/unq/epers/bichomon/frontend/api/EspecieServiceREST.class

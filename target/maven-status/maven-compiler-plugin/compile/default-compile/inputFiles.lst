@@ -1,0 +1,15 @@
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/service/especie/EspecieServiceImpl.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/frontend/mock/EspecieDAOMock.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/dao/EspecieDAO.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/model/especie/TipoBicho.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/frontend/api/EspecieServiceREST.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/frontend/app/JsonObjectMapperProvider.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/service/data/DataService.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/model/especie/Especie.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/frontend/app/BichomonWebApp.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/model/bicho/Bicho.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/dao/MySQL/EspecieDAOMySQL.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/service/especie/EspecieNoExistente.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/dao/MySQL/ConnectionBlock.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/service/especie/EspecieService.java
+/run/media/uriel/files/Universidad/18s2/persistencia/src/main/java/ar/edu/unq/epers/bichomon/backend/service/ServiceFactory.java
