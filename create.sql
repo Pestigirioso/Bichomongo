@@ -1,3 +1,7 @@
+-- Crear base de datos
+create database bichomon;
+
+-- Crear tabla especie
 create table especie
 (
   id             int auto_increment
@@ -11,4 +15,5 @@ create table especie
   energiaInicial int                       null
 );
 
-
+-- Ver datos de tabla
+select * from especie;
