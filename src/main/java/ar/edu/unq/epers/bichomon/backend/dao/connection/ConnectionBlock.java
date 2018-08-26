@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.MySQL;
+package ar.edu.unq.epers.bichomon.backend.dao.connection;
 
 import java.sql.Connection;
 import java.sql.SQLException;
