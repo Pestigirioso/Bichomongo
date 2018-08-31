@@ -1,10 +1,10 @@
-package ar.edu.unq.epers.bichomon.backend.dao;
+package ar.edu.unq.epers.bichomon.backend.dao.mysql;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import ar.edu.unq.epers.bichomon.backend.dao.connection.ConnectionMySQL;
+import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 
@@ -22,8 +22,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
     @Override
     public void guardar(Especie especie) {
         this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement(
-                    "INSERT INTO especie (nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial) VALUES (?,?,?,?,?,?,?)");
+            PreparedStatement ps = conn.prepareStatement("INSERT INTO especie (nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial) VALUES (?,?,?,?,?,?,?)");
             ps.setString(1, especie.getNombre());
             ps.setInt(2, especie.getAltura());
             ps.setInt(3, especie.getPeso());
@@ -33,7 +32,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
             ps.setInt(7, especie.getEnergiaInicial());
             ps.execute();
 
-            if (ps.getUpdateCount() != 1) {
+            if(ps.getUpdateCount() != 1) {
                 throw new RuntimeException("No se inserto la especie " + especie);
             }
             ps.close();
@@ -44,8 +43,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
     @Override
     public void actualizar(Especie especie) {
         this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement(
-                    "UPDATE especie SET altura=?, peso=?, tipo=?, urlFoto=?, cantidadBichos=?, energiaInicial=? WHERE nombre=?");
+            PreparedStatement ps = conn.prepareStatement("UPDATE especie SET altura=?, peso=?, tipo=?, urlFoto=?, cantidadBichos=?, energiaInicial=? WHERE nombre=?");
             ps.setInt(1, especie.getAltura());
             ps.setInt(2, especie.getPeso());
             ps.setString(3, especie.getTipo().toString());
@@ -54,7 +52,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
             ps.setInt(6, especie.getEnergiaInicial());
             ps.setString(7, especie.getNombre());
             ps.execute();
-            if (ps.getUpdateCount() != 1) {
+            if(ps.getUpdateCount() != 1) {
                 throw new RuntimeException("No se actualizo la especie " + especie);
             }
             ps.close();
@@ -70,8 +68,8 @@ public class EspecieDAOMySQL implements EspecieDAO {
             ResultSet resultSet = ps.executeQuery();
             //Chequear que el resultSet devuelve solo una especie
             Especie especie = null;
-            while (resultSet.next()) {
-                if (especie != null) {
+            while(resultSet.next()) {
+                if(especie != null) {
                     throw new RuntimeException("Existe mas de una especie con el nombre " + nombreEspecie);
                 }
                 especie = this.sacarEspecie(resultSet);
@@ -97,11 +95,21 @@ public class EspecieDAOMySQL implements EspecieDAO {
             PreparedStatement ps = conn.prepareStatement("SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie");
             ResultSet resultSet = ps.executeQuery();
             List<Especie> lista = new ArrayList<>();
-            while (resultSet.next()) {
+            while(resultSet.next()) {
                 lista.add(this.sacarEspecie(resultSet));
             }
             ps.close();
             return lista;
+        });
+    }
+
+    @Override
+    public void borrarTodo() {
+        this.con.executeWithConnection(conn -> {
+            PreparedStatement ps = conn.prepareStatement("DELETE FROM especie");
+            ps.execute();
+            ps.close();
+            return null;
         });
     }
 

@@ -1,7 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.service.especie;
 
 import ar.edu.unq.epers.bichomon.backend.AbstractMySQLTest;
-import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAOMySQL;
+import ar.edu.unq.epers.bichomon.backend.dao.mysql.EspecieDAOMySQL;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;

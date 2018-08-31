@@ -1,4 +1,8 @@
-package ar.edu.unq.epers.bichomon.backend.dao.connection;
+package ar.edu.unq.epers.bichomon.backend.dao.mysql;
+
+import ar.edu.unq.epers.bichomon.backend.dao.connection.Connection;
+import ar.edu.unq.epers.bichomon.backend.dao.connection.ConnectionBlock;
+import ar.edu.unq.epers.bichomon.backend.dao.connection.IConnection;
 
 public class ConnectionMySQL implements IConnection {
 

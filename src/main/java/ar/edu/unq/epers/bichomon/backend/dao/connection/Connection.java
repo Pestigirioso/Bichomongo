@@ -3,18 +3,18 @@ package ar.edu.unq.epers.bichomon.backend.dao.connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 
-class Connection {
+public class Connection {
 
     private String url;
 
-    Connection (String url) {
+    public Connection (String url) {
         this.url = url;
     }
 
     /**
      * Ejecuta un bloque de codigo contra una conexion.
      */
-    <T> T executeWithConnection(ConnectionBlock<T> bloque) {
+    public <T> T executeWithConnection(ConnectionBlock<T> bloque) {
         java.sql.Connection connection = this.openConnection();
         try {
             return bloque.executeWith(connection);

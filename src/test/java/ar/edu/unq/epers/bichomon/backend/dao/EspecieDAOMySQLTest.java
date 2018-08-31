@@ -1,6 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.dao;
 
 import ar.edu.unq.epers.bichomon.backend.AbstractMySQLTest;
+import ar.edu.unq.epers.bichomon.backend.dao.mysql.EspecieDAOMySQL;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
