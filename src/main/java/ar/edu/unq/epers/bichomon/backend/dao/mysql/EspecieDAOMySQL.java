@@ -109,6 +109,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
                 lista.add(this.sacarEspecie(resultSet));
             }
             ps.close();
+            lista.sort((a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
             return lista;
         });
     }

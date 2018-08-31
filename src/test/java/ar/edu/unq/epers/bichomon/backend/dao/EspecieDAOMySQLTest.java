@@ -7,6 +7,7 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
 
 import java.sql.SQLException;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -56,6 +57,14 @@ class EspecieDAOMySQLTest extends AbstractMySQLTest {
     @Test
     void recuperar_todos_no_tiene_especie_inexistente() {
         assertTrue(dao.recuperarTodos().stream().noneMatch(e -> e.getNombre().equals("inexistente")));
+    }
+
+    @Test
+    void recuperar_todos_ordenado_por_nombre() {
+        List<Especie> lista = dao.recuperarTodos();
+        assertEquals("Amarillomon", lista.get(0).getNombre());
+        assertEquals("Dientemon", lista.get(1).getNombre());
+        assertEquals("Verdemon", lista.get(7).getNombre());
     }
 
     @Test
