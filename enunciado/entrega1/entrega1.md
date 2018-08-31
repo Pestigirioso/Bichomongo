@@ -12,11 +12,12 @@ La interfaz `EspecieDAO` declara los siguientes métodos que nosotros debemos im
 
 - `void guardar(Especie especie)` - Recibe un objeto `Especie` y se encarga de persistirlo en la base de datos.  Tener en cuenta que el nombre de cada especie debe ser único para toda la aplicación.
 
-- `Especie getEspecie(String nombreEspecie)` - este método devolverá la `Especie` cuyo nombre sea igual al provisto por parámetro.  Se espera que este método devuelva, a lo sumo, un solo resultado.
+- `void actualizar(Especie especie)` - Actualiza la `Especie` recibida por parámetro.
 
-- `List<Especie> getAllEspecies()` - este método deberá devolver una lista de todas las especies existentes ordenadas alfabéticamente por su nombre en forma ascendente.
+- `Especie recuperar(String nombreEspecie)` - este método devolverá la `Especie` cuyo nombre sea igual al provisto por parámetro.  Se espera que este método devuelva, a lo sumo, un solo resultado.
 
-- `Bicho crearBicho(String nombreEspecie, String nombreBicho)` - crea un nuevo `Bicho` perteneciente a la especie especificada. El nuevo objeto `Bicho` no es persistido (de momento), solo devuelto. Para llevar una mejor estadística de los bichos que han sido creados cada especie cuenta con un contador cantidadBichos. El mismo deberá ser incrementado en 1.
+- `List<Especie> recuperarTodos()` - este método deberá devolver una lista de todas las especies existentes ordenadas alfabéticamente por su nombre en forma ascendente.
+
 
 Adicionalmente, el equipo de frontend ha realizado unos tests de integración que tienen como fin comprobar que nuestro `EspecieService` funciona como ellos esperan.  En dichos tests ellos están haciendo uso de la siguiente interfaz, para la cual también deberemos proveer una implementación:
 
