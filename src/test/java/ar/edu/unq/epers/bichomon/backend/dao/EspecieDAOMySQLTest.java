@@ -6,6 +6,8 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
 
+import java.sql.SQLException;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieDAOMySQLTest extends AbstractMySQLTest {
@@ -59,6 +61,17 @@ class EspecieDAOMySQLTest extends AbstractMySQLTest {
     @Test
     void recuperar_todos_tiene_especie_rojomon() {
         assertTrue(dao.recuperarTodos().stream().anyMatch(e -> e.getNombre().equals("Rojomon")));
+    }
+
+    @Test
+    void recuperar_todos_tiene_8_especie() {
+        assertEquals(8, dao.recuperarTodos().size());
+    }
+
+    @Test
+    void guardar_dos_veces_el_mismo_nombre_de_especie() {
+        assertThrows(RuntimeException.class,
+                () -> dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA)));
     }
 
 }

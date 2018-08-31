@@ -31,10 +31,20 @@ public class EspecieDAOMySQL implements EspecieDAO {
             ps.setInt(6, especie.getCantidadBichos());
             ps.setInt(7, especie.getEnergiaInicial());
             ps.execute();
-
             if(ps.getUpdateCount() != 1) {
                 throw new RuntimeException("No se inserto la especie " + especie);
             }
+
+            ps = conn.prepareStatement("SELECT LAST_INSERT_ID();");
+            ResultSet resultSet = ps.executeQuery();
+            int id = -1;
+            while(resultSet.next()) {
+                if(id != -1) {
+                    throw new RuntimeException("Se obtuvo más de un id");
+                }
+                id = resultSet.getInt(1);
+            }
+            especie.setId(id);
             ps.close();
             return null;
         });

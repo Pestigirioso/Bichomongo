@@ -1,7 +1,3 @@
--- Crear base de datos
-create database bichomon;
-
--- Crear tabla especie
 create table especie
 (
   id             int auto_increment
@@ -12,8 +8,9 @@ create table especie
   tipo           varchar(50)               null,
   urlFoto        varchar(100) charset utf8 null,
   cantidadBichos int                       null,
-  energiaInicial int                       null
+  energiaInicial int                       null,
+  constraint especie_nombre_uindex
+  unique (nombre)
 );
 
--- Ver datos de tabla
-select * from especie;
+
