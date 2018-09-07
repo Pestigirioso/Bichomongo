@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.mysql;
+package ar.edu.unq.epers.bichomon.backend.dao.jdbc;
 
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -114,7 +114,6 @@ public class EspecieDAOMySQL implements EspecieDAO {
         });
     }
 
-    @Override
     public void borrarTodo() {
         this.con.executeWithConnection(conn -> {
             PreparedStatement ps = conn.prepareStatement("DELETE FROM especie");

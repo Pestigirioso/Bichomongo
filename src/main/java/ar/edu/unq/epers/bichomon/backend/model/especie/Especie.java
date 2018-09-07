@@ -1,5 +1,6 @@
 package ar.edu.unq.epers.bichomon.backend.model.especie;
 
+import javax.persistence.*;
 import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 
 /**
@@ -7,12 +8,14 @@ import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
  * 
  * @author Charly Backend
  */
+@Entity
 public class Especie {
-
+    @Id
 	private Integer id;
 	private String nombre;
 	private int altura;
 	private int peso;
+
 	private TipoBicho tipo;
 
 	private int energiaInicial;
@@ -110,9 +113,9 @@ public class Especie {
 		this.id = id;
 	}
 
-	public Bicho crearBicho(String nombreBicho){
+	public Bicho crearBicho(){
 		this.cantidadBichos++;
-		return new Bicho(this, nombreBicho);
+		return new Bicho(this);
 	}
 	
 }

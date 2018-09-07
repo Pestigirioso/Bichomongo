@@ -10,21 +10,11 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
  */
 public class Bicho {
 
-	private String nombre;
 	private Especie especie;
 	private int energia;
 	
-	public Bicho(Especie especie, String nombre) {
+	public Bicho(Especie especie) {
 		this.especie = especie;
-		this.nombre = nombre;
-	}
-
-	/**
-	 * @return el nombre de un bicho (todos los bichos tienen
-	 * nombre). Este NO es el nombre de su especie.
-	 */
-	public String getNombre() {
-		return this.nombre;
 	}
 	
 	/**

@@ -59,8 +59,8 @@ public class EspecieServiceREST implements EspecieService {
 	@POST
 	@Path("{nombreEspecie}/{nombreBicho}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Bicho crearBicho(@PathParam("nombreEspecie") String nombreEspecie, @PathParam("nombreBicho") String nombreBicho) {
-		return this.decorado.crearBicho(nombreEspecie, nombreBicho);
+	public Bicho crearBicho(@PathParam("nombreEspecie") String nombreEspecie) {
+		return this.decorado.crearBicho(nombreEspecie);
 	}
 
 }

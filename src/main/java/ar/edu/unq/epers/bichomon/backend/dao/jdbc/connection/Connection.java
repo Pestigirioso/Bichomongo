@@ -1,4 +1,4 @@
-package ar.edu.unq.epers.bichomon.backend.dao.connection;
+package ar.edu.unq.epers.bichomon.backend.dao.jdbc.connection;
 
 import java.sql.DriverManager;
 import java.sql.SQLException;

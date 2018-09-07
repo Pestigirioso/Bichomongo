@@ -1,17 +1,16 @@
 package ar.edu.unq.epers.bichomon.backend.dao;
 
-import ar.edu.unq.epers.bichomon.backend.AbstractMySQLTest;
-import ar.edu.unq.epers.bichomon.backend.dao.mysql.EspecieDAOMySQL;
+import ar.edu.unq.epers.bichomon.backend.AbstractTest;
+import ar.edu.unq.epers.bichomon.backend.dao.jdbc.EspecieDAOMySQL;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
 
-import java.sql.SQLException;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EspecieDAOMySQLTest extends AbstractMySQLTest {
+class EspecieDAOTest extends AbstractTest {
 
     private EspecieDAO dao = new EspecieDAOMySQL();
 

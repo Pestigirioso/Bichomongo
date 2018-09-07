@@ -1,7 +1,7 @@
 package ar.edu.unq.epers.bichomon.backend.service.especie;
 
-import ar.edu.unq.epers.bichomon.backend.AbstractMySQLTest;
-import ar.edu.unq.epers.bichomon.backend.dao.mysql.EspecieDAOMySQL;
+import ar.edu.unq.epers.bichomon.backend.AbstractTest;
+import ar.edu.unq.epers.bichomon.backend.dao.hibernate.EspecieDAOHibernate;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
@@ -10,9 +10,9 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-class EspecieServiceMySQLTest extends AbstractMySQLTest {
+class EspecieServiceTest extends AbstractTest {
 
-    private EspecieService service = new EspecieServiceImpl(new EspecieDAOMySQL());
+    private EspecieService service = new EspecieServiceImpl(new EspecieDAOHibernate());
 
     @Test
     void actualizar_inexistente_raise_exception() {
@@ -57,7 +57,7 @@ class EspecieServiceMySQLTest extends AbstractMySQLTest {
     @Test
     void crear_bicho_aumenta_en_1_la_cantidad_de_bichos() {
         int cantidadDeBichos = service.getEspecie("Rojomon").getCantidadBichos();
-        service.crearBicho("Rojomon", "bicho1");
+        service.crearBicho("Rojomon");
         assertEquals(cantidadDeBichos+1, service.getEspecie("Rojomon").getCantidadBichos());
     }
 }

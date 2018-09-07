@@ -3,6 +3,8 @@ package ar.edu.unq.epers.bichomon.backend.service.data;
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+import ar.edu.unq.epers.bichomon.backend.service.runner.SessionFactoryProvider;
 
 public class DataServiceImpl implements DataService {
 
@@ -14,7 +16,7 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public void eliminarDatos() {
-        this.dao.borrarTodo();
+        SessionFactoryProvider.destroy();
     }
 
     private void guardarEspecie(int id, String nombre, TipoBicho tipo, int altura, int peso, int energia, String url) {
@@ -28,13 +30,16 @@ public class DataServiceImpl implements DataService {
 
     @Override
     public void crearSetDatosIniciales() {
-        this.guardarEspecie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg");
-        this.guardarEspecie(2, "Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg");
-        this.guardarEspecie(3, "Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg");
-        this.guardarEspecie(4, "Tierramon", TipoBicho.TIERRA, 1050, 99, 5000, "/image/tierramon.jpg");
-        this.guardarEspecie(5, "Fantasmon", TipoBicho.AIRE, 1050, 99, 5000, "/image/fantasmon.jpg");
-        this.guardarEspecie(6, "Vampiron", TipoBicho.AIRE, 1050, 99, 5000, "/image/vampiromon.jpg");
-        this.guardarEspecie(7, "Fortmon", TipoBicho.CHOCOLATE, 1050, 99, 5000, "/image/fortmon.jpg");
-        this.guardarEspecie(8, "Dientemon", TipoBicho.AGUA, 1050, 99, 5000, "/image/dientmon.jpg");
+        Runner.runInSession(() -> {
+            this.guardarEspecie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg");
+            this.guardarEspecie(2, "Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg");
+            this.guardarEspecie(3, "Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg");
+            this.guardarEspecie(4, "Tierramon", TipoBicho.TIERRA, 1050, 99, 5000, "/image/tierramon.jpg");
+            this.guardarEspecie(5, "Fantasmon", TipoBicho.AIRE, 1050, 99, 5000, "/image/fantasmon.jpg");
+            this.guardarEspecie(6, "Vampiron", TipoBicho.AIRE, 1050, 99, 5000, "/image/vampiromon.jpg");
+            this.guardarEspecie(7, "Fortmon", TipoBicho.CHOCOLATE, 1050, 99, 5000, "/image/fortmon.jpg");
+            this.guardarEspecie(8, "Dientemon", TipoBicho.AGUA, 1050, 99, 5000, "/image/dientmon.jpg");
+            return null;
+        });
     }
 }
