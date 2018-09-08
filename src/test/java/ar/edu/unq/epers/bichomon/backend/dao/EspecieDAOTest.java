@@ -1,9 +1,10 @@
 package ar.edu.unq.epers.bichomon.backend.dao;
 
 import ar.edu.unq.epers.bichomon.backend.AbstractTest;
-import ar.edu.unq.epers.bichomon.backend.dao.jdbc.EspecieDAOMySQL;
+import ar.edu.unq.epers.bichomon.backend.dao.hibernate.EspecieDAOHibernate;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -12,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieDAOTest extends AbstractTest {
 
-    private EspecieDAO dao = new EspecieDAOMySQL();
+    private EspecieDAO dao = new EspecieDAOHibernate();
 
     @Test
     void restaurar_guardado_tiene_mismos_datos() {
@@ -22,8 +23,10 @@ class EspecieDAOTest extends AbstractTest {
         especie.setEnergiaIncial(50);
         especie.setUrlFoto("url");
 
-        dao.guardar(especie);
-        Especie restored = dao.recuperar("prueba");
+        Especie restored = Runner.runInSession(() -> {
+                    dao.guardar(especie);
+                    return dao.recuperar("prueba");
+                });
 
         assertEquals(especie.getNombre(), restored.getNombre());
         assertEquals(especie.getTipo(), restored.getTipo());
@@ -36,31 +39,39 @@ class EspecieDAOTest extends AbstractTest {
 
     @Test
     void recuperar_inexistente_retorna_null() {
-        assertNull(dao.recuperar("inexistente"));
+        assertNull(Runner.runInSession(() -> dao.recuperar("inexistente")));
     }
 
     @Test
     void actualizar_cantidad_de_bichos() {
-        Especie rojo = dao.recuperar("Rojomon");
+        Especie rojo = Runner.runInSession(() -> dao.recuperar("Rojomon"));
         rojo.setCantidadBichos(46);
-        dao.actualizar(rojo);
-        assertEquals(46, dao.recuperar("Rojomon").getCantidadBichos());
+        Especie recuperado = Runner.runInSession(() -> {
+            dao.actualizar(rojo);
+            return dao.recuperar("Rojomon");
+        });
+        assertEquals(46, recuperado.getCantidadBichos());
     }
 
     @Test
     void actualizar_inexistente_raise_exception() {
-        assertThrows(RuntimeException.class,
-                () -> dao.actualizar(new Especie(0, "inexistente", TipoBicho.AGUA)));
+        assertThrows(RuntimeException.class, () -> {
+            Runner.runInSession(() -> {
+                dao.actualizar(new Especie(0, "inexistente", TipoBicho.AGUA));
+                return null;
+            });
+        });
     }
 
     @Test
     void recuperar_todos_no_tiene_especie_inexistente() {
-        assertTrue(dao.recuperarTodos().stream().noneMatch(e -> e.getNombre().equals("inexistente")));
+        List<Especie> todos = Runner.runInSession(() -> dao.recuperarTodos());
+        assertTrue(todos.stream().noneMatch(e -> e.getNombre().equals("inexistente")));
     }
 
     @Test
     void recuperar_todos_ordenado_por_nombre() {
-        List<Especie> lista = dao.recuperarTodos();
+        List<Especie> lista = Runner.runInSession(() -> dao.recuperarTodos());
         assertEquals("Amarillomon", lista.get(0).getNombre());
         assertEquals("Dientemon", lista.get(1).getNombre());
         assertEquals("Verdemon", lista.get(7).getNombre());
@@ -68,18 +79,22 @@ class EspecieDAOTest extends AbstractTest {
 
     @Test
     void recuperar_todos_tiene_especie_rojomon() {
-        assertTrue(dao.recuperarTodos().stream().anyMatch(e -> e.getNombre().equals("Rojomon")));
+        List<Especie> especies = Runner.runInSession(() -> dao.recuperarTodos());
+        assertTrue(especies.stream().anyMatch(e -> e.getNombre().equals("Rojomon")));
     }
 
     @Test
     void recuperar_todos_tiene_8_especie() {
-        assertEquals(8, dao.recuperarTodos().size());
+        List<Especie> todos = Runner.runInSession(() -> dao.recuperarTodos());
+        assertEquals(8, todos.size());
     }
 
     @Test
     void guardar_dos_veces_el_mismo_nombre_de_especie() {
-        assertThrows(RuntimeException.class,
-                () -> dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA)));
+        assertThrows(RuntimeException.class, () -> {
+            dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA));
+            return null;
+        });
     }
 
 }

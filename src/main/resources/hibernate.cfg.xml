@@ -22,6 +22,5 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <mapping class="ar.edu.unq.epers.bichomon.backend.model.especie.Especie" />
-        <mapping class="ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho" />
     </session-factory>
 </hibernate-configuration>

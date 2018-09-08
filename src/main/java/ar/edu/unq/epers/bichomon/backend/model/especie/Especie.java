@@ -11,11 +11,17 @@ import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 @Entity
 public class Especie {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
-	private String nombre;
-	private int altura;
-	private int peso;
 
+    @Column(unique=true)
+	private String nombre;
+
+    private int altura;
+
+    private int peso;
+
+    @Enumerated(EnumType.STRING)
 	private TipoBicho tipo;
 
 	private int energiaInicial;
@@ -24,8 +30,7 @@ public class Especie {
 	
 	private int cantidadBichos;
 	
-	public Especie(){
-	}
+	public Especie(){}
 	
 	public Especie(int id, String nombre, TipoBicho tipo) {
 	    this.id = id;

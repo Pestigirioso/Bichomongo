@@ -6,6 +6,7 @@ import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 
 public class EspecieDAOHibernate implements EspecieDAO {
@@ -25,7 +26,15 @@ public class EspecieDAOHibernate implements EspecieDAO {
     @Override
     public Especie recuperar(String nombreEspecie) {
         Session session = Runner.getCurrentSession();
-        return session.get(Especie.class, nombreEspecie);
+        String hq1 = "from Especie i where i.nombre = :nom";
+        Query<Especie> query = session.createQuery(hq1, Especie.class);
+        query.setParameter("nom", nombreEspecie);
+        query.setMaxResults(1);
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            return null;
+        }
     }
 
     @Override

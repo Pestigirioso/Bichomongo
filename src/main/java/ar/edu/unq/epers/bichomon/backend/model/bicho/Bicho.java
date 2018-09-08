@@ -2,15 +2,24 @@ package ar.edu.unq.epers.bichomon.backend.model.bicho;
 
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 
+import javax.persistence.*;
+
 /**
  * Un {@link Bicho} existente en el sistema, el mismo tiene un nombre
  * y pertenece a una {@link Especie} en particular.
  * 
  * @author Charly Backend
  */
+@Entity
 public class Bicho {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Integer id;
+
+    @ManyToOne
 	private Especie especie;
+
 	private int energia;
 	
 	public Bicho(Especie especie) {
