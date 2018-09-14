@@ -18,28 +18,37 @@ public class EspecieDAOMySQL implements EspecieDAO {
         this.con = new ConnectionMySQL();
     }
 
+    private void executeWithEspecie(Especie especie, String sql, String errorMsg) {
+        this.con.executeWithConnection(conn -> {
+            PreparedStatement ps = conn.prepareStatement(sql);
+            ps.setInt(1, especie.getAltura());
+            ps.setInt(2, especie.getPeso());
+            ps.setString(3, especie.getTipo().toString());
+            ps.setString(4, especie.getUrlFoto());
+            ps.setInt(5, especie.getCantidadBichos());
+            ps.setInt(6, especie.getEnergiaInicial());
+            ps.setString(7, especie.getNombre());
+            ps.execute();
+            if (ps.getUpdateCount() != 1) {
+                throw new RuntimeException(errorMsg + especie);
+            }
+            ps.close();
+            return null;
+        });
+    }
+
     @Override
     public void guardar(Especie especie) {
-        this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement("INSERT INTO especie (nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial) VALUES (?,?,?,?,?,?,?)");
-            ps.setString(1, especie.getNombre());
-            ps.setInt(2, especie.getAltura());
-            ps.setInt(3, especie.getPeso());
-            ps.setString(4, especie.getTipo().toString());
-            ps.setString(5, especie.getUrlFoto());
-            ps.setInt(6, especie.getCantidadBichos());
-            ps.setInt(7, especie.getEnergiaInicial());
-            ps.execute();
-            if(ps.getUpdateCount() != 1) {
-                throw new RuntimeException("No se inserto la especie " + especie);
-            }
+        final String sqlInsert = "INSERT INTO especie (altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial, nombre) VALUES (?,?,?,?,?,?,?)";
+        executeWithEspecie(especie, sqlInsert, "No se inserto la especie ");
 
-            ps = conn.prepareStatement("SELECT LAST_INSERT_ID();");
+        this.con.executeWithConnection(conn -> {
+            PreparedStatement ps = conn.prepareStatement("SELECT LAST_INSERT_ID();");
             ResultSet resultSet = ps.executeQuery();
             int id = -1;
             while(resultSet.next()) {
                 if(id != -1) {
-                    throw new RuntimeException("Se obtuvo más de un id");
+                    throw new RuntimeException("Se obtuvo más de un ID");
                 }
                 id = resultSet.getInt(1);
             }
@@ -51,31 +60,17 @@ public class EspecieDAOMySQL implements EspecieDAO {
 
     @Override
     public void actualizar(Especie especie) {
-        this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement("UPDATE especie SET altura=?, peso=?, tipo=?, urlFoto=?, cantidadBichos=?, energiaInicial=? WHERE nombre=?");
-            ps.setInt(1, especie.getAltura());
-            ps.setInt(2, especie.getPeso());
-            ps.setString(3, especie.getTipo().toString());
-            ps.setString(4, especie.getUrlFoto());
-            ps.setInt(5, especie.getCantidadBichos());
-            ps.setInt(6, especie.getEnergiaInicial());
-            ps.setString(7, especie.getNombre());
-            ps.execute();
-            if(ps.getUpdateCount() != 1) {
-                throw new RuntimeException("No se actualizo la especie " + especie);
-            }
-            ps.close();
-            return null;
-        });
+        final String sqlUpdate = "UPDATE especie SET altura=?, peso=?, tipo=?, urlFoto=?, cantidadBichos=?, energiaInicial=? WHERE nombre=?";
+        executeWithEspecie(especie, sqlUpdate, "No se actualizo la especie ");
     }
 
     @Override
     public Especie recuperar(String nombreEspecie) {
+        final String sqlSelect = "SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie WHERE nombre = ?";
         return this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement("SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie WHERE nombre = ?");
+            PreparedStatement ps = conn.prepareStatement(sqlSelect);
             ps.setString(1, nombreEspecie);
             ResultSet resultSet = ps.executeQuery();
-            //Chequear que el resultSet devuelve solo una especie
             Especie especie = null;
             while(resultSet.next()) {
                 if(especie != null) {
@@ -100,9 +95,9 @@ public class EspecieDAOMySQL implements EspecieDAO {
 
     @Override
     public List<Especie> recuperarTodos() {
+        final String sqlSelect = "SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie ORDER BY nombre";
         return this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement(
-                    "SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie ORDER BY nombre");
+            PreparedStatement ps = conn.prepareStatement(sqlSelect);
             ResultSet resultSet = ps.executeQuery();
             List<Especie> lista = new ArrayList<>();
             while(resultSet.next()) {
@@ -114,8 +109,9 @@ public class EspecieDAOMySQL implements EspecieDAO {
     }
 
     public void borrarTodo() {
+        final String sqlDelete = "DELETE FROM especie";
         this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement("DELETE FROM especie");
+            PreparedStatement ps = conn.prepareStatement(sqlDelete);
             ps.execute();
             ps.close();
             return null;
