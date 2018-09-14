@@ -1,11 +1,11 @@
 package ar.edu.unq.epers.bichomon.backend.service.especie;
 
-import java.util.List;
-
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.service.runner.Runner;
+
+import java.util.List;
 
 public class EspecieServiceImpl implements EspecieService {
 
@@ -47,6 +47,16 @@ public class EspecieServiceImpl implements EspecieService {
             especieDAO.actualizar(especie);
             return bicho;
         });
+    }
+
+    @Override
+    public List<Especie> populares() {
+        return null;
+    }
+
+    @Override
+    public List<Especie> impopulares() {
+        return null;
     }
 
 }

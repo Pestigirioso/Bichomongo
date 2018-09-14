@@ -93,7 +93,6 @@ class EspecieDAOTest extends AbstractTest {
     void guardar_dos_veces_el_mismo_nombre_de_especie() {
         assertThrows(RuntimeException.class, () -> {
             dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA));
-            return null;
         });
     }
 
