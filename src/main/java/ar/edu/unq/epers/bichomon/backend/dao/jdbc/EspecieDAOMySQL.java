@@ -1,13 +1,12 @@
 package ar.edu.unq.epers.bichomon.backend.dao.jdbc;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import ar.edu.unq.epers.bichomon.backend.dao.EspecieDAO;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -102,14 +101,14 @@ public class EspecieDAOMySQL implements EspecieDAO {
     @Override
     public List<Especie> recuperarTodos() {
         return this.con.executeWithConnection(conn -> {
-            PreparedStatement ps = conn.prepareStatement("SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie");
+            PreparedStatement ps = conn.prepareStatement(
+                    "SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie ORDER BY nombre");
             ResultSet resultSet = ps.executeQuery();
             List<Especie> lista = new ArrayList<>();
             while(resultSet.next()) {
                 lista.add(this.sacarEspecie(resultSet));
             }
             ps.close();
-            lista.sort((a, b) -> a.getNombre().compareToIgnoreCase(b.getNombre()));
             return lista;
         });
     }
