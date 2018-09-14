@@ -1,7 +1,8 @@
 package ar.edu.unq.epers.bichomon.backend.model.especie;
 
-import javax.persistence.*;
 import ar.edu.unq.epers.bichomon.backend.model.bicho.Bicho;
+
+import javax.persistence.*;
 
 /**
  * Representa una {@link Especie} de bicho.
@@ -86,7 +87,8 @@ public class Especie {
 	public int getEnergiaInicial() {
 		return this.energiaInicial;
 	}
-	public void setEnergiaIncial(int energiaInicial) {
+
+    public void setEnergiaInicial(int energiaInicial) {
 		this.energiaInicial = energiaInicial;
 	}
 

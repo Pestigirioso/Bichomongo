@@ -23,7 +23,7 @@ public class DataServiceImpl implements DataService {
         Especie especie = new Especie(id, nombre, tipo);
         especie.setAltura(altura);
         especie.setPeso(peso);
-        especie.setEnergiaIncial(energia);
+        especie.setEnergiaInicial(energia);
         especie.setUrlFoto(url);
         this.dao.guardar(especie);
     }

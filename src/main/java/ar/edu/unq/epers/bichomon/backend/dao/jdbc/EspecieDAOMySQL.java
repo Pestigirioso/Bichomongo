@@ -89,7 +89,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
         especie.setPeso(resultSet.getInt("peso"));
         especie.setUrlFoto(resultSet.getString("urlFoto"));
         especie.setCantidadBichos(resultSet.getInt("cantidadBichos"));
-        especie.setEnergiaIncial(resultSet.getInt("energiaInicial"));
+        especie.setEnergiaInicial(resultSet.getInt("energiaInicial"));
         return especie;
     }
 

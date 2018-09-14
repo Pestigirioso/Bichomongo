@@ -20,7 +20,7 @@ class EspecieDAOTest extends AbstractTest {
         Especie especie = new Especie(0, "prueba", TipoBicho.AGUA);
         especie.setAltura(100);
         especie.setPeso(350);
-        especie.setEnergiaIncial(50);
+        especie.setEnergiaInicial(50);
         especie.setUrlFoto("url");
 
         Especie restored = Runner.runInSession(() -> {
@@ -43,13 +43,25 @@ class EspecieDAOTest extends AbstractTest {
     }
 
     @Test
-    void actualizar_cantidad_de_bichos() {
+    void actualizar_todos_los_datos() {
         Especie rojo = Runner.runInSession(() -> dao.recuperar("Rojomon"));
+        rojo.setAltura(99);
+        rojo.setPeso(190);
+        rojo.setTipo(TipoBicho.CHOCOLATE);
+        rojo.setEnergiaInicial(0);
+        rojo.setUrlFoto("fake.com");
         rojo.setCantidadBichos(46);
+
         Especie recuperado = Runner.runInSession(() -> {
             dao.actualizar(rojo);
             return dao.recuperar("Rojomon");
         });
+
+        assertEquals(99, rojo.getAltura());
+        assertEquals(190, rojo.getPeso());
+        assertEquals(TipoBicho.CHOCOLATE, rojo.getTipo());
+        assertEquals(0, rojo.getEnergiaInicial());
+        assertEquals("fake.com", rojo.getUrlFoto());
         assertEquals(46, recuperado.getCantidadBichos());
     }
 
@@ -91,9 +103,7 @@ class EspecieDAOTest extends AbstractTest {
 
     @Test
     void guardar_dos_veces_el_mismo_nombre_de_especie() {
-        assertThrows(RuntimeException.class, () -> {
-            dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA));
-        });
+        assertThrows(RuntimeException.class, () -> dao.guardar(new Especie(0, "Rojomon", TipoBicho.AGUA)));
     }
 
 }

@@ -6,9 +6,7 @@ import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieServiceTest extends AbstractTest {
 
@@ -24,7 +22,7 @@ class EspecieServiceTest extends AbstractTest {
         Especie especie = new Especie(0, "prueba", TipoBicho.AGUA);
         especie.setAltura(100);
         especie.setPeso(350);
-        especie.setEnergiaIncial(50);
+        especie.setEnergiaInicial(50);
         especie.setUrlFoto("url");
 
         service.crearEspecie(especie);
