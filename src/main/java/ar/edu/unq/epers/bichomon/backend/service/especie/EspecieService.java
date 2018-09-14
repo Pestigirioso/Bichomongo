@@ -25,7 +25,7 @@ public interface EspecieService {
      *
      * @param nombreEspecie - el nombre de la especie que se busca
      * @return la especie encontrada
-     * @throws la excepción {@link EspecieNoExistente} (no chequeada)
+     * @throws Exception {@link EspecieNoExistente} (no chequeada)
      */
     Especie getEspecie(String nombreEspecie);
 
@@ -44,8 +44,23 @@ public interface EspecieService {
      * en 1.
      *
      * @param nombreEspecie - el nombre de la especie del bicho a crear
-     * @param nombreBicho - el nombre del bicho a ser creado
      * @return un objeto {@link Bicho} instanciado
      */
     Bicho crearBicho(String nombreEspecie);
+
+    /**
+     * retorna aquellos diez especies mas populares, o sea, aquellas que tengan mas bichos en manos
+     * de distintos entrenadores. No contaran los bichos en la Guardería.
+     *
+     * @return
+     */
+    List<Especie> populares();
+
+    /**
+     * retorna aquellos diez especies menos populares,
+     * o sea, aquellas que tengan actualmente mas bichos en la Guardería.
+     *
+     * @return
+     */
+    List<Especie> impopulares();
 }
