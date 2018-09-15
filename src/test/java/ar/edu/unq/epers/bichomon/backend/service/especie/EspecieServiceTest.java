@@ -4,13 +4,14 @@ import ar.edu.unq.epers.bichomon.backend.AbstractTest;
 import ar.edu.unq.epers.bichomon.backend.dao.hibernate.EspecieDAOHibernate;
 import ar.edu.unq.epers.bichomon.backend.model.especie.Especie;
 import ar.edu.unq.epers.bichomon.backend.model.especie.TipoBicho;
+import ar.edu.unq.epers.bichomon.backend.service.ServiceFactory;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieServiceTest extends AbstractTest {
 
-    private EspecieService service = new EspecieServiceImpl(new EspecieDAOHibernate());
+    private EspecieService service = new ServiceFactory().getEspecieService();
 
     @Test
     void actualizar_inexistente_raise_exception() {

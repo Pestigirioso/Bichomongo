@@ -2,10 +2,15 @@ package ar.edu.unq.epers.bichomon.backend.service;
 
 import ar.edu.unq.epers.bichomon.backend.dao.hibernate.EspecieDAOHibernate;
 import ar.edu.unq.epers.bichomon.backend.dao.jdbc.EspecieDAOMySQL;
+import ar.edu.unq.epers.bichomon.backend.dao.mock.EntrenadorDAOMock;
+import ar.edu.unq.epers.bichomon.backend.dao.mock.EspecieDAOMock;
+import ar.edu.unq.epers.bichomon.backend.dao.mock.UbicacionDAOMock;
 import ar.edu.unq.epers.bichomon.backend.service.data.DataService;
 import ar.edu.unq.epers.bichomon.backend.service.data.DataServiceImpl;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieService;
 import ar.edu.unq.epers.bichomon.backend.service.especie.EspecieServiceImpl;
+import ar.edu.unq.epers.bichomon.backend.service.mapa.MapaService;
+import ar.edu.unq.epers.bichomon.backend.service.mapa.MapaServiceImpl;
 
 /**
  * Esta clase es un singleton, el cual sera utilizado por equipo de frontend
@@ -24,10 +29,17 @@ public class ServiceFactory {
 	 */
 	public EspecieService getEspecieService() {
 		return new EspecieServiceImpl(
-				//new EspecieDAOMock()
+				new EspecieDAOMock()
 				//new EspecieDAOMySQL()
-				new EspecieDAOHibernate()
+//				new EspecieDAOHibernate()
 		);
+	}
+
+	public MapaService getMapService(){
+		return new MapaServiceImpl(
+		        new UbicacionDAOMock(),
+                new EntrenadorDAOMock()
+        );
 	}
 	
 	/**
