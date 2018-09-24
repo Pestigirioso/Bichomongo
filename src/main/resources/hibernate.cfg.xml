@@ -21,6 +21,11 @@
 
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
-        <mapping class="ar.edu.unq.epers.bichomon.backend.model.especie.Especie" />
+        <mapping class="epers.bichomon.model.entrenador.Entrenador"/>
+        <mapping class="epers.bichomon.model.especie.Especie"/>
+        <mapping class="epers.bichomon.model.ubicacion.Dojo"/>
+        <mapping class="epers.bichomon.model.ubicacion.Guarderia"/>
+        <mapping class="epers.bichomon.model.ubicacion.Pueblo"/>
+        <mapping class="epers.bichomon.model.ubicacion.Ubicacion"/>
     </session-factory>
 </hibernate-configuration>
