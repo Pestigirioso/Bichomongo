@@ -59,11 +59,16 @@ class MapaServiceTest {
     }
 
     @Test
-    void muevo_cinco_entrenadores_al_pueblo_y_hay_3_entrenadores() {
+    void muevo_3_entrenadores_al_pueblo_y_hay_3_entrenadores() {
         service.mover("Alex", "Pueblo Paleta");
         service.mover("Magali", "Pueblo Paleta");
         service.mover("Paco", "Pueblo Paleta");
         assertEquals(3, service.cantidadEntrenadores("Pueblo Paleta"));
+    }
+
+    @Test
+    void escuela_sin_entrenadores() {
+        assertEquals(0, service.cantidadEntrenadores("Escuela de la vida"));
     }
 
 }

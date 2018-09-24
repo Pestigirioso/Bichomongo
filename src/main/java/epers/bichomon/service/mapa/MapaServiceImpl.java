@@ -41,11 +41,13 @@ public class MapaServiceImpl implements MapaService {
 
     @Override
     public Bicho campeon(String dojo) {
+        // TODO implementar MapaService - Bicho campeon
         return null;
     }
 
     @Override
     public Bicho campeonHistorico(String dojo) {
+        // TODO implementar MapaService - Bicho campeonHistorico
         return null;
     }
 }
