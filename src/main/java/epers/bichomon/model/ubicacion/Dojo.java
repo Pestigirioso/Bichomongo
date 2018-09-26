@@ -11,6 +11,16 @@ public class Dojo extends Ubicacion {
      * Los dojos pueden poseer un campeon (un Bicho específico de un Entrenador específico).
      * Un entrenador (que no sea el campeon actual del Dojo) podrá retar a duelo al campeon en esta localización.
      */
+    private Bicho campeon;
+
+
+    private Dojo() {
+        super();
+    }
+
+    public Dojo(String nombreDojo) {
+        super(nombreDojo);
+    }
 
     /**
      * Al buscar en este tipo de ubicación un entrador encontrará bichos de la misma especie
@@ -23,17 +33,9 @@ public class Dojo extends Ubicacion {
      * Si el entrenador MiyaguiSan buscase bichos en este dojo lo unico
      * que encontraría (si es que encontrase algo) serían bichos de tipo Lagartomon.
      */
-
-    private Dojo() {
-        super();
-    }
-
-    public Dojo (String nombreDojo){
-        super(nombreDojo);
-    }
-
     @Override
     public Bicho buscar() {
+        // TODO implementar Dojo - Buscar
         return null;
     }
 }

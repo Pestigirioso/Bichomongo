@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -36,7 +37,9 @@ public class Guarderia extends Ubicacion {
 
     @Override
     public Bicho buscar() {
-        return null;
+        Bicho bicho = new ArrayList<>(bichos).get(0);
+        bichos.remove(bicho);
+        return bicho;
     }
 
 }

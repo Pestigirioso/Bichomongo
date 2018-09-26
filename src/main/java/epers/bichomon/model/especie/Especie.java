@@ -143,6 +143,7 @@ public class Especie {
 
     public Bicho crearBicho() {
         this.cantidadBichos++;
+        // TODO al crear bicho, se crea con la energia inicial de la especie??
         return new Bicho(this, new HashSet<>());
     }
 
