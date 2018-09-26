@@ -3,6 +3,7 @@ package epers.bichomon.model.especie;
 import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 
 @Entity
 public class Especie {
@@ -26,6 +27,10 @@ public class Especie {
 
     private int cantidadBichos;
 
+    // TODO a una especie puede evolucionar solo una? o varias? A->C y B->C?
+    @OneToOne
+    private Especie evolucion;
+
     private Especie() {
     }
 
@@ -41,6 +46,11 @@ public class Especie {
         this.setPeso(peso);
         this.setEnergiaInicial(energia);
         this.setUrlFoto(url);
+    }
+
+    public Especie(int id, String nombre, TipoBicho tipo, int altura, int peso, int energia, String url, Especie evolucion) {
+        this(id, nombre, tipo, altura, peso, energia, url);
+        this.evolucion = evolucion;
     }
 
     /**
@@ -133,7 +143,7 @@ public class Especie {
 
     public Bicho crearBicho() {
         this.cantidadBichos++;
-        return new Bicho(this);
+        return new Bicho(this, new ArrayList());
     }
 
 }

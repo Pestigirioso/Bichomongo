@@ -1,8 +1,11 @@
 package epers.bichomon.model.bicho;
 
+import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 public class Bicho {
@@ -14,33 +17,50 @@ public class Bicho {
     @ManyToOne
     private Especie especie;
 
+    @ManyToOne
+    private Entrenador entrenador;
+
     private int energia;
+    private int victorias;
+    private LocalDate fechaCaptura;
+
+    @OneToMany
+    private List<Condicion> condiciones;
 
     private Bicho() {
     }
 
-    public Bicho(Especie especie) {
+    // TODO bicho - esta bien que guarde una lista de condiciones?
+    public Bicho(Especie especie, List<Condicion> condiciones) {
         this.especie = especie;
+        this.condiciones = condiciones;
     }
 
-    /**
-     * @return la especie a la que este bicho pertenece.
-     */
-    public Especie getEspecie() {
+    Especie getEspecie() {
         return this.especie;
     }
 
-    /**
-     * @return la cantidad de puntos de energia de este bicho en
-     * particular. Dicha cantidad crecerá (o decrecerá) conforme
-     * a este bicho participe en combates contra otros bichomones.
-     */
-    public int getEnergia() {
+    int getEnergia() {
         return this.energia;
     }
 
-    public void setEnergia(int energia) {
+    void setEnergia(int energia) {
         this.energia = energia;
     }
 
+    int getVictorias() {
+        return this.victorias;
+    }
+
+    LocalDate getFechaCaptura() {
+        return this.fechaCaptura;
+    }
+
+    int getNivel() {
+        return this.entrenador.getNivel();
+    }
+
+    Boolean puedeEvolucionar() {
+        return condiciones.stream().allMatch(c -> c.puedeEvolucionar(this));
+    }
 }
