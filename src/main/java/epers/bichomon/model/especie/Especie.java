@@ -3,7 +3,7 @@ package epers.bichomon.model.especie;
 import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.*;
-import java.util.ArrayList;
+import java.util.HashSet;
 
 @Entity
 public class Especie {
@@ -143,7 +143,7 @@ public class Especie {
 
     public Bicho crearBicho() {
         this.cantidadBichos++;
-        return new Bicho(this, new ArrayList());
+        return new Bicho(this, new HashSet<>());
     }
 
 }

@@ -5,7 +5,7 @@ import epers.bichomon.model.especie.Especie;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Bicho {
@@ -25,13 +25,13 @@ public class Bicho {
     private LocalDate fechaCaptura;
 
     @OneToMany
-    private List<Condicion> condiciones;
+    private Set<Condicion> condiciones;
 
     private Bicho() {
     }
 
     // TODO bicho - esta bien que guarde una lista de condiciones?
-    public Bicho(Especie especie, List<Condicion> condiciones) {
+    public Bicho(Especie especie, Set<Condicion> condiciones) {
         this.especie = especie;
         this.condiciones = condiciones;
     }
