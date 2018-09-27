@@ -24,6 +24,11 @@ public abstract class Ubicacion {
 
     public abstract Bicho buscar();
 
+    private boolean busquedaExitosa() {
+        //TODO Ubicacion - busquedaExitosa - delegar en una interfaz que encapsulará dicho calculo sin proveer una implementación real para la misma.
+        return true;
+    }
+
     public String getNombre() {
         return nombre;
     }
