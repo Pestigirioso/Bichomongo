@@ -5,6 +5,7 @@ import epers.bichomon.model.especie.Especie;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -23,17 +24,30 @@ public class Bicho {
     private int energia;
     private int victorias;
     private LocalDate fechaCaptura;
+    @ManyToMany
+    private Set<Entrenador> entrenadoresAnteriores;
 
-    @OneToMany
-    private Set<Condicion> condiciones;
-
-    private Bicho() {
+    protected Bicho() {
     }
 
     // TODO bicho - esta bien que guarde una lista de condiciones?
-    public Bicho(Especie especie, Set<Condicion> condiciones) {
+    public Bicho(Especie especie) {
         this.especie = especie;
-        this.condiciones = condiciones;
+        entrenadoresAnteriores = new HashSet<>();
+    }
+
+    public Bicho (Integer id, Especie especie){
+        this(especie);
+        this.id = id;
+    }
+
+    public void capturadoPor(Entrenador entrenador){
+        this.entrenador=entrenador;
+    }
+
+    public void abandonado(){
+        entrenadoresAnteriores.add(entrenador);
+        this.entrenador=null;
     }
 
     Especie getEspecie() {
@@ -60,7 +74,4 @@ public class Bicho {
         return this.entrenador.getNivel();
     }
 
-    Boolean puedeEvolucionar() {
-        return condiciones.stream().allMatch(c -> c.puedeEvolucionar(this));
-    }
 }

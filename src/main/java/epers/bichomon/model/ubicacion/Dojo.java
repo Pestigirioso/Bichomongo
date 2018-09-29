@@ -3,6 +3,8 @@ package epers.bichomon.model.ubicacion;
 import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Dojo extends Ubicacion {
@@ -11,10 +13,11 @@ public class Dojo extends Ubicacion {
      * Los dojos pueden poseer un campeon (un Bicho específico de un Entrenador específico).
      * Un entrenador (que no sea el campeon actual del Dojo) podrá retar a duelo al campeon en esta localización.
      */
+    @ManyToOne
     private Bicho campeon;
 
 
-    private Dojo() {
+    protected Dojo() {
         super();
     }
 
