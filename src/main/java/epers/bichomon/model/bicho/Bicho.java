@@ -21,6 +21,9 @@ public class Bicho {
     @ManyToOne
     private Entrenador entrenador;
 
+    @ManyToMany
+    private Set<Entrenador> entrenadoresAnteriores = new HashSet<>();
+
     private int energia;
     private int victorias;
     private LocalDate fechaCaptura;
@@ -30,19 +33,19 @@ public class Bicho {
     protected Bicho() {
     }
 
-    // TODO bicho - esta bien que guarde una lista de condiciones?
-    public Bicho(Especie especie) {
+    public Bicho(Especie especie, int energia) {
         this.especie = especie;
+        this.energia = energia;
         entrenadoresAnteriores = new HashSet<>();
-    }
 
-    public Bicho (Integer id, Especie especie){
-        this(especie);
+    public Bicho (Integer id, Especie especie, int energia){
+        this(especie, energia);
         this.id = id;
     }
 
     public void capturadoPor(Entrenador entrenador){
         this.entrenador=entrenador;
+        this.fechaCaptura = LocalDate.now();
     }
 
     public void abandonado(){
@@ -50,28 +53,35 @@ public class Bicho {
         this.entrenador=null;
     }
 
-    Especie getEspecie() {
+    public Especie getEspecie() {
         return this.especie;
     }
 
-    int getEnergia() {
+    public int getEnergia() {
         return this.energia;
     }
 
-    void setEnergia(int energia) {
+    public void setEnergia(int energia) {
         this.energia = energia;
     }
 
-    int getVictorias() {
+    public int getVictorias() {
         return this.victorias;
     }
 
-    LocalDate getFechaCaptura() {
+    public LocalDate getFechaCaptura() {
         return this.fechaCaptura;
     }
 
-    int getNivel() {
+    public int getNivel() {
         return this.entrenador.getNivel();
     }
 
+    public Boolean puedeEvolucionar() {
+        return especie.puedeEvolucionar(this);
+    }
+
+    public Boolean tuvisteEntrenador(Entrenador e) {
+        return entrenadoresAnteriores.contains(e);
+    }
 }

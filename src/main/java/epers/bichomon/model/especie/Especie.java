@@ -3,7 +3,7 @@ package epers.bichomon.model.especie;
 import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.*;
-import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Especie {
@@ -27,11 +27,15 @@ public class Especie {
 
     private int cantidadBichos;
 
-    // TODO a una especie puede evolucionar solo una? o varias? A->C y B->C?
+    // TODO a una especie puede evolucionar solo una? o varias? A->C y B->C? NO
+    // TODO Especie, tener especie raiz y siguiente en evolucion
     @OneToOne
     private Especie evolucion;
 
-    private Especie() {
+    @OneToMany
+    private Set<Condicion> condiciones;
+
+    protected Especie() {
     }
 
     public Especie(int id, String nombre, TipoBicho tipo) {
@@ -48,9 +52,10 @@ public class Especie {
         this.setUrlFoto(url);
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo, int altura, int peso, int energia, String url, Especie evolucion) {
-        this(id, nombre, tipo, altura, peso, energia, url);
+    public Especie(int id, String nombre, TipoBicho tipo, Especie evolucion, Set<Condicion> condiciones) {
+        this(id, nombre, tipo);
         this.evolucion = evolucion;
+        this.condiciones = condiciones;
     }
 
     /**
@@ -143,8 +148,10 @@ public class Especie {
 
     public Bicho crearBicho() {
         this.cantidadBichos++;
-        // TODO al crear bicho, se crea con la energia inicial de la especie??
-        return new Bicho(this);
+        return new Bicho(this, energiaInicial);
     }
 
+    public Boolean puedeEvolucionar(Bicho bicho) {
+        return condiciones.stream().allMatch(c -> c.puedeEvolucionar(bicho));
+    }
 }

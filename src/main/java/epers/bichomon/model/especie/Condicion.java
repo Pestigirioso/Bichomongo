@@ -1,4 +1,6 @@
-package epers.bichomon.model.bicho;
+package epers.bichomon.model.especie;
+
+import epers.bichomon.model.bicho.Bicho;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
