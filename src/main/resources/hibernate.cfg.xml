@@ -22,8 +22,9 @@
         <property name="hibernate.hbm2ddl.auto">create-drop</property>
 
         <mapping class="epers.bichomon.model.bicho.Bicho"/>
-        <mapping class="epers.bichomon.model.bicho.Condicion"/>
         <mapping class="epers.bichomon.model.entrenador.Entrenador"/>
+        <mapping class="epers.bichomon.model.entrenador.Nivel"/>
+        <mapping class="epers.bichomon.model.especie.Condicion"/>
         <mapping class="epers.bichomon.model.especie.Especie"/>
         <mapping class="epers.bichomon.model.ubicacion.Dojo"/>
         <mapping class="epers.bichomon.model.ubicacion.Guarderia"/>

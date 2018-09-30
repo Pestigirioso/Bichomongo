@@ -1,6 +1,7 @@
 package epers.bichomon.model.ubicacion;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.entrenador.Entrenador;
 
 import javax.persistence.Entity;
 
@@ -25,7 +26,7 @@ public class Pueblo extends Ubicacion {
      * encuentre un bicho salvaje el mismo será de tipo Estrellamon. *
      */
 
-    private Pueblo() {
+    protected Pueblo() {
         super();
     }
 
@@ -35,7 +36,8 @@ public class Pueblo extends Ubicacion {
 
     // TODO implementar Pueblo - Buscar
     @Override
-    public Bicho buscar() {
+    protected Bicho buscarBicho(Entrenador e) {
         return null;
     }
+
 }

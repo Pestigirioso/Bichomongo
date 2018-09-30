@@ -1,6 +1,8 @@
 package epers.bichomon.model.ubicacion;
 
+import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.entrenador.Entrenador;
 
 import javax.persistence.*;
 
@@ -12,7 +14,9 @@ public abstract class Ubicacion {
 
     @Column(unique = true)
     private String nombre;
+
 //    private Set<Entrenador> entrenadorSet;
+
 //    private Set<Bicho> bichoSet;
 
     protected Ubicacion() {
@@ -22,11 +26,25 @@ public abstract class Ubicacion {
         this.nombre = nombreUbicacion;
     }
 
-    public abstract Bicho buscar();
-
-    private boolean busquedaExitosa() {
+    public Bicho buscar(Entrenador e){
         //TODO Ubicacion - busquedaExitosa - delegar en una interfaz que encapsulará dicho calculo sin proveer una implementación real para la misma.
+        if (!this.busquedaExitosa())
+            return null;
+        return buscarBicho(e);
+    }
+
+    private boolean busquedaExitosa(){
         return true;
+    }
+
+    protected abstract Bicho buscarBicho(Entrenador e);
+
+    public void abandonar(Bicho bicho){
+        throw new UbicacionIncorrrectaException(nombre);
+    }
+
+    public ResultadoCombate duelo(Bicho bicho){
+        throw new UbicacionIncorrrectaException(nombre);
     }
 
     public String getNombre() {

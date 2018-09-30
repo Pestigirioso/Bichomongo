@@ -1,12 +1,13 @@
 package epers.bichomon.model.ubicacion;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.entrenador.Entrenador;
 
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 public class Guarderia extends Ubicacion {
@@ -15,8 +16,6 @@ public class Guarderia extends Ubicacion {
      * los mismos podrán abandonar aquellos que no deseen utilizar nuevamente en esta ubicación.
      * Un entrenador no podrá quedarse sin bichos como consecuencia de abandonar.
      */
-
-    // TODO chequear que el entrenador que abandono no pueda recuperarlo???
 
     /**
      * Al buscar en esta ubicación un entrenador adoptará bichos que hayan sido abandonados
@@ -27,7 +26,7 @@ public class Guarderia extends Ubicacion {
     @OneToMany
     private Set<Bicho> bichos = new HashSet<>();
 
-    private Guarderia() {
+    protected Guarderia() {
         super();
     }
 
@@ -36,10 +35,9 @@ public class Guarderia extends Ubicacion {
     }
 
     @Override
-    public Bicho buscar() {
-        Bicho bicho = new ArrayList<>(bichos).get(0);
+    protected Bicho buscarBicho(Entrenador e) {
+        Bicho bicho = bichos.stream().filter(b -> !b.tuvisteEntrenador(e)).collect(Collectors.toList()).get(0);
         bichos.remove(bicho);
         return bicho;
     }
-
 }

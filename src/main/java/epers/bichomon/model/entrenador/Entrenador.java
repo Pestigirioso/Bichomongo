@@ -23,7 +23,9 @@ public class Entrenador {
 
     private int xp;
 
-    private int nivel;
+    // TODO entrenador - nivel
+    @ManyToOne
+    private Nivel nivel;
 
     // TODO implementar Entrenador - Nivel
     /*
@@ -31,14 +33,16 @@ public class Entrenador {
      * Nivel 2: de 100 a 400 puntos de experiencia
      * Nivel 3: de 400 a 1000 puntos de experiencia
      * Niveles de 4 a 10: suben cada 1000 puntos de experiencia
-     * <p>
+     *
      * Nos destacan la importancia de que dichos limites puedan ser modificados sin necesidad
      * de modificar código de la aplicación ya que es posible que los valores cambien a medida
      * que se tenga información real sobre el uso que los jugadores daran al juego.
      */
     public int getNivel() {
-        return 0;
+        return nivel.getNro(this);
     }
+
+    public Integer getXP(){ return this.xp; }
 
     // TODO implementar Entrenador - cantidad max de bichos capturados
     /*
@@ -47,11 +51,12 @@ public class Entrenador {
      * máximo el jugador no podrá buscar nuevos Bichos para capturar.
      */
 
-    private Entrenador() {
+    protected Entrenador() {
     }
 
-    public Entrenador(String nombre) {
+    public Entrenador(String nombre, Nivel nivel) {
         this.nombre = nombre;
+        this.nivel = nivel;
     }
 
     public Ubicacion getUbicacion() {

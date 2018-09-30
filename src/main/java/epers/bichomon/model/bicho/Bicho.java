@@ -5,6 +5,7 @@ import epers.bichomon.model.especie.Especie;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -20,47 +21,50 @@ public class Bicho {
     @ManyToOne
     private Entrenador entrenador;
 
+    @ManyToMany
+    private Set<Entrenador> entrenadoresAnteriores = new HashSet<>();
+
     private int energia;
     private int victorias;
     private LocalDate fechaCaptura;
 
-    @OneToMany
-    private Set<Condicion> condiciones;
-
-    private Bicho() {
+    protected Bicho() {
     }
 
-    // TODO bicho - esta bien que guarde una lista de condiciones?
-    public Bicho(Especie especie, Set<Condicion> condiciones) {
+    public Bicho(Especie especie, int energia) {
         this.especie = especie;
-        this.condiciones = condiciones;
-    }
-
-    Especie getEspecie() {
-        return this.especie;
-    }
-
-    int getEnergia() {
-        return this.energia;
-    }
-
-    void setEnergia(int energia) {
         this.energia = energia;
     }
 
-    int getVictorias() {
+    public Especie getEspecie() {
+        return this.especie;
+    }
+
+    public int getEnergia() {
+        return this.energia;
+    }
+
+    public void setEnergia(int energia) {
+        this.energia = energia;
+    }
+
+    public int getVictorias() {
         return this.victorias;
     }
 
-    LocalDate getFechaCaptura() {
+    public LocalDate getFechaCaptura() {
         return this.fechaCaptura;
     }
 
-    int getNivel() {
+    public int getNivel() {
         return this.entrenador.getNivel();
     }
 
-    Boolean puedeEvolucionar() {
-        return condiciones.stream().allMatch(c -> c.puedeEvolucionar(this));
+    public Boolean puedeEvolucionar() {
+        return especie.puedeEvolucionar(this);
+    }
+
+    public Boolean tuvisteEntrenador(Entrenador e) {
+        return entrenadoresAnteriores.contains(e);
     }
 }
