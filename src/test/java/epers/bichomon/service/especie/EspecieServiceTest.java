@@ -23,7 +23,7 @@ class EspecieServiceTest {
 
     @BeforeEach
     void prepare() {
-        service = new ServiceFactory().getEspecieService();
+        service = ServiceFactory.getEspecieService();
 
         testService.crearEntidad(new Especie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/rojomon.jpg"));
         testService.crearEntidad(new Especie(2, "Amarillomon", TipoBicho.AIRE, 170, 69, 300, "/amarillomon.jpg"));

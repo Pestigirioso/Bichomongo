@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 import javax.persistence.*;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -19,9 +20,9 @@ public class Entrenador {
     private Ubicacion ubicacion;
 
     @OneToMany
-    private Set<Bicho> bichos;
+    private Set<Bicho> bichos = new HashSet<>();
 
-    private int xp;
+    private int xp = 1;
 
     // TODO entrenador - nivel
     @ManyToOne
@@ -68,6 +69,7 @@ public class Entrenador {
     public Entrenador(String nombre, Set<Bicho> bichos) {
         this.nombre = nombre;
         this.bichos = bichos;
+        this.bichos.forEach(b -> b.capturadoPor(this));
     }
 
     public Ubicacion getUbicacion() {
@@ -80,5 +82,15 @@ public class Entrenador {
 
     public void moverA(Ubicacion ubicacion) {
         this.ubicacion = ubicacion;
+    }
+
+    public Bicho buscar() {
+        Bicho b = this.ubicacion.buscar(this);
+        bichos.add(b);
+        return b;
+    }
+
+    public boolean contains(Bicho b) {
+        return this.bichos.contains(b);
     }
 }

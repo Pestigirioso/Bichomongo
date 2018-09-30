@@ -36,7 +36,6 @@ public class EspecieServiceImpl implements EspecieService {
 
     @Override
     public List<Especie> getAllEspecies() {
-
         return Runner.runInSession(() -> especieDAO.recuperarTodos());
     }
 

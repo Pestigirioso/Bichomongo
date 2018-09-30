@@ -35,6 +35,11 @@ public class Guarderia extends Ubicacion {
     }
 
     @Override
+    public void abandonar(Bicho bicho) {
+        bichos.add(bicho);
+    }
+
+    @Override
     protected Bicho buscarBicho(Entrenador e) {
         Bicho bicho = bichos.stream().filter(b -> !b.tuvisteEntrenador(e)).collect(Collectors.toList()).get(0);
         bichos.remove(bicho);

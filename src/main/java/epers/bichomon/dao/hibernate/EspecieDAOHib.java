@@ -9,27 +9,22 @@ import org.hibernate.query.Query;
 import javax.persistence.NoResultException;
 import java.util.List;
 
-public class EspecieDAOHib implements EspecieDAO {
+public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
 
     @Override
     public void guardar(Especie especie) {
-        Runner.getCurrentSession().save(especie);
+        super.guardar(especie);
     }
 
     @Override
     public void actualizar(Especie especie) {
-        Runner.getCurrentSession().update(especie);
+        super.actualizar(especie);
     }
 
     @Override
     public Especie recuperar(String nombreEspecie) {
-        Session session = Runner.getCurrentSession();
-        String hq1 = "from Especie i where i.nombre = :nom";
-        Query<Especie> query = session.createQuery(hq1, Especie.class);
-        query.setParameter("nom", nombreEspecie);
-        query.setMaxResults(1);
         try {
-            return query.getSingleResult();
+            return super.recuperarByName(Especie.class, nombreEspecie);
         } catch (NoResultException e) {
             return null;
         }
@@ -51,5 +46,4 @@ public class EspecieDAOHib implements EspecieDAO {
         query.setMaxResults(10);
         return query.getResultList();
     }
-
 }

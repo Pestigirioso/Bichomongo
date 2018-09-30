@@ -1,5 +1,6 @@
 package epers.bichomon.model.ubicacion;
 
+import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 
@@ -40,4 +41,10 @@ public class Dojo extends Ubicacion {
      * Si el entrenador MiyaguiSan buscase bichos en este dojo lo unico
      * que encontraría (si es que encontrase algo) serían bichos de tipo Lagartomon.
      */
+
+    @Override
+    public ResultadoCombate duelo(Bicho bicho) {
+        // TODO DOJO - duelo Implementar
+        return null;
+    }
 }

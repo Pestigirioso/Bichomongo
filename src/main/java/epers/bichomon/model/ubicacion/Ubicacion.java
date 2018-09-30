@@ -3,6 +3,9 @@ package epers.bichomon.model.ubicacion;
 import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.ubicacion.busqueda.BusquedaFactory;
+import epers.bichomon.model.ubicacion.busqueda.BusquedaFracasoException;
+import epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusqueda;
 
 import javax.persistence.*;
 
@@ -19,6 +22,10 @@ public abstract class Ubicacion {
 
 //    private Set<Bicho> bichoSet;
 
+    // TODO esta bien que tenga el factory y esta bien hecho el mock??
+    @Transient
+    private ProbabilidadBusqueda busqueda = BusquedaFactory.getBusqueda();
+
     protected Ubicacion() {
     }
 
@@ -27,14 +34,9 @@ public abstract class Ubicacion {
     }
 
     public Bicho buscar(Entrenador e){
-        //TODO Ubicacion - busquedaExitosa - delegar en una interfaz que encapsulará dicho calculo sin proveer una implementación real para la misma.
-        if (!this.busquedaExitosa())
-            return null;
+        if (!this.busqueda.exitosa(e))
+            throw new BusquedaFracasoException(nombre);
         return buscarBicho(e);
-    }
-
-    private boolean busquedaExitosa(){
-        return true;
     }
 
     protected abstract Bicho buscarBicho(Entrenador e);

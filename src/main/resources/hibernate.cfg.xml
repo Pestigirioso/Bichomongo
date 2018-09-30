@@ -26,6 +26,7 @@
         <mapping class="epers.bichomon.model.entrenador.Nivel"/>
         <mapping class="epers.bichomon.model.especie.condicion.Condicion"/>
         <mapping class="epers.bichomon.model.especie.Especie"/>
+        <mapping class="epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusquedaMock"/>
         <mapping class="epers.bichomon.model.ubicacion.Dojo"/>
         <mapping class="epers.bichomon.model.ubicacion.Guarderia"/>
         <mapping class="epers.bichomon.model.ubicacion.Pueblo"/>

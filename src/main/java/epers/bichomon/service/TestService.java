@@ -1,32 +1,31 @@
 package epers.bichomon.service;
 
+import epers.bichomon.dao.hibernate.GenericDAOHib;
 import epers.bichomon.service.runner.Runner;
-import org.hibernate.Session;
-import org.hibernate.query.Query;
 
 import java.io.Serializable;
 
-public class TestService {
+public class TestService extends GenericDAOHib {
 
     public void crearEntidad(Object object) {
         Runner.runInSession(() -> {
-            Runner.getCurrentSession().save(object);
+            super.guardar(object);
             return null;
         });
     }
 
-    public <T> T recuperarEntidad(Class<T> tipo, Serializable key) {
-        return Runner.runInSession(() -> Runner.getCurrentSession().get(tipo, key));
+    public <T> T recuperar(Class<T> tipo, Serializable key) {
+        return Runner.runInSession(() -> super.recuperar(tipo, key));
     }
 
     public <T> T recuperarByName(Class<T> tipo, String name) {
-        return Runner.runInSession(() -> {
-            Session session = Runner.getCurrentSession();
-            String hq1 = String.format("from %s i where i.nombre = :nom", tipo.getName());
-            Query<T> query = session.createQuery(hq1, tipo);
-            query.setParameter("nom", name);
-            query.setMaxResults(1);
-            return query.getSingleResult();
+        return Runner.runInSession(() -> super.recuperarByName(tipo, name));
+    }
+
+    public <T> void borrarByName(Class<T> tipo, String nombre) {
+        Runner.runInSession(() -> {
+            super.borrarByName(tipo, nombre);
+            return null;
         });
     }
 }

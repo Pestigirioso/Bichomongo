@@ -34,7 +34,7 @@ public class Bicho {
     public Bicho(Especie especie, int energia) {
         this.especie = especie;
         this.energia = energia;
-        entrenadoresAnteriores = new HashSet<>();
+        this.entrenadoresAnteriores = new HashSet<>();
     }
 
     public Bicho(Integer id, Especie especie, int energia) {
@@ -50,6 +50,10 @@ public class Bicho {
     public void abandonado() {
         entrenadoresAnteriores.add(entrenador);
         this.entrenador = null;
+    }
+
+    public int getID() {
+        return this.id;
     }
 
     public Especie getEspecie() {
