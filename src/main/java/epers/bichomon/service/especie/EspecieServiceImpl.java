@@ -36,6 +36,7 @@ public class EspecieServiceImpl implements EspecieService {
 
     @Override
     public List<Especie> getAllEspecies() {
+
         return Runner.runInSession(() -> especieDAO.recuperarTodos());
     }
 
@@ -51,8 +52,7 @@ public class EspecieServiceImpl implements EspecieService {
 
     @Override
     public List<Especie> populares() {
-        // TODO implementar EspecieService - List<Especie> populares
-        return null;
+        return Runner.runInSession(()-> especieDAO.getPopulares());
     }
 
     @Override

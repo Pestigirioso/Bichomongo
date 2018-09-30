@@ -43,4 +43,13 @@ public class EspecieDAOHib implements EspecieDAO {
         return query.getResultList();
     }
 
+    @Override
+    public List<Especie> getPopulares(){
+        Session session = Runner.getCurrentSession();
+        String hq1 = "select i.especie from Bicho i where i.entrenador <> null group by i.especie order by count(*) desc";
+        Query<Especie> query = session.createQuery(hq1, Especie.class);
+        query.setMaxResults(10);
+        return query.getResultList();
+    }
+
 }

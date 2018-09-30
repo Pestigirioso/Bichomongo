@@ -108,6 +108,11 @@ public class EspecieDAOMySQL implements EspecieDAO {
         });
     }
 
+    @Override
+    public List<Especie> getPopulares() {
+        return null;
+    }
+
     public void borrarTodo() {
         final String sqlDelete = "DELETE FROM especie";
         this.con.executeWithConnection(conn -> {

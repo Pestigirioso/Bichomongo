@@ -59,6 +59,11 @@ public class Entrenador {
         this.nivel = nivel;
     }
 
+    public Entrenador(String nombre, Set<Bicho> bichos){
+        this.nombre = nombre;
+        this.bichos=bichos;
+    }
+
     public Ubicacion getUbicacion() {
         return ubicacion;
     }
