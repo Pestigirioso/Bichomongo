@@ -22,13 +22,11 @@ public class Bicho {
     private Entrenador entrenador;
 
     @ManyToMany
-    private Set<Entrenador> entrenadoresAnteriores = new HashSet<>();
+    private Set<Entrenador> entrenadoresAnteriores;
 
     private int energia;
     private int victorias;
     private LocalDate fechaCaptura;
-    @ManyToMany
-    private Set<Entrenador> entrenadoresAnteriores;
 
     protected Bicho() {
     }
@@ -37,20 +35,21 @@ public class Bicho {
         this.especie = especie;
         this.energia = energia;
         entrenadoresAnteriores = new HashSet<>();
+    }
 
-    public Bicho (Integer id, Especie especie, int energia){
+    public Bicho(Integer id, Especie especie, int energia) {
         this(especie, energia);
         this.id = id;
     }
 
-    public void capturadoPor(Entrenador entrenador){
-        this.entrenador=entrenador;
+    public void capturadoPor(Entrenador entrenador) {
+        this.entrenador = entrenador;
         this.fechaCaptura = LocalDate.now();
     }
 
-    public void abandonado(){
+    public void abandonado() {
         entrenadoresAnteriores.add(entrenador);
-        this.entrenador=null;
+        this.entrenador = null;
     }
 
     public Especie getEspecie() {

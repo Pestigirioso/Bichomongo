@@ -1,4 +1,4 @@
-package epers.bichomon.model.especie;
+package epers.bichomon.model.especie.condicion;
 
 import epers.bichomon.model.bicho.Bicho;
 

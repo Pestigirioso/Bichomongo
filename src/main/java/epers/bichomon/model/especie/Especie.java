@@ -1,6 +1,7 @@
 package epers.bichomon.model.especie;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.especie.condicion.Condicion;
 
 import javax.persistence.*;
 import java.util.Set;

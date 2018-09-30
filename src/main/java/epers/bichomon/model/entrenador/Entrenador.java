@@ -42,7 +42,9 @@ public class Entrenador {
         return nivel.getNro(this);
     }
 
-    public Integer getXP(){ return this.xp; }
+    public Integer getXP() {
+        return this.xp;
+    }
 
     // TODO implementar Entrenador - cantidad max de bichos capturados
     /*
@@ -54,14 +56,18 @@ public class Entrenador {
     protected Entrenador() {
     }
 
-    public Entrenador(String nombre, Nivel nivel) {
+    public Entrenador(String nombre) {
         this.nombre = nombre;
+    }
+
+    public Entrenador(String nombre, Nivel nivel) {
+        this(nombre);
         this.nivel = nivel;
     }
 
-    public Entrenador(String nombre, Set<Bicho> bichos){
+    public Entrenador(String nombre, Set<Bicho> bichos) {
         this.nombre = nombre;
-        this.bichos=bichos;
+        this.bichos = bichos;
     }
 
     public Ubicacion getUbicacion() {

@@ -10,11 +10,13 @@ public class Nivel {
 
     private Integer limite;
 
+    @OneToOne
     private Nivel next = null;
 
     private Integer rangoMax;
 
-    private Nivel(){}
+    protected Nivel() {
+    }
 
     public Nivel(Integer id, Integer limite, Integer rangoMax, Nivel next){
         this.id = id;

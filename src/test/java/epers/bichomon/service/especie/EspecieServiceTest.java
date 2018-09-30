@@ -1,7 +1,6 @@
 package epers.bichomon.service.especie;
 
 import epers.bichomon.model.bicho.Bicho;
-import epers.bichomon.model.bicho.Condicion;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
@@ -12,9 +11,7 @@ import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -42,13 +39,13 @@ class EspecieServiceTest {
 
     }
 
-    private void crearBicho (Integer id, Especie especie, Entrenador entrenador){
-        Bicho b = new Bicho(id, especie);
+    private void crearBicho(Integer id, Especie especie, Entrenador entrenador) {
+        Bicho b = new Bicho(id, especie, 10);
         b.capturadoPor(entrenador);
         testService.crearEntidad(b);
     }
 
-    private void crearSeisBichos (Entrenador entrenador) {
+    private void crearSeisBichos(Entrenador entrenador) {
         Especie rojo = testService.recuperarByName(Especie.class, "Rojomon");
         crearBicho(1, rojo, entrenador);
         Especie amarillo = testService.recuperarByName(Especie.class, "Amarillomon");
@@ -65,7 +62,7 @@ class EspecieServiceTest {
 
     //TODO terminar esto
 
-    private void crearOnceBichos (Entrenador entrenador, List<Es>){
+    private void crearOnceBichos(Entrenador entrenador, List<Especie> especies) {
         crearSeisBichos(entrenador);
         Especie marron = testService.recuperarByName(Especie.class, "Marron");
         crearBicho(7, marron, entrenador);
@@ -77,7 +74,6 @@ class EspecieServiceTest {
         crearBicho(10, ocre, entrenador);
         Especie turquesa = testService.recuperarByName(Especie.class, "Turquesamon");
         crearBicho(11, turquesa, entrenador);
-
     }
 
     @AfterEach
@@ -132,55 +128,55 @@ class EspecieServiceTest {
     // Tests sobre especies populares
 
     @Test
-    void si_no_hay_entrenadores_con_algun_bicho_de_especie_creada_no_hay_populares(){
+    void si_no_hay_entrenadores_con_algun_bicho_de_especie_creada_no_hay_populares() {
         testService.crearEntidad(new Entrenador("unEntrenador"));
-        assertEquals(0,service.populares().size());
+        assertEquals(0, service.populares().size());
     }
 
     //Test para cuando hay menos de diez especies (deberían estar todas ellas)
 
     @Test
-    void con_solo_seis_especies_cuyos_bichos_tengan_entrenador_hay_seis_especies_populares(){
-        crearBicho()
+    void con_solo_seis_especies_cuyos_bichos_tengan_entrenador_hay_seis_especies_populares() {
+//        crearBicho()
         assertEquals(6, service.populares().size());
     }
 
     //Tests para cuando hay más de 10 especies, y debo elegir las 10 que son populares
     @Test
-    void al_recuperan_las_populares_no_esta_la_impopular(){
+    void al_recuperan_las_populares_no_esta_la_impopular() {
         assertFalse(service.populares().contains("El que no tiene que estar"));
     }
 
     @Test
-    void se_recuperan_las_populares_y_hay_10(){
-        assertEquals(10,service.populares().size());
+    void se_recuperan_las_populares_y_hay_10() {
+        assertEquals(10, service.populares().size());
     }
 
     // Tests sobre especies impopulares
     // TODO Pulirlas
 
     @Test
-    void sin_especies_creadas_no_hay_especies_impopulares(){
-        assertEquals(0,service.impopulares().size());
+    void sin_especies_creadas_no_hay_especies_impopulares() {
+        assertEquals(0, service.impopulares().size());
     }
 
     //Test para cuando hay menos de diez especies (deberían estar todas ellas)
 
     @Test
-    void con_solo_seis_especies_hay_seis_especies_impopulares(){
+    void con_solo_seis_especies_hay_seis_especies_impopulares() {
         assertEquals(6, service.populares().size());
     }
 
     //Tests para cuando hay más de 10 especies, y debo elegir las 10 que son impopulares
 
     @Test
-    void al_recuperan_las_impopulares_no_esta_la_popular(){
+    void al_recuperan_las_impopulares_no_esta_la_popular() {
         assertFalse(service.impopulares().contains("el q no debería estar"));
     }
 
     @Test
-    void se_recuperan_las_impopulares_y_hay_10(){
-        assertEquals(10,service.impopulares().size());
+    void se_recuperan_las_impopulares_y_hay_10() {
+        assertEquals(10, service.impopulares().size());
     }
 
 }
