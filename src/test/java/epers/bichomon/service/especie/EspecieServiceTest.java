@@ -7,8 +7,8 @@ import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.TestService;
 import epers.bichomon.service.runner.SessionFactoryProvider;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.List;
@@ -17,14 +17,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieServiceTest {
 
-    private EspecieService service;
+    private EspecieService service = ServiceFactory.getEspecieService();
 
-    private TestService testService = new TestService();
+    private TestService testService = ServiceFactory.getTestService();
 
-    @BeforeEach
-    void prepare() {
-        service = ServiceFactory.getEspecieService();
-
+    @BeforeAll
+    static void prepare() {
+        TestService testService = ServiceFactory.getTestService();
         testService.crearEntidad(new Especie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/rojomon.jpg"));
         testService.crearEntidad(new Especie(2, "Amarillomon", TipoBicho.AIRE, 170, 69, 300, "/amarillomon.jpg"));
         testService.crearEntidad(new Especie(3, "Verdemon", TipoBicho.PLANTA, 150, 55, 500, "/verdemon.jpg"));
@@ -36,7 +35,11 @@ class EspecieServiceTest {
         testService.crearEntidad(new Especie(9, "Celestemon", TipoBicho.AGUA, 150, 55, 500, ""));
         testService.crearEntidad(new Especie(10, "Ocremon", TipoBicho.FUEGO, 150, 55, 500, ""));
         testService.crearEntidad(new Especie(11, "Turquesamon", TipoBicho.PLANTA, 150, 55, 500, ""));
+    }
 
+    @AfterAll
+    static void cleanup() {
+        SessionFactoryProvider.destroy();
     }
 
     private void crearBicho(Integer id, Especie especie, Entrenador entrenador) {
@@ -76,11 +79,6 @@ class EspecieServiceTest {
         crearBicho(11, turquesa, entrenador);
     }
 
-    @AfterEach
-    void cleanup() {
-        SessionFactoryProvider.destroy();
-    }
-
     @Test
     void actualizar_inexistente_raise_exception() {
         assertThrows(EspecieNoExistente.class, () -> service.getEspecie("inexistente"));
@@ -100,6 +98,8 @@ class EspecieServiceTest {
         assertEquals(especie.getEnergiaInicial(), restored.getEnergiaInicial());
         assertEquals(especie.getUrlFoto(), restored.getUrlFoto());
         assertEquals(0, restored.getCantidadBichos());
+
+        testService.borrarByName(Especie.class, "prueba");
     }
 
     @Test
@@ -114,7 +114,6 @@ class EspecieServiceTest {
 
     @Test
     void recuperar_todos_tiene_11_especie() {
-
         assertEquals(11, service.getAllEspecies().size());
     }
 
