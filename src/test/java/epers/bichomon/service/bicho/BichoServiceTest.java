@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
+import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
@@ -39,6 +40,7 @@ class BichoServiceTest {
         testService.crearEntidad(g);
 
         // TODO testear entrenador busca pero tiene lleno si inventario throw exception
+        // TODO testear buscar en Ubicaciones Pueblo y Dojo
     }
 
     @AfterAll
@@ -76,6 +78,20 @@ class BichoServiceTest {
         pepe.moverA(p);
         this.testService.crearEntidad(pepe);
 
-        assertThrows(UbicacionIncorrrectaException.class, () -> this.service.abandonar("pepe", 2));
+        assertThrows(UbicacionIncorrrectaException.class, () -> this.service.abandonar("pepe", 3));
+    }
+
+    @Test
+    void entrenador_abandona_en_dojo_y_se_lanza_exception() {
+        Dojo d = new Dojo("Dojo");
+        this.testService.crearEntidad(d);
+
+        Bicho b = new Bicho(4, this.testService.recuperarByName(Especie.class, "Rojomon"), 10);
+        this.testService.crearEntidad(b);
+        Entrenador brock = new Entrenador("brock", Sets.newHashSet(b));
+        brock.moverA(d);
+        this.testService.crearEntidad(brock);
+
+        assertThrows(UbicacionIncorrrectaException.class, () -> this.service.abandonar("brock", 4));
     }
 }

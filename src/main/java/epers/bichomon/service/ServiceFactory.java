@@ -2,6 +2,7 @@ package epers.bichomon.service;
 
 import epers.bichomon.dao.hibernate.EntrenadorDAOHib;
 import epers.bichomon.dao.hibernate.EspecieDAOHib;
+import epers.bichomon.dao.hibernate.GenericDAOHib;
 import epers.bichomon.dao.hibernate.UbicacionDAOHib;
 import epers.bichomon.service.bicho.BichoService;
 import epers.bichomon.service.bicho.BichoServiceImpl;
@@ -24,6 +25,6 @@ public class ServiceFactory {
     }
 
     public static BichoService getBichoService() {
-        return new BichoServiceImpl(new EntrenadorDAOHib());
+        return new BichoServiceImpl(new EntrenadorDAOHib(), new GenericDAOHib());
     }
 }

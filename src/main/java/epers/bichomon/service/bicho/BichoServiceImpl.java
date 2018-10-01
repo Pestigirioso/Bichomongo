@@ -1,6 +1,7 @@
 package epers.bichomon.service.bicho;
 
 import epers.bichomon.dao.EntrenadorDAO;
+import epers.bichomon.dao.GenericDAO;
 import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
@@ -9,9 +10,11 @@ import epers.bichomon.service.runner.Runner;
 public class BichoServiceImpl implements BichoService {
 
     private EntrenadorDAO entrenadorDAO;
+    private GenericDAO genericDAO;
 
-    public BichoServiceImpl(EntrenadorDAO dao) {
-        this.entrenadorDAO = dao;
+    public BichoServiceImpl(EntrenadorDAO entrenadorDAO, GenericDAO genericDAO) {
+        this.entrenadorDAO = entrenadorDAO;
+        this.genericDAO = genericDAO;
     }
 
     @Override
@@ -25,7 +28,7 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public void abandonar(String entrenador, int bicho) {
         Runner.runInSession(() -> {
-//            this.entrenadorDAO.recuperar(entrenador).abandonar();
+            this.entrenadorDAO.recuperar(entrenador).abandonar(this.genericDAO.recuperar(Bicho.class, bicho));
             return null;
         });
     }

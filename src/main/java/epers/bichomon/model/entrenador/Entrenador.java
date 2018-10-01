@@ -93,4 +93,12 @@ public class Entrenador {
     public boolean contains(Bicho b) {
         return this.bichos.contains(b);
     }
+
+    public void abandonar(Bicho bicho) {
+        if (!contains(bicho))
+            throw new BichoIncorrectoException(bicho.getID());
+        ubicacion.abandonar(bicho);
+        bichos.remove(bicho);
+        bicho.abandonado();
+    }
 }
