@@ -21,14 +21,19 @@ public class BichoServiceImpl implements BichoService {
     public Bicho buscar(String entrenador) {
         return Runner.runInSession(() -> {
             Entrenador e = entrenadorDAO.recuperar(entrenador);
-            return e.buscar();
+            Bicho b = e.buscar();
+            entrenadorDAO.actualizar(e);
+            return b;
         });
     }
 
     @Override
     public void abandonar(String entrenador, int bicho) {
         Runner.runInSession(() -> {
-            this.entrenadorDAO.recuperar(entrenador).abandonar(this.genericDAO.recuperar(Bicho.class, bicho));
+            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
+            Entrenador e = this.entrenadorDAO.recuperar(entrenador);
+            e.abandonar(b);
+            entrenadorDAO.actualizar(e);
             return null;
         });
     }

@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import java.util.HashSet;
 import java.util.Set;
@@ -23,7 +24,7 @@ public class Guarderia extends Ubicacion {
      */
 
     // TODO agregar atributos a la cardinalidad en todas las clases (mappedBy, cascade, fetch)
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Bicho> bichos = new HashSet<>();
 
     protected Guarderia() {
@@ -44,5 +45,9 @@ public class Guarderia extends Ubicacion {
         Bicho bicho = bichos.stream().filter(b -> !b.tuvisteEntrenador(e)).collect(Collectors.toList()).get(0);
         bichos.remove(bicho);
         return bicho;
+    }
+
+    public boolean contains(int bicho) {
+        return bichos.stream().anyMatch(b -> b.getID() == bicho);
     }
 }

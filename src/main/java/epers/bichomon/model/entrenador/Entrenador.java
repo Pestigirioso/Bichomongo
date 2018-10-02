@@ -19,7 +19,7 @@ public class Entrenador {
     @ManyToOne
     private Ubicacion ubicacion;
 
-    @OneToMany
+    @OneToMany(fetch = FetchType.EAGER)
     private Set<Bicho> bichos = new HashSet<>();
 
     private int xp = 1;
@@ -53,6 +53,7 @@ public class Entrenador {
      * preestablecido en función de cada nivel. De haberse llegado a dicho
      * máximo el jugador no podrá buscar nuevos Bichos para capturar.
      */
+    private int cantMax;
 
     protected Entrenador() {
     }
@@ -72,6 +73,16 @@ public class Entrenador {
         this.bichos.forEach(b -> b.capturadoPor(this));
     }
 
+    public Entrenador(String nombre, Set<Bicho> bichos, Ubicacion ubicacion) {
+        this(nombre, bichos);
+        this.ubicacion = ubicacion;
+    }
+
+    public Entrenador(String nombre, Set<Bicho> bichos, Ubicacion ubicacion, int cantMax) {
+        this(nombre, bichos, ubicacion);
+        this.cantMax = cantMax;
+    }
+
     public Ubicacion getUbicacion() {
         return ubicacion;
     }
@@ -85,17 +96,19 @@ public class Entrenador {
     }
 
     public Bicho buscar() {
+        if (this.bichos.size() >= this.cantMax)
+            return null;
         Bicho b = this.ubicacion.buscar(this);
         bichos.add(b);
         return b;
     }
 
-    public boolean contains(Bicho b) {
-        return this.bichos.contains(b);
+    public boolean contains(int bicho) {
+        return this.bichos.stream().anyMatch(b -> b.getID() == bicho);
     }
 
     public void abandonar(Bicho bicho) {
-        if (!contains(bicho))
+        if (!contains(bicho.getID()) || this.bichos.size() <= 1)
             throw new BichoIncorrectoException(bicho.getID());
         ubicacion.abandonar(bicho);
         bichos.remove(bicho);

@@ -22,7 +22,7 @@ public class Bicho {
     private Entrenador entrenador;
 
     @ManyToMany
-    private Set<Entrenador> entrenadoresAnteriores;
+    private Set<Entrenador> entrenadoresAnteriores = new HashSet<>();
 
     private int energia;
     private int victorias;
@@ -34,7 +34,7 @@ public class Bicho {
     public Bicho(Especie especie, int energia) {
         this.especie = especie;
         this.energia = energia;
-        this.entrenadoresAnteriores = new HashSet<>();
+//        this.entrenadoresAnteriores = new HashSet<>();
     }
 
     public Bicho(Integer id, Especie especie, int energia) {

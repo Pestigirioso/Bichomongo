@@ -14,6 +14,13 @@ public class TestService extends GenericDAOHib {
         });
     }
 
+    public void actualizar(Object object) {
+        Runner.runInSession(() -> {
+            super.actualizar(object);
+            return null;
+        });
+    }
+
     public <T> T recuperar(Class<T> tipo, Serializable key) {
         return Runner.runInSession(() -> super.recuperar(tipo, key));
     }
