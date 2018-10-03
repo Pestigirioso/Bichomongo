@@ -18,10 +18,6 @@ public abstract class Ubicacion {
     @Column(unique = true)
     private String nombre;
 
-//    private Set<Entrenador> entrenadorSet;
-
-//    private Set<Bicho> bichoSet;
-
     // TODO esta bien que tenga el factory y esta bien hecho el mock??
     @Transient
     private ProbabilidadBusqueda busqueda = BusquedaFactory.getBusqueda();

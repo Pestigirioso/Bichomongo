@@ -28,10 +28,11 @@ public class Especie {
 
     private int cantidadBichos;
 
-    // TODO a una especie puede evolucionar solo una? o varias? A->C y B->C? NO
-    // TODO Especie, tener especie raiz y siguiente en evolucion
     @OneToOne
     private Especie evolucion;
+
+    @OneToOne
+    private Especie raiz;
 
     @OneToMany
     private Set<Condicion> condiciones;
@@ -43,6 +44,16 @@ public class Especie {
         this.id = id;
         this.nombre = nombre;
         this.tipo = tipo;
+    }
+
+    public Especie(int id, String nombre, TipoBicho tipo, int energia) {
+        this(id, nombre, tipo);
+        this.energiaInicial = energia;
+    }
+
+    public Especie(int id, String nombre, TipoBicho tipo, Especie raiz, int energia) {
+        this(id, nombre, tipo, energia);
+        this.raiz = raiz;
     }
 
     public Especie(int id, String nombre, TipoBicho tipo, int altura, int peso, int energia, String url) {
@@ -149,10 +160,14 @@ public class Especie {
 
     public Bicho crearBicho() {
         this.cantidadBichos++;
-        return new Bicho(this, energiaInicial);
+        return new Bicho(this);
     }
 
     public Boolean puedeEvolucionar(Bicho bicho) {
         return condiciones.stream().allMatch(c -> c.puedeEvolucionar(bicho));
+    }
+
+    public Especie getRaiz() {
+        return raiz;
     }
 }

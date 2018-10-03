@@ -25,9 +25,16 @@ public class Dojo extends Ubicacion {
         super(nombreDojo);
     }
 
+    public Dojo(String nombre, Bicho campeon) {
+        this(nombre);
+        this.campeon = campeon;
+    }
+
     @Override
     protected Bicho buscarBicho(Entrenador e) {
-        return null;
+        if (campeon == null) return null;
+        // TODO crear bicho desde el metodo "crearBicho" de Especie??
+        return new Bicho(campeon.getRaiz());
     }
 
     /**

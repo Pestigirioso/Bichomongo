@@ -43,7 +43,7 @@ class EspecieServiceTest {
     }
 
     private void crearBicho(Integer id, Especie especie, Entrenador entrenador) {
-        Bicho b = new Bicho(id, especie, 10);
+        Bicho b = new Bicho(id, especie);
         b.capturadoPor(entrenador);
         testService.crearEntidad(b);
     }

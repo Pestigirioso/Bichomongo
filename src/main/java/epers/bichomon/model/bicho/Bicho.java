@@ -31,14 +31,14 @@ public class Bicho {
     protected Bicho() {
     }
 
-    public Bicho(Especie especie, int energia) {
+    public Bicho(Especie especie) {
         this.especie = especie;
-        this.energia = energia;
+        this.energia = especie.getEnergiaInicial();
 //        this.entrenadoresAnteriores = new HashSet<>();
     }
 
-    public Bicho(Integer id, Especie especie, int energia) {
-        this(especie, energia);
+    public Bicho(Integer id, Especie especie) {
+        this(especie);
         this.id = id;
     }
 
@@ -48,7 +48,8 @@ public class Bicho {
     }
 
     public void abandonado() {
-        entrenadoresAnteriores.add(entrenador);
+        if (entrenador != null)
+            entrenadoresAnteriores.add(entrenador);
         this.entrenador = null;
     }
 
@@ -86,5 +87,9 @@ public class Bicho {
 
     public Boolean tuvisteEntrenador(Entrenador e) {
         return entrenadoresAnteriores.contains(e);
+    }
+
+    public Especie getRaiz() {
+        return especie.getRaiz();
     }
 }

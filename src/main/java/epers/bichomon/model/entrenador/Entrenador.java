@@ -19,7 +19,7 @@ public class Entrenador {
     @ManyToOne
     private Ubicacion ubicacion;
 
-    @OneToMany(fetch = FetchType.EAGER)
+    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Bicho> bichos = new HashSet<>();
 
     private int xp = 1;
@@ -99,7 +99,9 @@ public class Entrenador {
         if (this.bichos.size() >= this.cantMax)
             return null;
         Bicho b = this.ubicacion.buscar(this);
+        if (b == null) return null;
         bichos.add(b);
+        b.capturadoPor(this);
         return b;
     }
 
