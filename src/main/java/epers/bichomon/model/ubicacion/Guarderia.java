@@ -6,6 +6,7 @@ import epers.bichomon.model.entrenador.Entrenador;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
+import javax.swing.text.StyledEditorKit;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class Guarderia extends Ubicacion {
         return bicho;
     }
 
-    public boolean contains(int bicho) {
-        return bichos.stream().anyMatch(b -> b.getID() == bicho);
+    public boolean contains(Bicho bicho) {
+        return bichos.stream().anyMatch(b -> b.equals(bicho));
     }
 }

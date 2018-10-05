@@ -95,23 +95,25 @@ public class Entrenador {
         this.ubicacion = ubicacion;
     }
 
+    private Boolean puedeBuscar() {
+        return this.bichos.size() < this.cantMax;
+    }
+
     public Bicho buscar() {
-        if (this.bichos.size() >= this.cantMax)
-            return null;
+        if(!puedeBuscar()) return null;
         Bicho b = this.ubicacion.buscar(this);
-        if (b == null) return null;
+        if(b == null) return null;
         bichos.add(b);
         b.capturadoPor(this);
         return b;
     }
 
-    public boolean contains(int bicho) {
-        return this.bichos.stream().anyMatch(b -> b.getID() == bicho);
+    public boolean contains(Bicho bicho) {
+        return bichos.stream().anyMatch(b -> b.equals(bicho));
     }
 
     public void abandonar(Bicho bicho) {
-        if (!contains(bicho.getID()) || this.bichos.size() <= 1)
-            throw new BichoIncorrectoException(bicho.getID());
+        if(!contains(bicho) || this.bichos.size() <= 1) throw new BichoIncorrectoException(bicho.getID());
         ubicacion.abandonar(bicho);
         bichos.remove(bicho);
         bicho.abandonado();

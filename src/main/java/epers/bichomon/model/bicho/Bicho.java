@@ -1,5 +1,6 @@
 package epers.bichomon.model.bicho;
 
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 
@@ -50,7 +51,12 @@ public class Bicho {
     public void abandonado() {
         if (entrenador != null)
             entrenadoresAnteriores.add(entrenador);
-        this.entrenador = null;
+        entrenador = null;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        return this.id == ((Bicho) obj).getID();
     }
 
     public int getID() {

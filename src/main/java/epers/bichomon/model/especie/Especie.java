@@ -168,6 +168,7 @@ public class Especie {
     }
 
     public Especie getRaiz() {
+        if(raiz == null) return this;
         return raiz;
     }
 }
