@@ -31,7 +31,7 @@ public class Dojo extends Ubicacion {
     }
 
     @Override
-    protected Bicho buscarBicho(Entrenador e) {
+    protected Bicho buscarBicho(Entrenador entrenador) {
         if (campeon == null) return null;
         // TODO crear bicho desde el metodo "crearBicho" de Especie??
         return new Bicho(campeon.getRaiz());

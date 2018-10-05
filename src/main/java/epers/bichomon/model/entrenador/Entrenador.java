@@ -24,7 +24,7 @@ public class Entrenador {
 
     private int xp = 1;
 
-    // TODO entrenador - nivel
+    // TODO entrenador - nivel - crear entrenador en un service para settear este atributo
     @ManyToOne
     private Nivel nivel;
 

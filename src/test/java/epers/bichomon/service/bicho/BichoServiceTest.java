@@ -5,10 +5,7 @@ import epers.bichomon.model.entrenador.BichoIncorrectoException;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
-import epers.bichomon.model.ubicacion.Dojo;
-import epers.bichomon.model.ubicacion.Guarderia;
-import epers.bichomon.model.ubicacion.Pueblo;
-import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
+import epers.bichomon.model.ubicacion.*;
 import epers.bichomon.model.ubicacion.busqueda.BusquedaFracasoException;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.TestService;
@@ -18,6 +15,8 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -148,9 +147,6 @@ class BichoServiceTest {
         assertThrows(IndexOutOfBoundsException.class, () -> this.service.buscar("marcos"));
     }
 
-    // TODO testear buscar en Ubicaciones Pueblo y Dojo
-
-
     @Test
     void entrenador_busca_en_dojo_y_no_hay_campeon_devuelve_null() {
         Dojo d = new Dojo("CobraKai1");
@@ -189,5 +185,49 @@ class BichoServiceTest {
         assertTrue(testService.recuperarByName(Entrenador.class, "laura").contains(be));
     }
 
+    @Test
+    void entrenador_busca_en_pueblo_con_una_sola_especie() {
+        Pueblo p = new Pueblo("Paleta",
+                Collections.singletonList(new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 100)));
+        testService.crearEntidad(p);
+        Entrenador ana = new Entrenador("ana", Sets.newHashSet(), p, 3);
+        this.testService.crearEntidad(ana);
 
+        Bicho b = this.service.buscar("ana");
+        assertEquals("Lagartomon", b.getEspecie().getNombre());
+        assertTrue(testService.recuperarByName(Entrenador.class, "ana").contains(b));
+    }
+
+    @Test
+    void entrenador_busca_en_pueblo_con_dos_especies() {
+        Pueblo p = new Pueblo("Quilmes",
+                Arrays.asList(
+                        new Probabilidad(testService.recuperarByName(Especie.class, "Rojomon"), 90),
+                        new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 10)
+                ));
+        testService.crearEntidad(p);
+        Entrenador albert = new Entrenador("albert", Sets.newHashSet(), p, 3);
+        this.testService.crearEntidad(albert);
+
+        Bicho b = this.service.buscar("albert");
+        assertEquals("Rojomon", b.getEspecie().getNombre());
+        assertTrue(testService.recuperarByName(Entrenador.class, "albert").contains(b));
+    }
+
+    @Test
+    void entrenador_busca_en_pueblo_con_tres_especies() {
+        Pueblo p = new Pueblo("Bera",
+                Arrays.asList(
+                        new Probabilidad(testService.recuperarByName(Especie.class, "Reptilomon"), 10),
+                        new Probabilidad(testService.recuperarByName(Especie.class, "Rojomon"), 20),
+                        new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 70)
+                ));
+        testService.crearEntidad(p);
+        Entrenador brian = new Entrenador("brian", Sets.newHashSet(), p, 3);
+        this.testService.crearEntidad(brian);
+
+        Bicho b = this.service.buscar("brian");
+        assertEquals("Lagartomon", b.getEspecie().getNombre());
+        assertTrue(testService.recuperarByName(Entrenador.class, "brian").contains(b));
+    }
 }

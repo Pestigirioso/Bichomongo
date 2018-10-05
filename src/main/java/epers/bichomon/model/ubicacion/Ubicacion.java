@@ -18,7 +18,6 @@ public abstract class Ubicacion {
     @Column(unique = true)
     private String nombre;
 
-    // TODO esta bien que tenga el factory y esta bien hecho el mock??
     @Transient
     private ProbabilidadBusqueda busqueda = BusquedaFactory.getBusqueda();
 
@@ -35,7 +34,7 @@ public abstract class Ubicacion {
         return buscarBicho(e);
     }
 
-    protected abstract Bicho buscarBicho(Entrenador e);
+    protected abstract Bicho buscarBicho(Entrenador entrenador);
 
     public void abandonar(Bicho bicho){
         throw new UbicacionIncorrrectaException(nombre);
