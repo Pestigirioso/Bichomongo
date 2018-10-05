@@ -38,11 +38,6 @@ public class Bicho {
 //        this.entrenadoresAnteriores = new HashSet<>();
     }
 
-    public Bicho(Integer id, Especie especie) {
-        this(especie);
-        this.id = id;
-    }
-
     public void capturadoPor(Entrenador entrenador) {
         this.entrenador = entrenador;
         this.fechaCaptura = LocalDate.now();

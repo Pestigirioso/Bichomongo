@@ -29,6 +29,13 @@ public class TestService extends GenericDAOHib {
         return Runner.runInSession(() -> super.recuperarByName(tipo, name));
     }
 
+    public <T> void borrar(Class<T> tipo, Serializable key) {
+        Runner.runInSession(() -> {
+            super.borrar(tipo, key);
+            return null;
+        });
+    }
+
     public <T> void borrarByName(Class<T> tipo, String nombre) {
         Runner.runInSession(() -> {
             super.borrarByName(tipo, nombre);

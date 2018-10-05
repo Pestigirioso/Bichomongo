@@ -14,4 +14,6 @@ public interface EspecieDAO {
     List<Especie> recuperarTodos();
 
     List<Especie> getPopulares();
+
+    List<Especie> getImpopulares();
 }

@@ -43,4 +43,13 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
         query.setMaxResults(10);
         return query.getResultList();
     }
+
+    @Override
+    public List<Especie> getImpopulares(){
+        String hq1 = "select i.especie from Bicho i where i.entrenador = null group by i.especie order by count(*) asc";
+        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
+        query.setMaxResults(10);
+        return query.getResultList();
+    }
+
 }

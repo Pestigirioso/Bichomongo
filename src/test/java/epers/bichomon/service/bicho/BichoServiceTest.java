@@ -38,9 +38,9 @@ class BichoServiceTest {
         testService.crearEntidad(new Especie(3, "Reptilomon", TipoBicho.FUEGO, lagarto, 10));
         testService.crearEntidad(new Especie(4, "Dragonmon", TipoBicho.FUEGO, lagarto, 10));
 
-        Bicho b = new Bicho(1, e);
+        Bicho b = new Bicho(e);
         testService.crearEntidad(b);
-        IntStream.range(2, 16).boxed().forEach(i -> testService.crearEntidad(new Bicho(i, e)));
+        IntStream.range(2, 16).boxed().forEach(i -> testService.crearEntidad(new Bicho(e)));
 
         Guarderia g = new Guarderia("guardaBicho");
         g.abandonar(b);

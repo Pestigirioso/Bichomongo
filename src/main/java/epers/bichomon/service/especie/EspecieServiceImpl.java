@@ -56,8 +56,7 @@ public class EspecieServiceImpl implements EspecieService {
 
     @Override
     public List<Especie> impopulares() {
-        // TODO implementar EspecieService - List<Especie> impopulares
-        return null;
+        return Runner.runInSession(()->especieDAO.getImpopulares());
     }
 
 }
