@@ -1,5 +1,6 @@
 package epers.bichomon.model.entrenador;
 
+import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
@@ -47,7 +48,6 @@ public class Entrenador {
         return this.xp;
     }
 
-    // TODO implementar Entrenador - cantidad max de bichos capturados
     /*
      * La cantidad de bichos capturados no podrá superar un número máximo
      * preestablecido en función de cada nivel. De haberse llegado a dicho
@@ -117,5 +117,10 @@ public class Entrenador {
         ubicacion.abandonar(bicho);
         bichos.remove(bicho);
         bicho.abandonado();
+    }
+
+    public ResultadoCombate duelo(Bicho b) {
+        if (!contains(b)) return null;
+        return ubicacion.duelo(b);
     }
 }

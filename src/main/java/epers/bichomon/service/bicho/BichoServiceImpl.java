@@ -40,8 +40,13 @@ public class BichoServiceImpl implements BichoService {
 
     @Override
     public ResultadoCombate duelo(String entrenador, int bicho) {
-        // TODO implementar BichoService - ResultadoCombate duelo
-        return null;
+        return Runner.runInSession(() -> {
+            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
+            Entrenador e = this.entrenadorDAO.recuperar(entrenador);
+            ResultadoCombate resultado = e.duelo(b);
+            entrenadorDAO.actualizar(e);
+            return resultado;
+        });
     }
 
     @Override

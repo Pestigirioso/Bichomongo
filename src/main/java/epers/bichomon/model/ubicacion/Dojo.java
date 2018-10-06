@@ -33,8 +33,7 @@ public class Dojo extends Ubicacion {
     @Override
     protected Bicho buscarBicho(Entrenador entrenador) {
         if (campeon == null) return null;
-        // TODO crear bicho desde el metodo "crearBicho" de Especie??
-        return new Bicho(campeon.getRaiz());
+        return campeon.getRaiz().crearBicho();
     }
 
     /**
@@ -51,7 +50,18 @@ public class Dojo extends Ubicacion {
 
     @Override
     public ResultadoCombate duelo(Bicho bicho) {
-        // TODO DOJO - duelo Implementar
-        return null;
+        ResultadoCombate resultado = new Duelo(campeon, bicho).getResultado();
+        if(campeon != resultado.getGanador())
+            nuevoCampeon(resultado.getGanador());
+        return resultado;
+    }
+
+    private void nuevoCampeon(Bicho ganador) {
+        campeon = ganador;
+        // TODO generar historial de campeones
+    }
+
+    public Bicho getCampeon() {
+        return campeon;
     }
 }
