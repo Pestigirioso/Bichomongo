@@ -1,8 +1,9 @@
 package epers.bichomon.model.bicho;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
+import epers.bichomon.model.IRandom;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
+import epers.bichomon.model.ubicacion.UbicacionFactory;
 import epers.bichomon.service.bicho.BichoNoEvolucionableException;
 
 import javax.persistence.*;
@@ -30,6 +31,9 @@ public class Bicho {
     private int victorias;
     private LocalDate fechaCaptura;
 
+    @Transient
+    private IRandom rnd = UbicacionFactory.getDueloRandom();
+
     protected Bicho() {
     }
 
@@ -38,19 +42,18 @@ public class Bicho {
         this.energia = especie.getEnergiaInicial();
 //        this.entrenadoresAnteriores = new HashSet<>();
     }
+
     //--------------> Constructor para los test
-    public Bicho(Especie especie, Entrenador trainer, LocalDate fechaDeCaptura){
+    public Bicho(Especie especie, Entrenador trainer, LocalDate fechaDeCaptura) {
         this(especie);
         this.entrenador = trainer;
-        this.fechaCaptura=fechaDeCaptura;
+        this.fechaCaptura = fechaDeCaptura;
     }
 
     public void capturadoPor(Entrenador entrenador) {
         this.entrenador = entrenador;
         this.fechaCaptura = LocalDate.now();
     }
-
-
 
     public void abandonado() {
         if (entrenador != null)
@@ -75,8 +78,8 @@ public class Bicho {
         return this.energia;
     }
 
-    public void setEnergia(int energia) {
-        this.energia = energia;
+    public void incEnergia(int energia) {
+        this.energia += energia;
     }
 
     public int getVictorias() {
@@ -100,16 +103,32 @@ public class Bicho {
     }
 
     public Boolean nivelMayorA(int nivel) {
-        return this.entrenador!=null && this.entrenador.getNivel()>=nivel;
+        return this.entrenador != null && this.entrenador.getNivel() >= nivel;
     }
 
     public Boolean edadMayorA(int dias) {
-        return this.entrenador!=null && getFechaCaptura().plusDays(dias).isAfter(LocalDate.now());
+        return this.entrenador != null && getFechaCaptura().plusDays(dias).isAfter(LocalDate.now());
     }
 
     public void evolucionar() {
         if (!this.puedeEvolucionar()) throw new BichoNoEvolucionableException();
-        Especie evolucion = this.especie.getEvolucion();
-        this.especie = evolucion;
+        this.especie = this.especie.getEvolucion();
+    }
+
+    public int getDanio() {
+        return (int) Math.round(this.energia * rnd.getDouble(0.5, 1));
+    }
+
+    public void ganasteDuelo() {
+        this.victorias += 1;
+        subirEnergiaPorDuelo();
+    }
+
+    public void perdisteDuelo() {
+        subirEnergiaPorDuelo();
+    }
+
+    private void subirEnergiaPorDuelo() {
+        incEnergia(rnd.getInt(1, 5));
     }
 }

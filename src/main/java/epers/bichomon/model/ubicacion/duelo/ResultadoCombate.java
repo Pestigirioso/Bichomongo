@@ -1,4 +1,4 @@
-package epers.bichomon.model;
+package epers.bichomon.model.ubicacion.duelo;
 
 import epers.bichomon.model.bicho.Bicho;
 
@@ -22,5 +22,9 @@ public class ResultadoCombate {
 
     public Bicho getPerdedor(){
         return perdedor;
+    }
+
+    public List<Ataque> getAtaques() {
+        return ataques;
     }
 }

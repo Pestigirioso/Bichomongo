@@ -1,8 +1,9 @@
 package epers.bichomon.model.ubicacion;
 
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.ubicacion.duelo.Duelo;
+import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;

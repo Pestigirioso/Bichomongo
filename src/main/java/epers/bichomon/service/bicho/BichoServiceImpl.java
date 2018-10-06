@@ -2,9 +2,9 @@ package epers.bichomon.service.bicho;
 
 import epers.bichomon.dao.EntrenadorDAO;
 import epers.bichomon.dao.GenericDAO;
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.runner.Runner;
 
 public class BichoServiceImpl implements BichoService {

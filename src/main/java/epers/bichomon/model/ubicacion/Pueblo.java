@@ -1,10 +1,9 @@
 package epers.bichomon.model.ubicacion;
 
+import epers.bichomon.model.IRandom;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
-import epers.bichomon.model.ubicacion.busqueda.BusquedaFactory;
-import epers.bichomon.model.ubicacion.busqueda.ProbabilidadRandom;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -19,7 +18,7 @@ public class Pueblo extends Ubicacion {
     private List<Probabilidad> probabilidades;
 
     @Transient
-    private ProbabilidadRandom random = BusquedaFactory.getRandom();
+    private IRandom random = UbicacionFactory.getProbabilidadRandom();
 
     /**
      * Son el tipo mas común de ubicación.
@@ -54,7 +53,7 @@ public class Pueblo extends Ubicacion {
     }
 
     private Especie getEspecie(){
-        int nro = random.getInt(probabilidades.stream().mapToInt(p -> p.probabilidad).sum());
+        int nro = random.getInt(1, probabilidades.stream().mapToInt(p -> p.probabilidad).sum());
         int accum = 0;
         for(Probabilidad p : probabilidades) {
             accum += p.probabilidad;

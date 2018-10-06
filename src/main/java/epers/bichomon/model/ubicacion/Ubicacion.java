@@ -1,11 +1,10 @@
 package epers.bichomon.model.ubicacion;
 
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.ubicacion.busqueda.BusquedaFactory;
 import epers.bichomon.model.ubicacion.busqueda.BusquedaFracasoException;
 import epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusqueda;
+import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 import javax.persistence.*;
 
@@ -19,7 +18,7 @@ public abstract class Ubicacion {
     private String nombre;
 
     @Transient
-    private ProbabilidadBusqueda busqueda = BusquedaFactory.getBusqueda();
+    private ProbabilidadBusqueda busqueda = UbicacionFactory.getBusqueda();
 
     protected Ubicacion() {
     }

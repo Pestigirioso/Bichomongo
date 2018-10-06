@@ -1,7 +1,7 @@
 package epers.bichomon.service.bicho;
 
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 public interface BichoService {
 

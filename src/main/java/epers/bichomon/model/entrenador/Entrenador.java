@@ -1,8 +1,8 @@
 package epers.bichomon.model.entrenador;
 
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Ubicacion;
+import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 import javax.persistence.*;
 import java.util.HashSet;
