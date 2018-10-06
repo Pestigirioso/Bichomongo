@@ -3,6 +3,7 @@ package epers.bichomon.model.bicho;
 import com.sun.org.apache.xpath.internal.operations.Bool;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
+import epers.bichomon.service.bicho.BichoNoEvolucionableException;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -37,11 +38,19 @@ public class Bicho {
         this.energia = especie.getEnergiaInicial();
 //        this.entrenadoresAnteriores = new HashSet<>();
     }
+    //--------------> Constructor para los test
+    public Bicho(Especie especie, Entrenador trainer, LocalDate fechaDeCaptura){
+        this(especie);
+        this.entrenador = trainer;
+        this.fechaCaptura=fechaDeCaptura;
+    }
 
     public void capturadoPor(Entrenador entrenador) {
         this.entrenador = entrenador;
         this.fechaCaptura = LocalDate.now();
     }
+
+
 
     public void abandonado() {
         if (entrenador != null)
@@ -78,10 +87,6 @@ public class Bicho {
         return this.fechaCaptura;
     }
 
-    public int getNivel() {
-        return this.entrenador.getNivel();
-    }
-
     public Boolean puedeEvolucionar() {
         return especie.puedeEvolucionar(this);
     }
@@ -92,5 +97,19 @@ public class Bicho {
 
     public Especie getRaiz() {
         return especie.getRaiz();
+    }
+
+    public Boolean nivelMayorA(int nivel) {
+        return this.entrenador!=null && this.entrenador.getNivel()>=nivel;
+    }
+
+    public Boolean edadMayorA(int dias) {
+        return this.entrenador!=null && getFechaCaptura().plusDays(dias).isAfter(LocalDate.now());
+    }
+
+    public void evolucionar() {
+        if (!this.puedeEvolucionar()) throw new BichoNoEvolucionableException();
+        Especie evolucion = this.especie.getEvolucion();
+        this.especie = evolucion;
     }
 }

@@ -14,6 +14,6 @@ public class CondicionNivel extends Condicion {
 
     @Override
     public Boolean puedeEvolucionar(Bicho bicho) {
-        return bicho.getNivel() >= nivel;
+        return bicho.nivelMayorA(nivel);
     }
 }

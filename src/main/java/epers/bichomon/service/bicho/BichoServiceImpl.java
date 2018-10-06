@@ -45,14 +45,22 @@ public class BichoServiceImpl implements BichoService {
     }
 
     @Override
-    public boolean puedeEvolucionar(String entrenador, int bicho) {
+    public boolean puedeEvolucionar(int bicho) {
         // TODO implementar BichoService - boolean puedeEvolucionar
+//          trAES BICHI
+//  returnt bicho,puedeevolu() //Condicion de evolucion + tener entrenador
+//
+
         return false;
     }
 
     @Override
-    public Bicho evolucionar(String entrenador, int bicho) {
-        // TODO implementar BichoService - Bicho evolucionar
-        return null;
+    public Bicho evolucionar(int bicho) {
+        return Runner.runInSession(()->{
+            Bicho b = genericDAO.recuperar(Bicho.class, bicho);
+            b.evolucionar();
+            genericDAO.actualizar(b);
+            return b;
+        });
     }
 }

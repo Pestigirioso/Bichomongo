@@ -34,38 +34,42 @@ public class Especie {
     @OneToOne
     private Especie raiz;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Condicion> condiciones;
 
     protected Especie() {
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo) {
-        this.id = id;
+    public Especie(String nombre, TipoBicho tipo) {
         this.nombre = nombre;
         this.tipo = tipo;
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo, int energia) {
-        this(id, nombre, tipo);
+    public Especie(int id, String nombre, TipoBicho tipo) {
+        this(nombre, tipo);
+        this.id = id;
+    }
+
+    public Especie(String nombre, TipoBicho tipo, int energia) {
+        this(nombre, tipo);
         this.energiaInicial = energia;
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo, Especie raiz, int energia) {
-        this(id, nombre, tipo, energia);
+    public Especie(String nombre, TipoBicho tipo, Especie raiz, int energia) {
+        this(nombre, tipo, energia);
         this.raiz = raiz;
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo, int altura, int peso, int energia, String url) {
-        this(id, nombre, tipo);
+    public Especie(String nombre, TipoBicho tipo, int altura, int peso, int energia, String url) {
+        this(nombre, tipo);
         this.setAltura(altura);
         this.setPeso(peso);
         this.setEnergiaInicial(energia);
         this.setUrlFoto(url);
     }
 
-    public Especie(int id, String nombre, TipoBicho tipo, Especie evolucion, Set<Condicion> condiciones) {
-        this(id, nombre, tipo);
+    public Especie(String nombre, TipoBicho tipo, Especie evolucion, Set<Condicion> condiciones) {
+        this(nombre, tipo);
         this.evolucion = evolucion;
         this.condiciones = condiciones;
     }
@@ -75,6 +79,10 @@ public class Especie {
      */
     public String getNombre() {
         return this.nombre;
+    }
+
+    public Especie getEvolucion(){
+        return this.evolucion;
     }
 
     public void setNombre(String nombre) {
@@ -164,7 +172,7 @@ public class Especie {
     }
 
     public Boolean puedeEvolucionar(Bicho bicho) {
-        return condiciones.stream().allMatch(c -> c.puedeEvolucionar(bicho));
+        return this.evolucion != null && condiciones.stream().allMatch(c -> c.puedeEvolucionar(bicho));
     }
 
     public Especie getRaiz() {

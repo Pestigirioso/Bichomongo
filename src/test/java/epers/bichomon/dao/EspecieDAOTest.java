@@ -23,14 +23,14 @@ class EspecieDAOTest {
     @BeforeAll
     static void prepare() {
         TestService testService = new TestService();
-        testService.crearEntidad(new Especie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg"));
-        testService.crearEntidad(new Especie(2, "Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg"));
-        testService.crearEntidad(new Especie(3, "Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg"));
-        testService.crearEntidad(new Especie(4, "Tierramon", TipoBicho.TIERRA, 1050, 99, 5000, "/image/tierramon.jpg"));
-        testService.crearEntidad(new Especie(5, "Fantasmon", TipoBicho.AIRE, 1050, 99, 5000, "/image/fantasmon.jpg"));
-        testService.crearEntidad(new Especie(6, "Vampiron", TipoBicho.AIRE, 1050, 99, 5000, "/image/vampiromon.jpg"));
-        testService.crearEntidad(new Especie(7, "Fortmon", TipoBicho.CHOCOLATE, 1050, 99, 5000, "/image/fortmon.jpg"));
-        testService.crearEntidad(new Especie(8, "Dientemon", TipoBicho.AGUA, 1050, 99, 5000, "/image/dientmon.jpg"));
+        testService.crearEntidad(new Especie("Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg"));
+        testService.crearEntidad(new Especie("Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg"));
+        testService.crearEntidad(new Especie("Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg"));
+        testService.crearEntidad(new Especie("Tierramon", TipoBicho.TIERRA, 1050, 99, 5000, "/image/tierramon.jpg"));
+        testService.crearEntidad(new Especie("Fantasmon", TipoBicho.AIRE, 1050, 99, 5000, "/image/fantasmon.jpg"));
+        testService.crearEntidad(new Especie("Vampiron", TipoBicho.AIRE, 1050, 99, 5000, "/image/vampiromon.jpg"));
+        testService.crearEntidad(new Especie("Fortmon", TipoBicho.CHOCOLATE, 1050, 99, 5000, "/image/fortmon.jpg"));
+        testService.crearEntidad(new Especie("Dientemon", TipoBicho.AGUA, 1050, 99, 5000, "/image/dientmon.jpg"));
     }
 
     @AfterAll
@@ -40,7 +40,7 @@ class EspecieDAOTest {
 
     @Test
     void restaurar_guardado_tiene_mismos_datos() {
-        Especie especie = new Especie(0, "prueba", TipoBicho.AGUA, 100, 350, 50, "url");
+        Especie especie = new Especie("prueba", TipoBicho.AGUA, 100, 350, 50, "url");
         Especie restored = Runner.runInSession(() -> {
             dao.guardar(especie);
             return dao.recuperar("prueba");

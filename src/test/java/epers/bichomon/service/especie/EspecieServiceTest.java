@@ -25,17 +25,17 @@ class EspecieServiceTest {
     @BeforeAll
     static void prepare() {
         TestService testService = ServiceFactory.getTestService();
-        testService.crearEntidad(new Especie(1, "Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/rojomon.jpg"));
-        testService.crearEntidad(new Especie(2, "Amarillomon", TipoBicho.AIRE, 170, 69, 300, "/amarillomon.jpg"));
-        testService.crearEntidad(new Especie(3, "Verdemon", TipoBicho.PLANTA, 150, 55, 500, "/verdemon.jpg"));
-        testService.crearEntidad(new Especie(4, "Violetamon", TipoBicho.TIERRA, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(5, "Azulmon", TipoBicho.ELECTRICIDAD, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(6, "Naranjamon", TipoBicho.CHOCOLATE, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(7, "Marronmon", TipoBicho.AGUA, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(8, "Lilamon", TipoBicho.AIRE, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(9, "Celestemon", TipoBicho.AGUA, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(10, "Ocremon", TipoBicho.FUEGO, 150, 55, 500, ""));
-        testService.crearEntidad(new Especie(11, "Turquesamon", TipoBicho.PLANTA, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/rojomon.jpg"));
+        testService.crearEntidad(new Especie("Amarillomon", TipoBicho.AIRE, 170, 69, 300, "/amarillomon.jpg"));
+        testService.crearEntidad(new Especie("Verdemon", TipoBicho.PLANTA, 150, 55, 500, "/verdemon.jpg"));
+        testService.crearEntidad(new Especie("Violetamon", TipoBicho.TIERRA, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Azulmon", TipoBicho.ELECTRICIDAD, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Naranjamon", TipoBicho.CHOCOLATE, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Marronmon", TipoBicho.AGUA, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Lilamon", TipoBicho.AIRE, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Celestemon", TipoBicho.AGUA, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Ocremon", TipoBicho.FUEGO, 150, 55, 500, ""));
+        testService.crearEntidad(new Especie("Turquesamon", TipoBicho.PLANTA, 150, 55, 500, ""));
     }
 
     @AfterAll
@@ -72,7 +72,7 @@ class EspecieServiceTest {
 
     @Test
     void restaurar_guardado_tiene_mismos_datos() {
-        Especie especie = new Especie(0, "prueba", TipoBicho.AGUA, 100, 350, 50, "url");
+        Especie especie = new Especie("prueba", TipoBicho.AGUA, 100, 350, 50, "url");
 
         service.crearEspecie(especie);
         Especie restored = service.getEspecie("prueba");

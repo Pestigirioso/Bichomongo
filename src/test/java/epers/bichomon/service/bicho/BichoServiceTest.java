@@ -31,12 +31,12 @@ class BichoServiceTest {
     static void prepare() {
         TestService testService = ServiceFactory.getTestService();
 
-        Especie e = new Especie(1, "Rojomon", TipoBicho.FUEGO, 10);
+        Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(e);
-        Especie lagarto = new Especie(2, "Lagartomon", TipoBicho.FUEGO, 10);
+        Especie lagarto = new Especie("Lagartomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(lagarto);
-        testService.crearEntidad(new Especie(3, "Reptilomon", TipoBicho.FUEGO, lagarto, 10));
-        testService.crearEntidad(new Especie(4, "Dragonmon", TipoBicho.FUEGO, lagarto, 10));
+        testService.crearEntidad(new Especie("Reptilomon", TipoBicho.FUEGO, lagarto, 10));
+        testService.crearEntidad(new Especie("Dragonmon", TipoBicho.FUEGO, lagarto, 10));
 
         Bicho b = new Bicho(e);
         testService.crearEntidad(b);
