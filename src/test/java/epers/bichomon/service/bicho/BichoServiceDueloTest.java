@@ -1,5 +1,6 @@
 package epers.bichomon.service.bicho;
 
+import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
@@ -10,7 +11,6 @@ import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.TestService;
-import epers.bichomon.model.ResultadoCombate;
 import epers.bichomon.service.runner.SessionFactoryProvider;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterAll;
@@ -29,7 +29,7 @@ public class BichoServiceDueloTest {
     static void prepare() {
         TestService testService = ServiceFactory.getTestService();
 
-        Especie e = new Especie(1, "Rojomon", TipoBicho.FUEGO, 10);
+        Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(e);
 
     }
