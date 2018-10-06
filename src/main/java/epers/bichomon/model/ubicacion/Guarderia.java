@@ -42,8 +42,8 @@ public class Guarderia extends Ubicacion {
     }
 
     @Override
-    protected Bicho buscarBicho(Entrenador e) {
-        Bicho bicho = bichos.stream().filter(b -> !b.tuvisteEntrenador(e)).collect(Collectors.toList()).get(0);
+    protected Bicho buscarBicho(Entrenador entrenador) {
+        Bicho bicho = bichos.stream().filter(b -> !b.tuvisteEntrenador(entrenador)).collect(Collectors.toList()).get(0);
         bichos.remove(bicho);
         return bicho;
     }

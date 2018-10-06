@@ -29,6 +29,7 @@
         <mapping class="epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusquedaMock"/>
         <mapping class="epers.bichomon.model.ubicacion.Dojo"/>
         <mapping class="epers.bichomon.model.ubicacion.Guarderia"/>
+        <mapping class="epers.bichomon.model.ubicacion.Probabilidad"/>
         <mapping class="epers.bichomon.model.ubicacion.Pueblo"/>
         <mapping class="epers.bichomon.model.ubicacion.Ubicacion"/>
     </session-factory>
