@@ -4,9 +4,9 @@ import epers.bichomon.dao.hibernate.EspecieDAOHib;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.service.ServiceFactory;
-import epers.bichomon.service.TestService;
 import epers.bichomon.service.runner.Runner;
 import epers.bichomon.service.runner.SessionFactoryProvider;
+import epers.bichomon.service.test.TestService;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -22,7 +22,7 @@ class EspecieDAOTest {
 
     @BeforeAll
     static void prepare() {
-        TestService testService = new TestService();
+        TestService testService = ServiceFactory.getTestService();
         testService.crearEntidad(new Especie("Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg"));
         testService.crearEntidad(new Especie("Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg"));
         testService.crearEntidad(new Especie("Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg"));

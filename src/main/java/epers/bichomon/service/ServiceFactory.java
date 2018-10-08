@@ -10,10 +10,12 @@ import epers.bichomon.service.especie.EspecieService;
 import epers.bichomon.service.especie.EspecieServiceImpl;
 import epers.bichomon.service.mapa.MapaService;
 import epers.bichomon.service.mapa.MapaServiceImpl;
+import epers.bichomon.service.test.TestService;
+import epers.bichomon.service.test.TestServiceImpl;
 
 public class ServiceFactory {
     public static TestService getTestService() {
-        return new TestService();
+        return new TestServiceImpl();
     }
 
     public static EspecieService getEspecieService() {

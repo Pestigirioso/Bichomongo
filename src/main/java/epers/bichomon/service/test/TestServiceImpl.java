@@ -1,11 +1,11 @@
-package epers.bichomon.service;
+package epers.bichomon.service.test;
 
 import epers.bichomon.dao.hibernate.GenericDAOHib;
 import epers.bichomon.service.runner.Runner;
 
 import java.io.Serializable;
 
-public class TestService extends GenericDAOHib {
+public class TestServiceImpl extends GenericDAOHib implements TestService {
 
     public void crearEntidad(Object object) {
         Runner.runInSession(() -> {
