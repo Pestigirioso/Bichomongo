@@ -52,10 +52,10 @@ public class Pueblo extends Ubicacion {
         this.probabilidades = probabilidades;
     }
 
-    private Especie getEspecie(){
+    private Especie getEspecie() {
         int nro = random.getInt(1, probabilidades.stream().mapToInt(p -> p.probabilidad).sum());
         int accum = 0;
-        for(Probabilidad p : probabilidades) {
+        for (Probabilidad p : probabilidades) {
             accum += p.probabilidad;
             if (accum > nro)
                 return p.especie;

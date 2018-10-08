@@ -27,7 +27,7 @@ public abstract class Ubicacion {
         this.nombre = nombreUbicacion;
     }
 
-    public Bicho buscar(Entrenador e){
+    public Bicho buscar(Entrenador e) {
         if (!this.busqueda.exitosa(e))
             throw new BusquedaFracasoException(nombre);
         return buscarBicho(e);
@@ -35,11 +35,11 @@ public abstract class Ubicacion {
 
     protected abstract Bicho buscarBicho(Entrenador entrenador);
 
-    public void abandonar(Bicho bicho){
+    public void abandonar(Bicho bicho) {
         throw new UbicacionIncorrrectaException(nombre);
     }
 
-    public ResultadoCombate duelo(Bicho bicho){
+    public ResultadoCombate duelo(Bicho bicho) {
         throw new UbicacionIncorrrectaException(nombre);
     }
 

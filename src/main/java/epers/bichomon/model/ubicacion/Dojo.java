@@ -49,10 +49,16 @@ public class Dojo extends Ubicacion {
      * que encontraría (si es que encontrase algo) serían bichos de tipo Lagartomon.
      */
 
+    /**
+     * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
+     * con las fechas en las que fue coronado campeon y luego depuesto.
+     */
+
+    // TODO implementar historial de campeones
     @Override
     public ResultadoCombate duelo(Bicho bicho) {
         ResultadoCombate resultado = new Duelo(campeon, bicho).getResultado();
-        if(campeon != resultado.getGanador())
+        if (campeon != resultado.getGanador())
             nuevoCampeon(resultado.getGanador());
         return resultado;
     }

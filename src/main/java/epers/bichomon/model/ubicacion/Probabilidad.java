@@ -15,7 +15,8 @@ public class Probabilidad {
 
     public int probabilidad;
 
-    protected Probabilidad() {}
+    protected Probabilidad() {
+    }
 
     public Probabilidad(Especie especie, int probabilidad) {
         this.especie = especie;

@@ -32,23 +32,6 @@ public class Entrenador {
     @ManyToOne(cascade = CascadeType.ALL)
     private Nivel nivel1;
 
-    public int getNivel() {
-        return nivel.getNro();
-    }
-
-    public void setNivel(Nivel nivel) {
-        this.nivel = nivel;
-    }
-
-    public Integer getXP() {
-        return this.xp;
-    }
-
-    public void incXP(int puntos) {
-        this.xp += puntos;
-        this.nivel.subeNivel(this);
-    }
-
     protected Entrenador() {
     }
 
@@ -72,12 +55,29 @@ public class Entrenador {
         return ubicacion;
     }
 
+    public void moverA(Ubicacion ubicacion) {
+        this.ubicacion = ubicacion;
+    }
+
     public String getNombre() {
         return nombre;
     }
 
-    public void moverA(Ubicacion ubicacion) {
-        this.ubicacion = ubicacion;
+    public int getNivel() {
+        return nivel.getNro();
+    }
+
+    public void setNivel(Nivel nivel) {
+        this.nivel = nivel;
+    }
+
+    public Integer getXP() {
+        return this.xp;
+    }
+
+    public void incXP(int puntos) {
+        this.xp += puntos;
+        this.nivel.subeNivel(this);
     }
 
     private Boolean puedeBuscar() {
