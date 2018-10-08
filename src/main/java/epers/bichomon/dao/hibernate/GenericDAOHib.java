@@ -23,12 +23,17 @@ public class GenericDAOHib implements GenericDAO {
     }
 
     @Override
-    public <T> T recuperarByName(Class<T> tipo, String name) {
-        String hq1 = String.format("from %s i where i.nombre = :nom", tipo.getName());
+    public <T> T recuperarBy(Class<T> tipo, String param, Serializable value) {
+        String hq1 = String.format("from %s i where i.%s = :val", tipo.getName(), param);
         Query<T> query = Runner.getCurrentSession().createQuery(hq1, tipo);
-        query.setParameter("nom", name);
+        query.setParameter("val", value);
         query.setMaxResults(1);
         return query.getSingleResult();
+    }
+
+    @Override
+    public <T> T recuperarByName(Class<T> tipo, String name) {
+        return this.recuperarBy(tipo, "nombre", name);
     }
 
     @Override

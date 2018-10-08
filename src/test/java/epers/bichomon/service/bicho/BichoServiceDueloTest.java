@@ -2,12 +2,10 @@ package epers.bichomon.service.bicho;
 
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.entrenador.Nivel;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
-import epers.bichomon.model.ubicacion.Dojo;
-import epers.bichomon.model.ubicacion.Guarderia;
-import epers.bichomon.model.ubicacion.Pueblo;
-import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
+import epers.bichomon.model.ubicacion.*;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.TestService;
@@ -16,6 +14,8 @@ import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -31,11 +31,19 @@ public class BichoServiceDueloTest {
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(e);
 
+        testService.crearEntidad(new Entrenador("nivel", Nivel.create()));
     }
 
     @AfterAll
     static void cleanup() {
         SessionFactoryProvider.destroy();
+    }
+
+    private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1), bichos);
+        e.moverA(ubicacion);
+        this.testService.crearEntidad(e);
+        return e;
     }
 
     @Test
@@ -44,8 +52,7 @@ public class BichoServiceDueloTest {
         testService.crearEntidad(g);
 
         Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
-        Entrenador misty = new Entrenador("misty", Sets.newHashSet(b), g, 3);
-        this.testService.crearEntidad(misty);
+        newEntrenador("misty", g, Sets.newHashSet(b));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("misty", b.getID()));
     }
@@ -56,8 +63,7 @@ public class BichoServiceDueloTest {
         testService.crearEntidad(p);
 
         Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
-        Entrenador ash = new Entrenador("ash", Sets.newHashSet(b), p, 3);
-        this.testService.crearEntidad(ash);
+        newEntrenador("ash", p, Sets.newHashSet(b));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("ash", b.getID()));
     }
@@ -68,8 +74,7 @@ public class BichoServiceDueloTest {
         testService.crearEntidad(d);
 
         Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
-        Entrenador brock = new Entrenador("brock", Sets.newHashSet(b), d, 3);
-        this.testService.crearEntidad(brock);
+        newEntrenador("brock", d, Sets.newHashSet(b));
 
         ResultadoCombate r = service.duelo("brock", b.getID());
         assertEquals(b, r.getGanador());
@@ -88,8 +93,7 @@ public class BichoServiceDueloTest {
 
         Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
         b.incEnergia(100);
-        Entrenador julio = new Entrenador("julio", Sets.newHashSet(b), d, 3);
-        this.testService.crearEntidad(julio);
+        newEntrenador("julio", d, Sets.newHashSet(b));
 
         ResultadoCombate r = service.duelo("julio", b.getID());
         assertEquals(b, r.getGanador());
@@ -112,8 +116,7 @@ public class BichoServiceDueloTest {
         testService.crearEntidad(d);
 
         Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
-        Entrenador agosto = new Entrenador("agosto", Sets.newHashSet(b), d, 3);
-        this.testService.crearEntidad(agosto);
+        newEntrenador("agosto", d, Sets.newHashSet(b));
 
         ResultadoCombate r = service.duelo("agosto", b.getID());
         assertEquals(campeon, r.getGanador());

@@ -25,6 +25,10 @@ public class TestService extends GenericDAOHib {
         return Runner.runInSession(() -> super.recuperar(tipo, key));
     }
 
+    public <T> T recuperarBy(Class<T> tipo, String param, Serializable value) {
+        return Runner.runInSession(() -> super.recuperarBy(tipo, param, value));
+    }
+
     public <T> T recuperarByName(Class<T> tipo, String name) {
         return Runner.runInSession(() -> super.recuperarByName(tipo, name));
     }

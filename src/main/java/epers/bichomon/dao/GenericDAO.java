@@ -9,6 +9,8 @@ public interface GenericDAO {
 
     <T> T recuperar(Class<T> tipo, Serializable key);
 
+    <T> T recuperarBy(Class<T> tipo, String param, Serializable value);
+
     <T> T recuperarByName(Class<T> tipo, String name);
 
     <T> void borrar(Class<T> tipo, Serializable key);
