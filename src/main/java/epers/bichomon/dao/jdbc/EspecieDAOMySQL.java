@@ -46,8 +46,8 @@ public class EspecieDAOMySQL implements EspecieDAO {
             PreparedStatement ps = conn.prepareStatement("SELECT LAST_INSERT_ID();");
             ResultSet resultSet = ps.executeQuery();
             int id = -1;
-            while(resultSet.next()) {
-                if(id != -1) {
+            while (resultSet.next()) {
+                if (id != -1) {
                     throw new RuntimeException("Se obtuvo más de un ID");
                 }
                 id = resultSet.getInt(1);
@@ -72,8 +72,8 @@ public class EspecieDAOMySQL implements EspecieDAO {
             ps.setString(1, nombreEspecie);
             ResultSet resultSet = ps.executeQuery();
             Especie especie = null;
-            while(resultSet.next()) {
-                if(especie != null) {
+            while (resultSet.next()) {
+                if (especie != null) {
                     throw new RuntimeException("Existe mas de una especie con el nombre " + nombreEspecie);
                 }
                 especie = this.sacarEspecie(resultSet);
@@ -100,7 +100,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
             PreparedStatement ps = conn.prepareStatement(sqlSelect);
             ResultSet resultSet = ps.executeQuery();
             List<Especie> lista = new ArrayList<>();
-            while(resultSet.next()) {
+            while (resultSet.next()) {
                 lista.add(this.sacarEspecie(resultSet));
             }
             ps.close();

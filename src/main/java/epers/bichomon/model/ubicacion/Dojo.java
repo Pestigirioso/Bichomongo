@@ -2,6 +2,7 @@ package epers.bichomon.model.ubicacion;
 
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.ubicacion.duelo.Campeon;
 import epers.bichomon.model.ubicacion.duelo.Duelo;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
@@ -19,7 +20,7 @@ public class Dojo extends Ubicacion {
      * Los dojos pueden poseer un campeon (un Bicho específico de un Entrenador específico).
      * Un entrenador (que no sea el campeon actual del Dojo) podrá retar a duelo al campeon en esta localización.
      */
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Campeon campeon;
 
     @OneToMany(cascade = CascadeType.ALL)
@@ -40,7 +41,7 @@ public class Dojo extends Ubicacion {
 
     @Override
     protected Bicho buscarBicho(Entrenador entrenador) {
-        if(campeon == null) return null;
+        if (campeon == null) return null;
         return campeon.getCampeon().getRaiz().crearBicho();
     }
 
@@ -63,15 +64,15 @@ public class Dojo extends Ubicacion {
 
     @Override
     public ResultadoCombate duelo(Bicho bicho) {
-        if(campeon != null && campeon.getCampeon().equals(bicho)) return null;
+        if (campeon != null && campeon.getCampeon().equals(bicho)) return null;
         ResultadoCombate resultado = new Duelo(campeon, bicho).getResultado();
         nuevoCampeon(resultado.getGanador());
         return resultado;
     }
 
     private void nuevoCampeon(Bicho ganador) {
-        if(campeon != null) {
-            if(campeon.getCampeon().equals(ganador)) return;
+        if (campeon != null) {
+            if (campeon.getCampeon().equals(ganador)) return;
             campeon.derrotado();
             campeones.add(campeon);
         }

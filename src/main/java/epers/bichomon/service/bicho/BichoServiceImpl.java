@@ -61,7 +61,7 @@ public class BichoServiceImpl implements BichoService {
 
     @Override
     public Bicho evolucionar(int bicho) {
-        return Runner.runInSession(()->{
+        return Runner.runInSession(() -> {
             Bicho b = genericDAO.recuperar(Bicho.class, bicho);
             b.evolucionar();
             genericDAO.actualizar(b);

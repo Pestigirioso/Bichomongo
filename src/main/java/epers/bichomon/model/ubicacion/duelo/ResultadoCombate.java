@@ -10,7 +10,7 @@ public class ResultadoCombate {
     private Bicho ganador;
     private Bicho perdedor;
 
-    public ResultadoCombate(Bicho ganador, Bicho perdedor, List<Ataque> ataques){
+    public ResultadoCombate(Bicho ganador, Bicho perdedor, List<Ataque> ataques) {
         this.ganador = ganador;
         this.perdedor = perdedor;
         this.ataques = ataques;
@@ -20,7 +20,7 @@ public class ResultadoCombate {
         return ganador;
     }
 
-    public Bicho getPerdedor(){
+    public Bicho getPerdedor() {
         return perdedor;
     }
 

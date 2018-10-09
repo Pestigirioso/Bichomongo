@@ -1,6 +1,7 @@
 package epers.bichomon.service.bicho;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.bicho.BichoNoEvolucionableException;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;

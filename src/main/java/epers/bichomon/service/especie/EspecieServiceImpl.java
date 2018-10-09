@@ -27,7 +27,7 @@ public class EspecieServiceImpl implements EspecieService {
     public Especie getEspecie(String nombreEspecie) {
         return Runner.runInSession(() -> {
             Especie especie = especieDAO.recuperar(nombreEspecie);
-            if(especie == null) {
+            if (especie == null) {
                 throw new EspecieNoExistente(nombreEspecie);
             }
             return especie;
@@ -51,12 +51,12 @@ public class EspecieServiceImpl implements EspecieService {
 
     @Override
     public List<Especie> populares() {
-        return Runner.runInSession(()-> especieDAO.getPopulares());
+        return Runner.runInSession(() -> especieDAO.getPopulares());
     }
 
     @Override
     public List<Especie> impopulares() {
-        return Runner.runInSession(()->especieDAO.getImpopulares());
+        return Runner.runInSession(() -> especieDAO.getImpopulares());
     }
 
 }

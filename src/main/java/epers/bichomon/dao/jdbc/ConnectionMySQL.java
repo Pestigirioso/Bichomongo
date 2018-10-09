@@ -8,7 +8,7 @@ public class ConnectionMySQL implements IConnection {
 
     private Connection con;
 
-    public ConnectionMySQL(){
+    public ConnectionMySQL() {
         this.con = new Connection("jdbc:mysql://localhost:3306/bichomon?user=root&password=root");
     }
 

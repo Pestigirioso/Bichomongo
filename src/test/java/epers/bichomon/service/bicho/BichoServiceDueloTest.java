@@ -3,6 +3,7 @@ package epers.bichomon.service.bicho;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.entrenador.Nivel;
+import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.*;
@@ -31,7 +32,7 @@ public class BichoServiceDueloTest {
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(e);
 
-        testService.crearEntidad(new Entrenador("nivel", Nivel.create()));
+        testService.crearEntidad(new Entrenador("nivel", Nivel.create(), new XPuntos()));
     }
 
     @AfterAll
@@ -40,7 +41,8 @@ public class BichoServiceDueloTest {
     }
 
     private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1), bichos);
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
+                testService.recuperar(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
         this.testService.crearEntidad(e);
         return e;

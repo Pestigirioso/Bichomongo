@@ -1,11 +1,8 @@
-package epers.bichomon.model.ubicacion;
+package epers.bichomon.model.ubicacion.duelo;
 
 import epers.bichomon.model.bicho.Bicho;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
@@ -14,13 +11,15 @@ public class Campeon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne
     private Bicho campeon;
 
     private LocalDate desde;
 
     private LocalDate hasta;
 
-    protected Campeon() {}
+    protected Campeon() {
+    }
 
     public Campeon(Bicho campeon) {
         this.campeon = campeon;

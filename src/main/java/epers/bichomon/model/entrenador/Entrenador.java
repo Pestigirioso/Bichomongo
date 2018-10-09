@@ -89,12 +89,17 @@ public class Entrenador {
     }
 
     public Bicho buscar() {
-        if(!puedeBuscar()) return null;
+        if (!puedeBuscar()) return null;
         Bicho b = this.ubicacion.buscar(this);
-        if(b == null) return null;
+        if (b == null) return null;
         bichos.add(b);
         b.capturadoPor(this);
+        incXP(xpuntos.getCapturar());
         return b;
+    }
+
+    public void evolucion() {
+        incXP(xpuntos.getEvolucionar());
     }
 
     public boolean contains(Bicho bicho) {
@@ -102,16 +107,16 @@ public class Entrenador {
     }
 
     public void abandonar(Bicho bicho) {
-        if(!contains(bicho) || this.bichos.size() <= 1) throw new BichoIncorrectoException(bicho.getID());
+        if (!contains(bicho) || this.bichos.size() <= 1) throw new BichoIncorrectoException(bicho.getID());
         ubicacion.abandonar(bicho);
         bichos.remove(bicho);
         bicho.abandonado();
     }
 
     public ResultadoCombate duelo(Bicho b) {
-        if(!contains(b)) return null;
+        if (!contains(b)) return null;
         ResultadoCombate res = ubicacion.duelo(b);
-        if(res != null) incXP();
+        if (res != null) incXP(xpuntos.getCombatir());
         return res;
     }
 }

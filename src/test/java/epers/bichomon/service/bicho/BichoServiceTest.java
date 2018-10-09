@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.BichoIncorrectoException;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.entrenador.Nivel;
+import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.*;
@@ -50,7 +51,7 @@ class BichoServiceTest {
         testService.crearEntidad(new Pueblo("Pueblo"));
         testService.crearEntidad(new Dojo("Dojo"));
 
-        testService.crearEntidad(new Entrenador("nivel", Nivel.create()));
+        testService.crearEntidad(new Entrenador("nivel", Nivel.create(), new XPuntos()));
     }
 
     @AfterAll
@@ -58,12 +59,20 @@ class BichoServiceTest {
         SessionFactoryProvider.destroy();
     }
 
+
+    private void newEntrenador(String nombre) {
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
+                testService.recuperar(XPuntos.class, 1));
+        this.testService.crearEntidad(e);
+    }
+
     private Entrenador newEntrenador(String nombre, Ubicacion ubicacion) {
         return newEntrenador(nombre, ubicacion, Sets.newHashSet());
     }
 
     private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1), bichos);
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
+                testService.recuperar(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
         this.testService.crearEntidad(e);
         return e;
@@ -183,7 +192,7 @@ class BichoServiceTest {
 
     @Test
     void entrenador_busca_en_dojo_con_campeon_evolucion() {
-        Bicho b = new Bicho(testService.recuperarByName(Especie.class, "Dragonmon"));
+        Bicho b = testService.recuperarByName(Especie.class, "Dragonmon").crearBicho();
         testService.crearEntidad(b);
         Dojo d = new Dojo("CobraKai3", b);
         testService.crearEntidad(d);
@@ -239,8 +248,7 @@ class BichoServiceTest {
 
     @Test
     void entrenador_gana_xp_sube_nivel_de_a_1() {
-        testService.crearEntidad(new Entrenador("ENivel1",
-                testService.recuperarBy(Nivel.class, "nro", 1)));
+        newEntrenador("ENivel1");
 
         Entrenador e = testService.recuperarByName(Entrenador.class, "ENivel1");
         e.incXP(120);
@@ -264,8 +272,7 @@ class BichoServiceTest {
 
     @Test
     void entrenador_gana_xp_sube_nivel_de_a_varios() {
-        testService.crearEntidad(new Entrenador("ENivel2",
-                testService.recuperarBy(Nivel.class, "nro", 1)));
+        newEntrenador("ENivel2");
 
         Entrenador e = testService.recuperarByName(Entrenador.class, "ENivel2");
         e.incXP(500);

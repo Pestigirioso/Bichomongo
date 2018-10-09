@@ -1,7 +1,6 @@
 package epers.bichomon.model.ubicacion.duelo;
 
 import epers.bichomon.model.bicho.Bicho;
-import epers.bichomon.model.ubicacion.Campeon;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,14 +14,14 @@ public class Duelo {
     private int ataqueRetador = 0;
 
     public Duelo(Campeon campeon, Bicho retador) {
-        if(campeon != null) this.campeon = campeon.getCampeon();
+        if (campeon != null) this.campeon = campeon.getCampeon();
         this.retador = retador;
     }
 
     public ResultadoCombate getResultado() {
-        while(!hayGanador()) {
+        while (!hayGanador()) {
             ataqueRetador += atacar(retador);
-            if(!hayGanador()) ataqueCampeon += atacar(campeon);
+            if (!hayGanador()) ataqueCampeon += atacar(campeon);
         }
         return resultado();
     }
@@ -36,8 +35,8 @@ public class Duelo {
     private ResultadoCombate resultado() {
         Bicho ganador = ganoRetador() ? retador : campeon;
         Bicho perdedor = ganoRetador() ? campeon : retador;
-        if(ganador != null) ganador.ganasteDuelo();
-        if(perdedor != null) perdedor.perdisteDuelo();
+        if (ganador != null) ganador.ganasteDuelo();
+        if (perdedor != null) perdedor.perdisteDuelo();
         return new ResultadoCombate(ganador, perdedor, ataques);
     }
 

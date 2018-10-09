@@ -4,7 +4,6 @@ import epers.bichomon.model.IRandom;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.ubicacion.UbicacionFactory;
-import epers.bichomon.service.bicho.BichoNoEvolucionableException;
 
 import javax.persistence.*;
 import java.time.LocalDate;

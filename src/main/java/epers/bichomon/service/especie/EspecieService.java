@@ -20,7 +20,7 @@ public interface EspecieService {
     /**
      * Este método devolverá la {@link Especie} cuyo nombre sea igual al provisto por
      * parámetro.
-     *
+     * <p>
      * Se espera que este método devuelva, a lo sumo, un solo resultado.
      *
      * @param nombreEspecie - el nombre de la especie que se busca
@@ -38,7 +38,7 @@ public interface EspecieService {
     /**
      * Crea un nuevo Bicho perteneciente a la especie especificada. El nuevo objeto Bicho no es
      * persistido (de momento), solo devuelto.
-     *
+     * <p>
      * Para llevar una mejor estadística de los bichos que han sido creados cada objeto
      * {@link Especie} cuenta con un contador cantidadBichos. El mismo deberá ser incrementado
      * en 1.

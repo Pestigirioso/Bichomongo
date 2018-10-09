@@ -7,7 +7,7 @@ public class Connection {
 
     private String url;
 
-    public Connection (String url) {
+    public Connection(String url) {
         this.url = url;
     }
 

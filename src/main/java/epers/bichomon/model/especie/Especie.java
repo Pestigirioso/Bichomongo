@@ -81,7 +81,7 @@ public class Especie {
         return this.nombre;
     }
 
-    public Especie getEvolucion(){
+    public Especie getEvolucion() {
         return this.evolucion;
     }
 
@@ -176,7 +176,7 @@ public class Especie {
     }
 
     public Especie getRaiz() {
-        if(raiz == null) return this;
+        if (raiz == null) return this;
         return raiz;
     }
 }

@@ -24,9 +24,11 @@
         <mapping class="epers.bichomon.model.bicho.Bicho"/>
         <mapping class="epers.bichomon.model.entrenador.Entrenador"/>
         <mapping class="epers.bichomon.model.entrenador.Nivel"/>
+        <mapping class="epers.bichomon.model.entrenador.XPuntos"/>
         <mapping class="epers.bichomon.model.especie.condicion.Condicion"/>
         <mapping class="epers.bichomon.model.especie.Especie"/>
         <mapping class="epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusquedaMock"/>
+        <mapping class="epers.bichomon.model.ubicacion.duelo.Campeon"/>
         <mapping class="epers.bichomon.model.ubicacion.Dojo"/>
         <mapping class="epers.bichomon.model.ubicacion.Guarderia"/>
         <mapping class="epers.bichomon.model.ubicacion.Probabilidad"/>
