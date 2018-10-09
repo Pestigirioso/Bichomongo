@@ -5,8 +5,12 @@ import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.ubicacion.duelo.Duelo;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Dojo extends Ubicacion {
@@ -16,7 +20,10 @@ public class Dojo extends Ubicacion {
      * Un entrenador (que no sea el campeon actual del Dojo) podrá retar a duelo al campeon en esta localización.
      */
     @ManyToOne
-    private Bicho campeon;
+    private Campeon campeon;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    private Set<Campeon> campeones = new HashSet<>();
 
     protected Dojo() {
         super();
@@ -28,13 +35,13 @@ public class Dojo extends Ubicacion {
 
     public Dojo(String nombre, Bicho campeon) {
         this(nombre);
-        this.campeon = campeon;
+        this.campeon = new Campeon(campeon);
     }
 
     @Override
     protected Bicho buscarBicho(Entrenador entrenador) {
-        if (campeon == null) return null;
-        return campeon.getRaiz().crearBicho();
+        if(campeon == null) return null;
+        return campeon.getCampeon().getRaiz().crearBicho();
     }
 
     /**
@@ -54,21 +61,24 @@ public class Dojo extends Ubicacion {
      * con las fechas en las que fue coronado campeon y luego depuesto.
      */
 
-    // TODO implementar historial de campeones
     @Override
     public ResultadoCombate duelo(Bicho bicho) {
+        if(campeon != null && campeon.getCampeon().equals(bicho)) return null;
         ResultadoCombate resultado = new Duelo(campeon, bicho).getResultado();
-        if (campeon != resultado.getGanador())
-            nuevoCampeon(resultado.getGanador());
+        nuevoCampeon(resultado.getGanador());
         return resultado;
     }
 
     private void nuevoCampeon(Bicho ganador) {
-        campeon = ganador;
-        // TODO generar historial de campeones
+        if(campeon != null) {
+            if(campeon.getCampeon().equals(ganador)) return;
+            campeon.derrotado();
+            campeones.add(campeon);
+        }
+        campeon = new Campeon(ganador);
     }
 
     public Bicho getCampeon() {
-        return campeon;
+        return campeon.getCampeon();
     }
 }

@@ -32,6 +32,9 @@ public class Entrenador {
     @ManyToOne(cascade = CascadeType.ALL)
     private Nivel nivel1;
 
+    @ManyToOne(cascade = CascadeType.ALL)
+    private XPuntos xpuntos;
+
     protected Entrenador() {
     }
 
@@ -39,14 +42,15 @@ public class Entrenador {
         this.nombre = nombre;
     }
 
-    public Entrenador(String nombre, Nivel nivel) {
+    public Entrenador(String nombre, Nivel nivel, XPuntos xpuntos) {
         this(nombre);
         this.nivel = nivel;
         this.nivel1 = nivel;
+        this.xpuntos = xpuntos;
     }
 
-    public Entrenador(String nombre, Nivel nivel, Set<Bicho> bichos) {
-        this(nombre, nivel);
+    public Entrenador(String nombre, Nivel nivel, XPuntos xpuntos, Set<Bicho> bichos) {
+        this(nombre, nivel, xpuntos);
         this.bichos = bichos;
         this.bichos.forEach(b -> b.capturadoPor(this));
     }
@@ -85,9 +89,9 @@ public class Entrenador {
     }
 
     public Bicho buscar() {
-        if (!puedeBuscar()) return null;
+        if(!puedeBuscar()) return null;
         Bicho b = this.ubicacion.buscar(this);
-        if (b == null) return null;
+        if(b == null) return null;
         bichos.add(b);
         b.capturadoPor(this);
         return b;
@@ -98,14 +102,16 @@ public class Entrenador {
     }
 
     public void abandonar(Bicho bicho) {
-        if (!contains(bicho) || this.bichos.size() <= 1) throw new BichoIncorrectoException(bicho.getID());
+        if(!contains(bicho) || this.bichos.size() <= 1) throw new BichoIncorrectoException(bicho.getID());
         ubicacion.abandonar(bicho);
         bichos.remove(bicho);
         bicho.abandonado();
     }
 
     public ResultadoCombate duelo(Bicho b) {
-        if (!contains(b)) return null;
-        return ubicacion.duelo(b);
+        if(!contains(b)) return null;
+        ResultadoCombate res = ubicacion.duelo(b);
+        if(res != null) incXP();
+        return res;
     }
 }
