@@ -7,11 +7,15 @@ import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
+import epers.bichomon.model.ubicacion.duelo.Campeon;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.test.TestService;
+import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
+
+import java.time.LocalDate;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -93,13 +97,13 @@ class MapaServiceTest {
         assertEquals(b, service.campeonHistorico("DojoCampeonHistorico1"));
     }
 
-    //    @Test
-    //    void campeon_historico_de_dojo_con_dos_campeones() {
-    //        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-    //        testService.crearEntidad(b);
-    //        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-    //        testService.crearEntidad(b);
-    //        testService.crearEntidad(new Dojo("DojoCampeonHistorico2", b, Sets.newHashSet(new Campeon(b1, ))));
-    //        assertEquals(b, service.campeonHistorico("DojoCampeonHistorico2"));
-    //    }
+    @Test
+    void campeon_historico_de_dojo_con_dos_campeones() {
+        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b);
+        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b1);
+        testService.crearEntidad(new Dojo("DojoCampeonHistorico2", b, Sets.newHashSet(new Campeon(b1, LocalDate.of(2018, 10, 1), LocalDate.now()))));
+        assertEquals(b1, service.campeonHistorico("DojoCampeonHistorico2"));
+    }
 }

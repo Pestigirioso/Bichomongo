@@ -31,10 +31,14 @@ public class Campeon {
         this.desde = LocalDate.now();
     }
 
-    public Campeon(Bicho campeon, Dojo dojo, LocalDate desde, LocalDate hasta) {
-        this(campeon, dojo);
+    public Campeon(Bicho campeon, LocalDate desde, LocalDate hasta) {
+        this.campeon = campeon;
         this.desde = desde;
         this.hasta = hasta;
+    }
+
+    public void setDojo(Dojo dojo) {
+        this.dojo = dojo;
     }
 
     public Bicho getCampeon() {

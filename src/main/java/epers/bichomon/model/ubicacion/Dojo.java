@@ -46,6 +46,7 @@ public class Dojo extends Ubicacion {
     public Dojo(String nombre, Bicho campeon, Set<Campeon> campeones) {
         this(nombre, campeon);
         this.campeones = campeones;
+        this.campeones.forEach(c -> c.setDojo(this));
     }
 
     @Override
