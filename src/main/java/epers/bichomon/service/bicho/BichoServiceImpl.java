@@ -30,8 +30,8 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public void abandonar(String entrenador, int bicho) {
         Runner.runInSession(() -> {
-            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
             Entrenador e = this.entrenadorDAO.recuperar(entrenador);
+            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
             e.abandonar(b);
             entrenadorDAO.actualizar(e);
             return null;
@@ -41,8 +41,8 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public ResultadoCombate duelo(String entrenador, int bicho) {
         return Runner.runInSession(() -> {
-            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
             Entrenador e = this.entrenadorDAO.recuperar(entrenador);
+            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
             ResultadoCombate resultado = e.duelo(b);
             entrenadorDAO.actualizar(e);
             return resultado;
@@ -51,12 +51,7 @@ public class BichoServiceImpl implements BichoService {
 
     @Override
     public boolean puedeEvolucionar(int bicho) {
-        // TODO implementar BichoService - boolean puedeEvolucionar
-//          trAES BICHI
-//  returnt bicho,puedeevolu() //Condicion de evolucion + tener entrenador
-//
-
-        return false;
+        return Runner.runInSession(() -> this.genericDAO.recuperar(Bicho.class, bicho).puedeEvolucionar());
     }
 
     @Override

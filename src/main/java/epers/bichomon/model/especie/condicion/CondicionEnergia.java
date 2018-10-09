@@ -9,6 +9,8 @@ public class CondicionEnergia extends Condicion {
 
     private int energia;
 
+    protected CondicionEnergia() { super(); }
+
     CondicionEnergia(int energia) {
         this.energia = energia;
     }

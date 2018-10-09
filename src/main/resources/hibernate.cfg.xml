@@ -26,6 +26,10 @@
         <mapping class="epers.bichomon.model.entrenador.Nivel"/>
         <mapping class="epers.bichomon.model.entrenador.XPuntos"/>
         <mapping class="epers.bichomon.model.especie.condicion.Condicion"/>
+        <mapping class="epers.bichomon.model.especie.condicion.CondicionEdad"/>
+        <mapping class="epers.bichomon.model.especie.condicion.CondicionEnergia"/>
+        <mapping class="epers.bichomon.model.especie.condicion.CondicionNivel"/>
+        <mapping class="epers.bichomon.model.especie.condicion.CondicionVictorias"/>
         <mapping class="epers.bichomon.model.especie.Especie"/>
         <mapping class="epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusquedaMock"/>
         <mapping class="epers.bichomon.model.ubicacion.duelo.Campeon"/>

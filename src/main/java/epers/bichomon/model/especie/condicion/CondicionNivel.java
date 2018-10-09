@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 public class CondicionNivel extends Condicion {
     private int nivel;
 
+    protected CondicionNivel() { super(); }
+
     CondicionNivel(int nivel) {
         this.nivel = nivel;
     }

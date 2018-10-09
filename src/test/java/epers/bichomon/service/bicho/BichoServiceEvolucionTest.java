@@ -43,7 +43,7 @@ public class BichoServiceEvolucionTest {
     private int crearBicho(String especie, Entrenador entrenador) {
         Especie e = testService.recuperarByName(Especie.class, especie);
         Bicho b = e.crearBicho();
-        if (entrenador != null) {
+        if(entrenador != null) {
             b.capturadoPor(entrenador);
         }
         testService.crearEntidad(b);
@@ -61,10 +61,7 @@ public class BichoServiceEvolucionTest {
     @Test
     void evolucionar_un_bicho_evolucionable_sin_condicion_especifica_tiene_especie_final() {
         Set<Condicion> set = new HashSet<>();
-        this.crearEspecieEvolucionable("EspecieBase",
-                TipoBicho.FUEGO,
-                testService.recuperarByName(Especie.class, "EspecieFinal"),
-                set);
+        this.crearEspecieEvolucionable("EspecieBase", TipoBicho.FUEGO, testService.recuperarByName(Especie.class, "EspecieFinal"), set);
         int id = this.crearBicho("EspecieBase", null);
         service.evolucionar(id);
         assertEquals("EspecieFinal", testService.recuperar(Bicho.class, id).getEspecie().getNombre());
@@ -80,10 +77,7 @@ public class BichoServiceEvolucionTest {
     //-------> Tests sobre la condicion de edad
     @Test
     void puede_evolucionarun_bicho_que_no_cumple_con_la_condicion_de_edad_false() {
-        this.crearEspecieEvolucionable("EspecieEdad",
-                TipoBicho.FUEGO,
-                testService.recuperarByName(Especie.class, "EspecieFinal"),
-                Sets.newHashSet(new CondicionEdad(30)));
+        this.crearEspecieEvolucionable("EspecieEdad", TipoBicho.FUEGO, testService.recuperarByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionEdad(30)));
         Entrenador e = new Entrenador("unEntrenador");
         testService.crearEntidad(e);
         Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e, LocalDate.of(2018, 10, 5));
@@ -93,7 +87,15 @@ public class BichoServiceEvolucionTest {
 
     @Test
     void un_bicho_que_cumple_con_la_condicion_de_edad_puede_evolucionar() {
-        fail();
+        this.crearEspecieEvolucionable("EspecieEdad", TipoBicho.FUEGO, testService.recuperarByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionEdad(5)));
+        Entrenador e = new Entrenador("unEntrenador");
+        testService.crearEntidad(e);
+        Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e, LocalDate.of(2018, 1, 3));
+        testService.crearEntidad(b);
+        assertTrue(service.puedeEvolucionar(b.getID()));
+        testService.borrar(Bicho.class, b.getID());
+        testService.borrarByName(Entrenador.class, "unEntrenador");
+        testService.borrarByName(Especie.class, "EspecieEdad");
     }
 
     //-------> Tests sobre la condicion de energia

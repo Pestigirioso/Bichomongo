@@ -39,15 +39,19 @@ public class MapaServiceImpl implements MapaService {
         return Runner.runInSession(() -> entrenadorDAO.cantidadEntrenadores(ubicacion));
     }
 
+    /**
+     * retorna el actual campeon del Dojo especificado.
+     */
     @Override
     public Bicho campeon(String dojo) {
-        // TODO implementar MapaService - Bicho campeon
-        return null;
+        return Runner.runInSession(() -> ubicacionDAO.recuperarDojo(dojo).getCampeon());
     }
 
+    /**
+     * retorna el bicho que haya sido campeon por mas tiempo en el Dojo.
+     */
     @Override
     public Bicho campeonHistorico(String dojo) {
-        // TODO implementar MapaService - Bicho campeonHistorico
-        return null;
+        return Runner.runInSession(() -> ubicacionDAO.campeonHistorico(dojo));
     }
 }

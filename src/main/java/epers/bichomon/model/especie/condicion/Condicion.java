@@ -13,5 +13,7 @@ public abstract class Condicion {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    protected Condicion() {}
+
     public abstract Boolean puedeEvolucionar(Bicho bicho);
 }

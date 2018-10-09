@@ -23,6 +23,10 @@ public class Dojo extends Ubicacion {
     @ManyToOne(cascade = CascadeType.ALL)
     private Campeon campeon;
 
+    /**
+     * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
+     * con las fechas en las que fue coronado campeon y luego depuesto.
+     */
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Campeon> campeones = new HashSet<>();
 
@@ -36,7 +40,12 @@ public class Dojo extends Ubicacion {
 
     public Dojo(String nombre, Bicho campeon) {
         this(nombre);
-        this.campeon = new Campeon(campeon);
+        this.campeon = new Campeon(campeon, this);
+    }
+
+    public Dojo(String nombre, Bicho campeon, Set<Campeon> campeones) {
+        this(nombre, campeon);
+        this.campeones = campeones;
     }
 
     @Override
@@ -57,11 +66,6 @@ public class Dojo extends Ubicacion {
      * que encontraría (si es que encontrase algo) serían bichos de tipo Lagartomon.
      */
 
-    /**
-     * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
-     * con las fechas en las que fue coronado campeon y luego depuesto.
-     */
-
     @Override
     public ResultadoCombate duelo(Bicho bicho) {
         if (campeon != null && campeon.getCampeon().equals(bicho)) return null;
@@ -76,10 +80,10 @@ public class Dojo extends Ubicacion {
             campeon.derrotado();
             campeones.add(campeon);
         }
-        campeon = new Campeon(ganador);
+        campeon = new Campeon(ganador, this);
     }
 
     public Bicho getCampeon() {
-        return campeon.getCampeon();
+        return campeon != null ? campeon.getCampeon() : null;
     }
 }

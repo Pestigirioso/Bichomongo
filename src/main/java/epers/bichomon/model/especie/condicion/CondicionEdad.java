@@ -7,7 +7,9 @@ import javax.persistence.Entity;
 @Entity
 public class CondicionEdad extends Condicion {
 
-    int dias;
+    private int dias;
+
+    protected CondicionEdad() { super(); }
 
     public CondicionEdad(int dias) {
         this.dias = dias;

@@ -106,7 +106,7 @@ public class Bicho {
     }
 
     public Boolean edadMayorA(int dias) {
-        return this.entrenador != null && getFechaCaptura().plusDays(dias).isAfter(LocalDate.now());
+        return this.entrenador != null && getFechaCaptura().plusDays(dias).isBefore(LocalDate.now());
     }
 
     public void evolucionar() {

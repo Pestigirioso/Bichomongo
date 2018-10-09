@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 public class CondicionVictorias extends Condicion {
     private int victorias;
 
+    protected CondicionVictorias() { super(); }
+
     CondicionVictorias(int victorias) {
         this.victorias = victorias;
     }
