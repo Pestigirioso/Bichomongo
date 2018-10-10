@@ -9,6 +9,7 @@ import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.model.ubicacion.duelo.Campeon;
 import epers.bichomon.service.ServiceFactory;
+import epers.bichomon.service.runner.SessionFactoryProvider;
 import epers.bichomon.service.test.TestService;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterAll;
@@ -42,7 +43,7 @@ class MapaServiceTest {
 
     @AfterAll
     static void cleanup() {
-        //SessionFactoryProvider.destroy();
+        SessionFactoryProvider.destroy();
     }
 
     @Test
@@ -103,7 +104,77 @@ class MapaServiceTest {
         testService.crearEntidad(b);
         Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
         testService.crearEntidad(b1);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico2", b, Sets.newHashSet(new Campeon(b1, LocalDate.of(2018, 10, 1), LocalDate.now()))));
+        testService.crearEntidad(new Dojo("DojoCampeonHistorico2", b,
+                Sets.newHashSet(new Campeon(b1,
+                        LocalDate.of(2018, 10, 1),
+                        LocalDate.of(2018, 10, 10))
+                )));
         assertEquals(b1, service.campeonHistorico("DojoCampeonHistorico2"));
+    }
+
+    @Test
+    void campeon_historico_de_dojo_con_tres_campeones() {
+        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b);
+        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b1);
+        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b2);
+        testService.crearEntidad(new Dojo("DojoCampeonHistorico3", b,
+                Sets.newHashSet(
+                        new Campeon(b1,
+                                LocalDate.of(2018, 10, 1),
+                                LocalDate.of(2018, 10, 10)),
+                        new Campeon(b2,
+                                LocalDate.of(2017, 10, 1),
+                                LocalDate.of(2018, 10, 1))
+                )));
+        assertEquals(b2, service.campeonHistorico("DojoCampeonHistorico3"));
+    }
+
+    @Test
+    void campeon_historico_de_dojo_con_cuatro_campeones() {
+        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b);
+        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b1);
+        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b2);
+        Bicho b3 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b3);
+        testService.crearEntidad(new Dojo("DojoCampeonHistorico4", b,
+                Sets.newHashSet(
+                        new Campeon(b1,
+                                LocalDate.of(2018, 10, 1),
+                                LocalDate.of(2018, 10, 10)),
+                        new Campeon(b2,
+                                LocalDate.of(2002, 10, 1),
+                                LocalDate.of(2018, 10, 1)),
+                        new Campeon(b3,
+                                LocalDate.of(2001, 10, 1),
+                                LocalDate.of(2002, 10, 1))
+                )));
+        assertEquals(b2, service.campeonHistorico("DojoCampeonHistorico4"));
+    }
+
+    @Test
+    void campeon_historico_de_dojo_con_tres_campeones_es_el_actual() {
+        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b);
+        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b1);
+        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        testService.crearEntidad(b2);
+        testService.crearEntidad(new Dojo("DojoCampeonHistorico5",
+                new Campeon(b, LocalDate.of(2010, 10, 1), null),
+                Sets.newHashSet(
+                        new Campeon(b1,
+                                LocalDate.of(2009, 10, 1),
+                                LocalDate.of(2010, 10, 1)),
+                        new Campeon(b2,
+                                LocalDate.of(2007, 10, 1),
+                                LocalDate.of(2009, 10, 1))
+                )));
+        assertEquals(b, service.campeonHistorico("DojoCampeonHistorico5"));
     }
 }
