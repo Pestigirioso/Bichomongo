@@ -40,12 +40,12 @@ public class BichoServiceDueloTest {
         SessionFactoryProvider.destroy();
     }
 
-    private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
+    private void newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
+        // TODO pasar creacion de entrenador a un service !!
         Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
                 testService.recuperar(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
         this.testService.crearEntidad(e);
-        return e;
     }
 
     @Test

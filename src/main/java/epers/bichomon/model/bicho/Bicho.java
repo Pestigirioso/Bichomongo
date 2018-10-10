@@ -112,6 +112,7 @@ public class Bicho {
     public void evolucionar() {
         if (!this.puedeEvolucionar()) throw new BichoNoEvolucionableException();
         this.especie = this.especie.getEvolucion();
+        if (this.entrenador != null) this.entrenador.evolucion();
     }
 
     public int getDanio() {

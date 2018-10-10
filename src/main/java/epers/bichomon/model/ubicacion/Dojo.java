@@ -27,7 +27,7 @@ public class Dojo extends Ubicacion {
      * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
      * con las fechas en las que fue coronado campeon y luego depuesto.
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dojo", cascade = CascadeType.ALL)
     private Set<Campeon> campeones = new HashSet<>();
 
     protected Dojo() {
