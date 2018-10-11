@@ -16,4 +16,6 @@ public interface EspecieDAO {
     List<Especie> getPopulares();
 
     List<Especie> getImpopulares();
+
+    Especie lider();
 }

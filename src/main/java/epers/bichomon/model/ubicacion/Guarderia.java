@@ -23,7 +23,6 @@ public class Guarderia extends Ubicacion {
      * anteriormente por algún entrenador distinto a el mismo.
      */
 
-    // TODO agregar atributos a la cardinalidad en todas las clases (mappedBy, cascade, fetch)
     @OneToMany(fetch = FetchType.EAGER)
     private Set<Bicho> bichos = new HashSet<>();
 

@@ -33,6 +33,6 @@ public class ServiceFactory {
     }
 
     public static LeaderboardService getLeaderboardService() {
-        return new LeaderboardServiceImpl(new EntrenadorDAOHib());
+        return new LeaderboardServiceImpl(new EntrenadorDAOHib(), new EspecieDAOHib());
     }
 }

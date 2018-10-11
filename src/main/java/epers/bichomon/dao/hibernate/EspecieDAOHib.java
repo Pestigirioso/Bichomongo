@@ -24,7 +24,7 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
     public Especie recuperar(String nombreEspecie) {
         try {
             return super.recuperarByName(Especie.class, nombreEspecie);
-        } catch (NoResultException e) {
+        } catch(NoResultException e) {
             return null;
         }
     }
@@ -50,6 +50,21 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
         Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
         query.setMaxResults(10);
         return query.getResultList();
+    }
+
+    /**
+     * retorna la especie que tenga mas bichos que haya sido campeones de cualquier dojo.
+     * Cada bicho deberá ser contado una sola vez
+     * (independientemente de si haya sido coronado campeon mas de una vez o en mas de un Dojo)
+     */
+
+    @Override
+    public Especie lider() {
+        String hq1 = "select e " + "from Campeon c inner join c.campeon.especie e " + "group by e " + "order by COUNT(DISTINCT c.campeon) desc";
+
+        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
+        query.setMaxResults(1);
+        return query.getSingleResult();
     }
 
 }
