@@ -28,7 +28,7 @@ public class ServiceFactory {
         return new MapaServiceImpl(new UbicacionDAOHib(), new EntrenadorDAOHib());
     }
 
-    public static BichoService getBichoService() {
+    public static epers.bichomon.service.bicho.BichoService getBichoService() {
         return new BichoServiceImpl(new EntrenadorDAOHib(), new GenericDAOHib());
     }
 

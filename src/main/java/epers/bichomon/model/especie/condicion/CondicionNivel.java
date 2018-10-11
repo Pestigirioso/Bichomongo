@@ -10,7 +10,7 @@ public class CondicionNivel extends Condicion {
 
     protected CondicionNivel() { super(); }
 
-    CondicionNivel(int nivel) {
+    public CondicionNivel(int nivel) {
         this.nivel = nivel;
     }
 
