@@ -118,6 +118,11 @@ public class EspecieDAOMySQL implements EspecieDAO {
         return null;
     }
 
+    @Override
+    public Especie lider() {
+        return null;
+    }
+
     public void borrarTodo() {
         final String sqlDelete = "DELETE FROM especie";
         this.con.executeWithConnection(conn -> {

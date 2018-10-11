@@ -16,12 +16,14 @@ import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class LeaderboardServiceTest {
 
@@ -33,6 +35,8 @@ public class LeaderboardServiceTest {
         TestService testService = ServiceFactory.getTestService();
 
         testService.crearEntidad(new Especie("poke", TipoBicho.TIERRA));
+        testService.crearEntidad(new Especie("especie1", TipoBicho.TIERRA));
+        testService.crearEntidad(new Especie("especie2", TipoBicho.TIERRA));
 
         testService.crearEntidad(Nivel.create());
         testService.crearEntidad(new XPuntos());
@@ -45,8 +49,7 @@ public class LeaderboardServiceTest {
 
     private void newEntrenador(String nombre, Set<Bicho> bichos) {
         // TODO pasar creacion de entrenador a un service !!
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
-                testService.recuperar(XPuntos.class, 1), bichos);
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1), testService.recuperar(XPuntos.class, 1), bichos);
         this.testService.crearEntidad(e);
     }
 
@@ -82,8 +85,7 @@ public class LeaderboardServiceTest {
 
         Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
         newEntrenador("juan", Sets.newHashSet(b2));
-        testService.crearEntidad(new Dojo("dojo3",
-                new Campeon(b2, LocalDate.of(2018, 1, 1), null), new HashSet<>()));
+        testService.crearEntidad(new Dojo("dojo3", new Campeon(b2, LocalDate.of(2018, 1, 1), null), new HashSet<>()));
 
         List<Entrenador> campeones = service.campeones();
         assertEquals(2, campeones.size());
@@ -94,4 +96,47 @@ public class LeaderboardServiceTest {
         testService.borrarByName(Dojo.class, "dojo3");
     }
 
+    /**
+     * retorna la especie que tenga mas bichos que haya sido campeones de cualquier dojo.
+     * Cada bicho deberá ser contado una sola vez
+     * (independientemente de si haya sido coronado campeon mas de una vez o en mas de un Dojo)
+     */
+
+    @Test
+    void sin_campeones_no_hay_especie_lider() {
+        assertThrows(NoResultException.class, () -> service.especieLider());
+    }
+
+    @Test
+    void un_solo_campeon_es_la_especie_lider() {
+        Bicho b = testService.recuperarByName(Especie.class, "especie1").crearBicho();
+        testService.crearEntidad(b);
+        testService.crearEntidad(new Dojo("dojo4", b));
+
+        assertEquals("especie1", service.especieLider().getNombre());
+
+        testService.borrarByName(Dojo.class, "dojo4");
+    }
+
+    @Test
+    void especie_con_dos_campeones_es_la_lider_frente_otra_con_el_mismo_campeon_varias_veces() {
+        Bicho c1 = testService.recuperarByName(Especie.class, "especie1").crearBicho();
+        testService.crearEntidad(c1);
+        testService.crearEntidad(new Dojo("dojo5", c1));
+        Bicho c2 = testService.recuperarByName(Especie.class, "especie1").crearBicho();
+        testService.crearEntidad(c2);
+        testService.crearEntidad(new Dojo("dojo6", c2));
+
+        Bicho b1 = testService.recuperarByName(Especie.class, "especie2").crearBicho();
+        testService.crearEntidad(b1);
+        testService.crearEntidad(new Dojo("dojo7", b1, Sets.newHashSet(new Campeon(b1), new Campeon(b1))));
+        testService.crearEntidad(new Dojo("dojo8", b1, Sets.newHashSet(new Campeon(b1), new Campeon(b1))));
+
+        assertEquals("especie1", service.especieLider().getNombre());
+
+        testService.borrarByName(Dojo.class, "dojo5");
+        testService.borrarByName(Dojo.class, "dojo6");
+        testService.borrarByName(Dojo.class, "dojo7");
+        testService.borrarByName(Dojo.class, "dojo8");
+    }
 }

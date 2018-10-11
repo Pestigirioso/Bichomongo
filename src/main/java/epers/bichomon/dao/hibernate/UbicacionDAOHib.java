@@ -20,11 +20,7 @@ public class UbicacionDAOHib extends GenericDAOHib implements UbicacionDAO {
 
     @Override
     public Bicho campeonHistorico(String dojo) {
-        String hq1 =
-                "select c.campeon " +
-                        "from Dojo d inner join d.campeones c " +
-                        "where d.nombre = :dojo " +
-                        "order by DATEDIFF(IFNULL(c.hasta,NOW()),c.desde) desc";
+        String hq1 = "select c.campeon from Dojo d inner join d.campeones c where d.nombre = :dojo order by DATEDIFF(IFNULL(c.hasta,NOW()),c.desde) desc";
         Query<Bicho> query = Runner.getCurrentSession().createQuery(hq1, Bicho.class);
         query.setParameter("dojo", dojo);
         query.setMaxResults(1);
