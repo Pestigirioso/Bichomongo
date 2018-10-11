@@ -25,11 +25,11 @@ public class Entrenador {
 
     private int xp = 0;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Nivel nivel;
 
     // nivel1 para que se persista toda la cadena de niveles
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.REFRESH)
     private Nivel nivel1;
 
     @ManyToOne

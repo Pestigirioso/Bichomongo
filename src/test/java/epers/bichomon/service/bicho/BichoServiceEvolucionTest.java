@@ -4,6 +4,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.bicho.BichoNoEvolucionableException;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.entrenador.Nivel;
+import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.especie.condicion.*;
@@ -23,11 +24,13 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class BichoServiceEvolucionTest {
 
-    static private BichoService service = ServiceFactory.getBichoService();
-    static private TestService testService = ServiceFactory.getTestService();
+    //TODO testear que efectivamente evolucionan
+    private BichoService service = ServiceFactory.getBichoService();
+    private TestService testService = ServiceFactory.getTestService();
 
     @BeforeAll
     static void prepare() {
+        TestService testService = ServiceFactory.getTestService();
         testService.crearEntidad(new Especie("EspecieFinal", TipoBicho.FUEGO));
 
         testService.crearEntidad(new Especie("EspecieEdad",TipoBicho.FUEGO,
@@ -45,6 +48,9 @@ public class BichoServiceEvolucionTest {
         testService.crearEntidad(new Especie("EspecieVictorias", TipoBicho.FUEGO,
                 testService.recuperarByName(Especie.class, "EspecieFinal"),
                 Sets.newHashSet(new CondicionVictorias(5))));
+
+        testService.crearEntidad(Nivel.create());
+        testService.crearEntidad(new XPuntos());
     }
 
     @AfterAll
@@ -66,6 +72,14 @@ public class BichoServiceEvolucionTest {
         return b;
     }
 
+    private Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
+        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
+                testService.recuperar(XPuntos.class, 1), bichos);
+        this.testService.crearEntidad(e);
+        return e;
+    }
+
+
 
     //-------> Tests sobre condiciones genéricas
     @Test
@@ -82,8 +96,7 @@ public class BichoServiceEvolucionTest {
                 set));
         Bicho b= this.crearBicho("EspecieBase", null);
         service.evolucionar(b.getID());
-        testService.actualizar(b);
-        assertEquals("EspecieFinal", b.getEspecie().getNombre());
+        assertEquals("EspecieFinal", testService.recuperar(Bicho.class,b.getID()).getEspecie().getNombre());
     }
 
     @Test
@@ -96,8 +109,7 @@ public class BichoServiceEvolucionTest {
 
     @Test
     void puede_evolucionar_un_bicho_que_no_cumple_con_la_condicion_de_edad_false() {
-        Entrenador e = new Entrenador("unEntrenador");
-        testService.crearEntidad(e);
+        Entrenador e = newEntrenador("unEntrenador10", Sets.newHashSet());
         Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e,
                 LocalDate.of(2018, 10, 7));
         testService.crearEntidad(b);
@@ -110,9 +122,20 @@ public class BichoServiceEvolucionTest {
         Entrenador e = new Entrenador("unEntrenador1");
         testService.crearEntidad(e);
         Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e,
-                LocalDate.of(2018, 1, 6));
+                LocalDate.of(2018, 10, 5));
         testService.crearEntidad(b);
         assertTrue(service.puedeEvolucionar(b.getID()));
+    }
+
+    @Test
+    void un_bicho_que_cumple_con_la_condicion_de_edad_evoluciona_a_especie_final() {
+        // Nota!!!! Cuando querramos hacer el test, cambiar la fecha de captura, de tal forma que
+        Entrenador e = this.newEntrenador("unEntrenador2", Sets.newHashSet());
+        Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e,
+                LocalDate.of(2018, 10, 5));
+        testService.crearEntidad(b);
+        service.evolucionar(b.getID());
+        assertEquals("EspecieFinal", testService.recuperar(Bicho.class,b.getID()).getEspecie().getNombre());
     }
 
     //-------> Tests sobre la condicion de energia
@@ -135,18 +158,16 @@ public class BichoServiceEvolucionTest {
     //-------> Tests sobre la condicion de nivel
     @Test
     void puede_evolucionar_un_bicho_que_no_cumple_con_la_condicion_de_nivel_false() {
-        Nivel lvl = new Nivel(4, 5, 15);
-        Entrenador e = new Entrenador("unEntrenador2", lvl);
-        testService.crearEntidad(e);
-        Bicho b = this.crearBicho("EspecieNivel", e);
+        Bicho b = testService.recuperarByName(Especie.class, "EspecieNivel").crearBicho();
+        Entrenador e = newEntrenador("unEntrenador9", Sets.newHashSet(b));
         assertFalse(service.puedeEvolucionar(b.getID()));
     }
 
     @Test
     void un_bicho_que_cumple_con_la_condicion_de_nivel_puede_evolucionar() {
-        Nivel lvl = new Nivel(5, 5, 15);
-        Entrenador e = new Entrenador("unEntrenador3", lvl);
-        testService.crearEntidad(e);
+        Entrenador e = newEntrenador("unEntrenador3", Sets.newHashSet());
+        e.incXP(10000);
+        testService.actualizar(e);
         Bicho b = this.crearBicho("EspecieNivel", e);
         assertTrue(service.puedeEvolucionar(b.getID()));
     }
@@ -184,6 +205,13 @@ public class BichoServiceEvolucionTest {
 
     @Test
     void un_bicho_que_cumple_con_todas_las_condiciones_juntas_puede_evolucionar() {
-        fail();
+        testService.crearEntidad(new Especie("EspecieCombinados2", TipoBicho.FUEGO,
+                testService.recuperarByName(Especie.class, "EspecieFinal"),
+                Sets.newHashSet(new CondicionVictorias(5),new CondicionEnergia(10))));
+        Bicho b = this.crearBicho("EspecieCombinados2",null);
+        for (int i = 0; i < 5; i++) b.ganasteDuelo();
+        b.incEnergia(10);
+        testService.actualizar(b);
+        assertTrue(service.puedeEvolucionar(b.getID()));
     }
 }

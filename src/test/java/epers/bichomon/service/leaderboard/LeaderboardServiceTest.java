@@ -95,6 +95,7 @@ public class LeaderboardServiceTest {
 
         testService.borrarByName(Dojo.class, "dojo2");
         testService.borrarByName(Dojo.class, "dojo3");
+
         testService.borrarByName(Entrenador.class, "alberto");
         testService.borrarByName(Entrenador.class, "juan");
     }
