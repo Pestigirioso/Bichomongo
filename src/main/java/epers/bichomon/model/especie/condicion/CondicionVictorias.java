@@ -10,7 +10,7 @@ public class CondicionVictorias extends Condicion {
 
     protected CondicionVictorias() { super(); }
 
-    CondicionVictorias(int victorias) {
+    public CondicionVictorias(int victorias) {
         this.victorias = victorias;
     }
 

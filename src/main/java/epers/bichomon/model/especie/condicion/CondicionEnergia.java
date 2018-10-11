@@ -11,7 +11,7 @@ public class CondicionEnergia extends Condicion {
 
     protected CondicionEnergia() { super(); }
 
-    CondicionEnergia(int energia) {
+    public CondicionEnergia(int energia) {
         this.energia = energia;
     }
 
