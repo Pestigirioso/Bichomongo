@@ -32,7 +32,8 @@ public class BichoServiceDueloTest {
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.crearEntidad(e);
 
-        testService.crearEntidad(new Entrenador("nivel", Nivel.create(), new XPuntos()));
+        testService.crearEntidad(Nivel.create());
+        testService.crearEntidad(new XPuntos());
     }
 
     @AfterAll

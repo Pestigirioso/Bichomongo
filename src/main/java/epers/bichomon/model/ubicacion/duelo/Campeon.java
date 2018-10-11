@@ -1,7 +1,6 @@
 package epers.bichomon.model.ubicacion.duelo;
 
 import epers.bichomon.model.bicho.Bicho;
-import epers.bichomon.model.ubicacion.Dojo;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -15,9 +14,6 @@ public class Campeon {
     @ManyToOne
     private Bicho campeon;
 
-    @ManyToOne
-    private Dojo dojo;
-
     private LocalDate desde;
 
     private LocalDate hasta;
@@ -25,9 +21,8 @@ public class Campeon {
     protected Campeon() {
     }
 
-    public Campeon(Bicho campeon, Dojo dojo) {
+    public Campeon(Bicho campeon) {
         this.campeon = campeon;
-        this.dojo = dojo;
         this.desde = LocalDate.now();
     }
 
@@ -37,8 +32,8 @@ public class Campeon {
         this.hasta = hasta;
     }
 
-    public void setDojo(Dojo dojo) {
-        this.dojo = dojo;
+    public Integer getId() {
+        return this.id;
     }
 
     public Bicho getCampeon() {

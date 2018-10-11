@@ -51,7 +51,8 @@ class BichoServiceTest {
         testService.crearEntidad(new Pueblo("Pueblo"));
         testService.crearEntidad(new Dojo("Dojo"));
 
-        testService.crearEntidad(new Entrenador("nivel", Nivel.create(), new XPuntos()));
+        testService.crearEntidad(Nivel.create());
+        testService.crearEntidad(new XPuntos());
     }
 
     @AfterAll

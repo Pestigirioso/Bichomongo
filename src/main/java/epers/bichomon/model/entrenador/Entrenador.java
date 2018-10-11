@@ -20,7 +20,7 @@ public class Entrenador {
     @ManyToOne
     private Ubicacion ubicacion;
 
-    @OneToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "entrenador", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     private Set<Bicho> bichos = new HashSet<>();
 
     private int xp = 0;

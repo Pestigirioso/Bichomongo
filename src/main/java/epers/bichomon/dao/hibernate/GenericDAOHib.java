@@ -38,17 +38,11 @@ public class GenericDAOHib implements GenericDAO {
 
     @Override
     public <T> void borrar(Class<T> tipo, Serializable key) {
-        String hq1 = String.format("delete %s where id = :id", tipo.getName());
-        Query query = Runner.getCurrentSession().createQuery(hq1);
-        query.setParameter("id", key);
-        query.executeUpdate();
+        Runner.getCurrentSession().delete(this.recuperar(tipo, key));
     }
 
     @Override
     public <T> void borrarByName(Class<T> tipo, String name) {
-        String hq1 = String.format("delete %s where nombre = :nom", tipo.getName());
-        Query query = Runner.getCurrentSession().createQuery(hq1);
-        query.setParameter("nom", name);
-        query.executeUpdate();
+        Runner.getCurrentSession().delete(this.recuperarByName(tipo, name));
     }
 }

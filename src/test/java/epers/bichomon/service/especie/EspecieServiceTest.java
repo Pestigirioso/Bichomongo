@@ -121,11 +121,10 @@ class EspecieServiceTest {
         List<String> especies = Arrays.asList("Rojomon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon");
         Entrenador e = new Entrenador("unEntrenador");
         testService.crearEntidad(e);
-        List<Integer> bichos = crearBichos(especies, e);
+        crearBichos(especies, e);
 
         assertEquals(6, service.populares().size());
 
-        borrarBichos(bichos);
         testService.borrarByName(Entrenador.class, "unEntrenador");
     }
 
@@ -134,11 +133,10 @@ class EspecieServiceTest {
         List<String> especies = Arrays.asList("Rojomon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
         Entrenador e = new Entrenador("unEntrenador");
         testService.crearEntidad(e);
-        List<Integer> bichos = crearBichos(especies, e);
+        crearBichos(especies, e);
 
         assertFalse(service.populares().contains(testService.recuperarByName(Especie.class, "Turquesamon")));
 
-        borrarBichos(bichos);
         testService.borrarByName(Entrenador.class, "unEntrenador");
     }
 
@@ -147,11 +145,10 @@ class EspecieServiceTest {
         List<String> especies = Arrays.asList("Rojomon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
         Entrenador e = new Entrenador("unEntrenador3");
         testService.crearEntidad(e);
-        List<Integer> bichos = crearBichos(especies, e);
+        crearBichos(especies, e);
 
         assertEquals(10, service.populares().size());
 
-        borrarBichos(bichos);
         testService.borrarByName(Entrenador.class, "unEntrenador3");
     }
 
@@ -176,9 +173,9 @@ class EspecieServiceTest {
     void al_recuperar_las_impopulares_no_esta_la_popular() {
         Entrenador e = new Entrenador("unEntrenador");
         testService.crearEntidad(e);
-        List<Integer> bichos = crearBichos(Arrays.asList("Rojomon"), e);
+        crearBichos(Arrays.asList("Rojomon"), e);
         List<String> especiesImpopulares = Arrays.asList("Turquesamon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
-        bichos.addAll(crearBichos(especiesImpopulares, null));
+        List<Integer> bichos = crearBichos(especiesImpopulares, null);
 
         assertFalse(service.impopulares().contains(testService.recuperarByName(Especie.class, "Rojomon")));
 

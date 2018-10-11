@@ -8,8 +8,8 @@ import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,14 +20,14 @@ public class Dojo extends Ubicacion {
      * Los dojos pueden poseer un campeon (un Bicho específico de un Entrenador específico).
      * Un entrenador (que no sea el campeon actual del Dojo) podrá retar a duelo al campeon en esta localización.
      */
-    @ManyToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL)
     private Campeon campeon;
 
     /**
      * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
      * con las fechas en las que fue coronado campeon y luego depuesto.
      */
-    @OneToMany(mappedBy = "dojo", cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Campeon> campeones = new HashSet<>();
 
     protected Dojo() {
@@ -40,21 +40,19 @@ public class Dojo extends Ubicacion {
 
     public Dojo(String nombre, Bicho campeon) {
         this(nombre);
-        this.campeon = new Campeon(campeon, this);
+        this.campeon = new Campeon(campeon);
+        this.campeones.add(this.campeon);
     }
 
     public Dojo(String nombre, Campeon campeon, Set<Campeon> campeones) {
         this(nombre);
         this.campeon = campeon;
-        this.campeon.setDojo(this);
         this.campeones = campeones;
-        this.campeones.forEach(c -> c.setDojo(this));
+        this.campeones.add(this.campeon);
     }
 
     public Dojo(String nombre, Bicho campeon, Set<Campeon> campeones) {
-        this(nombre, campeon);
-        this.campeones = campeones;
-        this.campeones.forEach(c -> c.setDojo(this));
+        this(nombre, new Campeon(campeon), campeones);
     }
 
     @Override
@@ -85,9 +83,9 @@ public class Dojo extends Ubicacion {
         if (campeon != null) {
             if (campeon.getCampeon().equals(ganador)) return;
             campeon.derrotado();
-            campeones.add(campeon);
         }
-        campeon = new Campeon(ganador, this);
+        campeon = new Campeon(ganador);
+        campeones.add(campeon);
     }
 
     public Bicho getCampeon() {

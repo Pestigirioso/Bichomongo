@@ -34,7 +34,8 @@ public class LeaderboardServiceTest {
 
         testService.crearEntidad(new Especie("poke", TipoBicho.TIERRA));
 
-        testService.crearEntidad(new Entrenador("nivel", Nivel.create(), new XPuntos()));
+        testService.crearEntidad(Nivel.create());
+        testService.crearEntidad(new XPuntos());
     }
 
     @AfterAll
@@ -62,7 +63,9 @@ public class LeaderboardServiceTest {
     void con_un_solo_entrenador_es_el_unico_campeon() {
         Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
         newEntrenador("pepe", Sets.newHashSet(b));
-        testService.crearEntidad(new Dojo("dojo1", b));
+
+        Campeon c = new Campeon(b, LocalDate.of(2018, 1, 1), null);
+        testService.crearEntidad(new Dojo("dojo1", c, new HashSet<>()));
 
         List<Entrenador> campeones = service.campeones();
         assertEquals(1, campeones.size());
