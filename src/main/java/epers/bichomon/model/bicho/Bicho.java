@@ -51,12 +51,6 @@ public class Bicho {
         this.fechaCaptura = fechaDeCaptura;
     }
 
-    //-------> Para test condicion energia
-    public Bicho(Especie especie, int energia){
-        this(especie);
-        this.energia=energia;
-    }
-
     //-------> Para test condicion nivel
     public Bicho(Especie especie, Entrenador e) {
         this(especie);
