@@ -12,4 +12,6 @@ public interface EntrenadorDAO {
     Integer cantidadEntrenadores(String ubicacion);
 
     List<Entrenador> campeones();
+
+    List<Entrenador> lideres();
 }

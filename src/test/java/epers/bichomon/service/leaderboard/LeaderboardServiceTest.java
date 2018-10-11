@@ -21,9 +21,9 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.IntStream;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class LeaderboardServiceTest {
 
@@ -75,6 +75,7 @@ public class LeaderboardServiceTest {
         assertEquals("pepe", campeones.get(0).getNombre());
 
         testService.borrarByName(Dojo.class, "dojo1");
+        testService.borrarByName(Entrenador.class, "pepe");
     }
 
     @Test
@@ -94,6 +95,8 @@ public class LeaderboardServiceTest {
 
         testService.borrarByName(Dojo.class, "dojo2");
         testService.borrarByName(Dojo.class, "dojo3");
+        testService.borrarByName(Entrenador.class, "alberto");
+        testService.borrarByName(Entrenador.class, "juan");
     }
 
     /**
@@ -138,5 +141,41 @@ public class LeaderboardServiceTest {
         testService.borrarByName(Dojo.class, "dojo6");
         testService.borrarByName(Dojo.class, "dojo7");
         testService.borrarByName(Dojo.class, "dojo8");
+    }
+
+    /**
+     * retorna los diez primeros entrenadores
+     * para los cuales el valor de poder combinado de todos sus bichos sea superior.
+     */
+    @Test
+    void sin_entrenadores_no_hay_lideres() {
+        assertEquals(0, service.lideres().size());
+    }
+
+    @Test
+    void un_unico_entrenador_es_lider() {
+        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
+        newEntrenador("pepito", Sets.newHashSet(b1));
+
+        List<Entrenador> lideres = service.lideres();
+        assertEquals(1, lideres.size());
+        assertEquals("pepito", lideres.get(0).getNombre());
+
+        testService.borrarByName(Entrenador.class, "pepito");
+    }
+
+    @Test
+    void con_once_entrenadores_no_aparece_el_que_tiene_menos_poder_combinado() {
+        Especie e = testService.recuperarByName(Especie.class, "poke");
+        IntStream.range(1, 10).boxed().forEach(i -> newEntrenador(i.toString(), Sets.newHashSet(e.crearBicho())));
+        testService.crearEntidad(new Especie("debil", TipoBicho.TIERRA, 1));
+        newEntrenador("debil", Sets.newHashSet(testService.recuperarByName(Especie.class, "debil").crearBicho()));
+
+        List<Entrenador> lideres = service.lideres();
+        assertEquals(10, lideres.size());
+        assertFalse(lideres.contains("debil"));
+
+        IntStream.range(1, 10).boxed().forEach(i -> testService.borrarByName(Entrenador.class, i.toString()));
+        testService.borrarByName(Entrenador.class, "debil");
     }
 }

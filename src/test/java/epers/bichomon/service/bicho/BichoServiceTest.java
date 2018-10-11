@@ -61,10 +61,11 @@ class BichoServiceTest {
     }
 
 
-    private void newEntrenador(String nombre) {
+    private Entrenador newEntrenador(String nombre) {
         Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
                 testService.recuperar(XPuntos.class, 1));
         this.testService.crearEntidad(e);
+        return e;
     }
 
     private Entrenador newEntrenador(String nombre, Ubicacion ubicacion) {
@@ -273,13 +274,12 @@ class BichoServiceTest {
 
     @Test
     void entrenador_gana_xp_sube_nivel_de_a_varios() {
-        newEntrenador("ENivel2");
-
-        Entrenador e = testService.recuperarByName(Entrenador.class, "ENivel2");
+        Entrenador e = newEntrenador("ENivel2");
         e.incXP(500);
         testService.actualizar(e);
         assertEquals(3, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());
 
+        e = testService.recuperarByName(Entrenador.class, "ENivel2");
         e.incXP(2000);
         testService.actualizar(e);
         assertEquals(5, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());

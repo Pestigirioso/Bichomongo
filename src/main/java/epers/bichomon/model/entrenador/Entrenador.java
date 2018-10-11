@@ -32,7 +32,7 @@ public class Entrenador {
     @ManyToOne(cascade = CascadeType.ALL)
     private Nivel nivel1;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private XPuntos xpuntos;
 
     protected Entrenador() {

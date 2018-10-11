@@ -32,8 +32,23 @@ public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
      */
     @Override
     public List<Entrenador> campeones() {
-        String hq1 = "select c.campeon.entrenador from Campeon c where c.hasta is null order by c.desde";
+        String hq1 = "select c.campeon.entrenador from Campeon c where c.hasta is null group by c.campeon.entrenador order by min(c.desde)";
         Query<Entrenador> query = Runner.getCurrentSession().createQuery(hq1, Entrenador.class);
+        return query.getResultList();
+    }
+
+    /**
+     * retorna los diez primeros entrenadores
+     * para los cuales el valor de poder combinado de todos sus bichos sea superior.
+     */
+    @Override
+    public List<Entrenador> lideres() {
+        String hq1 = "select e " +
+                "from Entrenador e inner join e.bichos b " +
+                "group by e " +
+                "order by sum(b.energia) desc";
+        Query<Entrenador> query = Runner.getCurrentSession().createQuery(hq1, Entrenador.class);
+        query.setMaxResults(10);
         return query.getResultList();
     }
 }

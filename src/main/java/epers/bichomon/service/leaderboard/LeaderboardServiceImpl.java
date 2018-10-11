@@ -28,13 +28,8 @@ public class LeaderboardServiceImpl implements LeaderboardService {
         return Runner.runInSession(() -> this.especieDAO.lider());
     }
 
-    /**
-     * retorna los diez primeros entrenadores
-     * para los cuales el valor de poder combinado de todos sus bichos sea superior.
-     */
     @Override
     public List<Entrenador> lideres() {
-        // TODO implementar LeaderboardService - List<Entrenador> lideres
-        return null;
+        return Runner.runInSession(() -> this.entrenadorDAO.lideres());
     }
 }
