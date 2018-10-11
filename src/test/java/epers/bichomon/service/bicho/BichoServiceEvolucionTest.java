@@ -127,17 +127,6 @@ public class BichoServiceEvolucionTest {
         assertTrue(service.puedeEvolucionar(b.getID()));
     }
 
-    @Test
-    void un_bicho_que_cumple_con_la_condicion_de_edad_evoluciona_a_especie_final() {
-        // Nota!!!! Cuando querramos hacer el test, cambiar la fecha de captura, de tal forma que
-        Entrenador e = this.newEntrenador("unEntrenador2", Sets.newHashSet());
-        Bicho b = new Bicho(testService.recuperarByName(Especie.class, "EspecieEdad"), e,
-                LocalDate.of(2018, 10, 5));
-        testService.crearEntidad(b);
-        service.evolucionar(b.getID());
-        assertEquals("EspecieFinal", testService.recuperar(Bicho.class,b.getID()).getEspecie().getNombre());
-    }
-
     //-------> Tests sobre la condicion de energia
     @Test
     void puede_evolucionar_un_bicho_que_no_cumple_con_la_condicion_de_energia_false() {
@@ -165,9 +154,10 @@ public class BichoServiceEvolucionTest {
 
     @Test
     void un_bicho_que_cumple_con_la_condicion_de_nivel_puede_evolucionar() {
-        Entrenador e = newEntrenador("unEntrenador3", Sets.newHashSet());
-        e.incXP(10000);
-        testService.actualizar(e);
+        Nivel lvl = new Nivel(5, 1, 1);
+        testService.crearEntidad(lvl);
+        Entrenador e = new Entrenador("Entrenador3", lvl);
+        this.testService.crearEntidad(e);
         Bicho b = this.crearBicho("EspecieNivel", e);
         assertTrue(service.puedeEvolucionar(b.getID()));
     }
