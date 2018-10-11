@@ -27,7 +27,7 @@ public class Dojo extends Ubicacion {
      * Será necesario guardar de alguna forma el historial de campeones para cada Dojo
      * con las fechas en las que fue coronado campeon y luego depuesto.
      */
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "dojo", cascade = CascadeType.ALL)
     private Set<Campeon> campeones = new HashSet<>();
 
     protected Dojo() {
@@ -41,6 +41,14 @@ public class Dojo extends Ubicacion {
     public Dojo(String nombre, Bicho campeon) {
         this(nombre);
         this.campeon = new Campeon(campeon, this);
+    }
+
+    public Dojo(String nombre, Campeon campeon, Set<Campeon> campeones) {
+        this(nombre);
+        this.campeon = campeon;
+        this.campeon.setDojo(this);
+        this.campeones = campeones;
+        this.campeones.forEach(c -> c.setDojo(this));
     }
 
     public Dojo(String nombre, Bicho campeon, Set<Campeon> campeones) {
@@ -59,9 +67,7 @@ public class Dojo extends Ubicacion {
      * Al buscar en este tipo de ubicación un entrador encontrará bichos de la misma especie
      * que la especie "raiz" del actual campeon del Dojo. Por especie "raiz" nos referimos a
      * aquella que sea la primera en su rama de evolución.
-     */
-
-    /**
+     *
      * Ejemplo: El dojo CobraKai tiene un Dragonmon como campeon.
      * Si el entrenador MiyaguiSan buscase bichos en este dojo lo unico
      * que encontraría (si es que encontrase algo) serían bichos de tipo Lagartomon.
