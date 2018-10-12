@@ -3,8 +3,6 @@ package epers.bichomon.service.bicho;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.BichoIncorrectoException;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.entrenador.Nivel;
-import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.*;
@@ -17,7 +15,6 @@ import org.junit.jupiter.api.Test;
 
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,23 +42,6 @@ class BichoServiceTest extends AbstractServiceTest {
         testService.save(new Guarderia("guarderia"));
         testService.save(new Pueblo("Pueblo"));
         testService.save(new Dojo("Dojo"));
-    }
-
-    private Entrenador newEntrenador(String nombre) {
-        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1));
-        testService.save(e);
-        return e;
-    }
-
-    private Entrenador newEntrenador(String nombre, Ubicacion ubicacion) {
-        return newEntrenador(nombre, ubicacion, Sets.newHashSet());
-    }
-
-    private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
-        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
-        e.moverA(ubicacion);
-        testService.save(e);
-        return e;
     }
 
     @Test

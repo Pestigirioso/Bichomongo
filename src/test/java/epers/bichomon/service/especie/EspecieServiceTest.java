@@ -9,10 +9,11 @@ import epers.bichomon.service.ServiceFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -35,22 +36,17 @@ class EspecieServiceTest extends AbstractServiceTest {
         testService.save(new Especie("Turquesamon", TipoBicho.PLANTA, 150, 55, 500, ""));
     }
 
-    private void borrarBichos(List<Integer> bichos) {
+    private void borrarBichos(Set<Integer> bichos) {
         bichos.forEach(b -> testService.delete(Bicho.class, b));
     }
 
-    private List<Integer> crearBichos(List<String> especies, Entrenador entrenador) {
-        List<Integer> res = new ArrayList<>();
-        especies.forEach(especie -> {
-            Especie e = testService.getByName(Especie.class, especie);
-            Bicho b = e.crearBicho();
-            if(entrenador != null) {
-                b.capturadoPor(entrenador);
-            }
+    private Set<Integer> crearBichos(List<String> especies, Entrenador entrenador) {
+        return especies.stream().map(especie -> {
+            Bicho b = testService.getByName(Especie.class, especie).crearBicho();
+            if(entrenador != null) b.capturadoPor(entrenador);
             testService.save(b);
-            res.add(b.getID());
-        });
-        return res;
+            return b.getID();
+        }).collect(Collectors.toSet());
     }
 
     @Test
@@ -150,7 +146,7 @@ class EspecieServiceTest extends AbstractServiceTest {
     @Test
     void con_solo_seis_especies_hay_seis_especies_impopulares() {
         List<String> especies = Arrays.asList("Rojomon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon");
-        List<Integer> bichos = crearBichos(especies, null);
+        Set<Integer> bichos = crearBichos(especies, null);
 
         assertEquals(6, service.impopulares().size());
 
@@ -163,7 +159,7 @@ class EspecieServiceTest extends AbstractServiceTest {
         testService.save(e);
         crearBichos(Collections.singletonList("Rojomon"), e);
         List<String> especiesImpopulares = Arrays.asList("Turquesamon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
-        List<Integer> bichos = crearBichos(especiesImpopulares, null);
+        Set<Integer> bichos = crearBichos(especiesImpopulares, null);
 
         assertFalse(service.impopulares().contains(testService.getByName(Especie.class, "Rojomon")));
 
@@ -174,7 +170,7 @@ class EspecieServiceTest extends AbstractServiceTest {
     @Test
     void se_recuperan_las_impopulares_y_hay_10() {
         List<String> especiesImpopulares = Arrays.asList("Turquesamon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
-        List<Integer> bichos = crearBichos(especiesImpopulares, null);
+        Set<Integer> bichos = crearBichos(especiesImpopulares, null);
 
         assertEquals(10, service.impopulares().size());
 

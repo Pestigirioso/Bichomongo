@@ -1,20 +1,18 @@
 package epers.bichomon.service.bicho;
 
 import epers.bichomon.model.bicho.Bicho;
-import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.entrenador.Nivel;
-import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
-import epers.bichomon.model.ubicacion.*;
+import epers.bichomon.model.ubicacion.Dojo;
+import epers.bichomon.model.ubicacion.Guarderia;
+import epers.bichomon.model.ubicacion.Pueblo;
+import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
-
-import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,15 +22,7 @@ class BichoServiceDueloTest extends AbstractServiceTest {
 
     @BeforeAll
     static void prepare() {
-        Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
-        testService.save(e);
-    }
-
-    private void newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
-        // TODO pasar creacion de entrenador a un service !!
-        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
-        e.moverA(ubicacion);
-        testService.save(e);
+        testService.save(new Especie("Rojomon", TipoBicho.FUEGO, 10));
     }
 
     @Test

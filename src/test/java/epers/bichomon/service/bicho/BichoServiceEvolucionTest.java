@@ -4,7 +4,6 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.bicho.BichoNoEvolucionableException;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.entrenador.Nivel;
-import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.especie.condicion.*;
@@ -15,7 +14,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.HashSet;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,14 +26,14 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
     @BeforeAll
     static void prepare() {
         testService.save(new Especie("EspecieFinal", TipoBicho.FUEGO));
-        crearEspecieEvolucionable("EspecieEdad", testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionEdad(5)));
-        crearEspecieEvolucionable("EspecieEnergia", testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionEnergia(10)));
-        crearEspecieEvolucionable("EspecieNivel", testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionNivel(5)));
-        crearEspecieEvolucionable("EspecieVictorias", testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionVictorias(5)));
+        crearEspecieEvolucionable("EspecieEdad", Sets.newHashSet(new CondicionEdad(5)));
+        crearEspecieEvolucionable("EspecieEnergia", Sets.newHashSet(new CondicionEnergia(10)));
+        crearEspecieEvolucionable("EspecieNivel", Sets.newHashSet(new CondicionNivel(5)));
+        crearEspecieEvolucionable("EspecieVictorias", Sets.newHashSet(new CondicionVictorias(5)));
     }
 
-    private static void crearEspecieEvolucionable(String nombre, Especie evolucion, Set<Condicion> condiciones) {
-        testService.save(new Especie(nombre, TipoBicho.FUEGO, evolucion, condiciones));
+    private static void crearEspecieEvolucionable(String nombre, Set<Condicion> condiciones) {
+        testService.save(new Especie(nombre, TipoBicho.FUEGO, testService.getByName(Especie.class, "EspecieFinal"), condiciones));
     }
 
     private Bicho crearBicho(String especie, Entrenador entrenador) {
@@ -48,13 +46,6 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
         return b;
     }
 
-    private Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
-        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
-        testService.save(e);
-        return e;
-    }
-
-
     //-------> Tests sobre condiciones genéricas
     @Test
     void puede_evolucionar_bicho_de_especie_no_evolucionable_false() {
@@ -64,8 +55,7 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
 
     @Test
     void evolucionar_un_bicho_evolucionable_sin_condicion_especifica_tiene_especie_final() {
-        Set<Condicion> set = new HashSet<>();
-        testService.save(new Especie("EspecieBase", TipoBicho.FUEGO, testService.getByName(Especie.class, "EspecieFinal"), set));
+        crearEspecieEvolucionable("EspecieBase", Sets.newHashSet());
         Bicho b = this.crearBicho("EspecieBase", null);
         service.evolucionar(b.getID());
         assertEquals("EspecieFinal", testService.get(Bicho.class, b.getID()).getEspecie().getNombre());
@@ -153,7 +143,7 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
     //-------> Tests combinados
     @Test
     void un_bicho_que_no_cumple_con_todas_las_condiciones_juntas_no_puede_evolucionar() {
-        testService.save(new Especie("EspecieCombinados", TipoBicho.FUEGO, testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionVictorias(5), new CondicionEnergia(10))));
+        crearEspecieEvolucionable("EspecieCombinados", Sets.newHashSet(new CondicionVictorias(5), new CondicionEnergia(10)));
         Bicho b = this.crearBicho("EspecieCombinados", null);
         for(int i = 0; i < 5; i++) b.ganasteDuelo();
         testService.upd(b);
@@ -162,7 +152,7 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
 
     @Test
     void un_bicho_que_cumple_con_todas_las_condiciones_juntas_puede_evolucionar() {
-        testService.save(new Especie("EspecieCombinados2", TipoBicho.FUEGO, testService.getByName(Especie.class, "EspecieFinal"), Sets.newHashSet(new CondicionVictorias(5), new CondicionEnergia(10))));
+        crearEspecieEvolucionable("EspecieCombinados2", Sets.newHashSet(new CondicionVictorias(5), new CondicionEnergia(10)));
         Bicho b = this.crearBicho("EspecieCombinados2", null);
         for(int i = 0; i < 5; i++) b.ganasteDuelo();
         b.incEnergia(10);

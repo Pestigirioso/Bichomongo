@@ -2,8 +2,6 @@ package epers.bichomon.service.leaderboard;
 
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.entrenador.Nivel;
-import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
@@ -18,7 +16,6 @@ import javax.persistence.NoResultException;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -32,12 +29,6 @@ class LeaderboardServiceTest extends AbstractServiceTest {
         testService.save(new Especie("poke", TipoBicho.TIERRA));
         testService.save(new Especie("especie1", TipoBicho.TIERRA));
         testService.save(new Especie("especie2", TipoBicho.TIERRA));
-    }
-
-    private void newEntrenador(String nombre, Set<Bicho> bichos) {
-        // TODO pasar creacion de entrenador a un service !!
-        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
-        testService.save(e);
     }
 
     /**
