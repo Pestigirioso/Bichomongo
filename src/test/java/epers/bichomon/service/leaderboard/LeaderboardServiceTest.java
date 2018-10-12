@@ -8,11 +8,9 @@ import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.duelo.Campeon;
+import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
-import epers.bichomon.service.runner.SessionFactoryProvider;
-import epers.bichomon.service.test.TestService;
 import jersey.repackaged.com.google.common.collect.Sets;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -25,32 +23,21 @@ import java.util.stream.IntStream;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class LeaderboardServiceTest {
+class LeaderboardServiceTest extends AbstractServiceTest {
 
     private LeaderboardService service = ServiceFactory.getLeaderboardService();
-    private TestService testService = ServiceFactory.getTestService();
 
     @BeforeAll
     static void prepare() {
-        TestService testService = ServiceFactory.getTestService();
-
         testService.save(new Especie("poke", TipoBicho.TIERRA));
         testService.save(new Especie("especie1", TipoBicho.TIERRA));
         testService.save(new Especie("especie2", TipoBicho.TIERRA));
-
-        testService.save(Nivel.create());
-        testService.save(new XPuntos());
-    }
-
-    @AfterAll
-    static void cleanup() {
-        SessionFactoryProvider.destroy();
     }
 
     private void newEntrenador(String nombre, Set<Bicho> bichos) {
         // TODO pasar creacion de entrenador a un service !!
         Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
-        this.testService.save(e);
+        testService.save(e);
     }
 
     /**
@@ -174,7 +161,7 @@ public class LeaderboardServiceTest {
 
         List<Entrenador> lideres = service.lideres();
         assertEquals(10, lideres.size());
-        assertFalse(lideres.contains("debil"));
+        assertFalse(lideres.stream().noneMatch(entrenador -> entrenador.getNombre().equals("debil")));
 
         IntStream.range(1, 10).boxed().forEach(i -> testService.deleteByName(Entrenador.class, i.toString()));
         testService.deleteByName(Entrenador.class, "debil");

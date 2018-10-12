@@ -8,11 +8,9 @@ import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.*;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
+import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
-import epers.bichomon.service.runner.SessionFactoryProvider;
-import epers.bichomon.service.test.TestService;
 import jersey.repackaged.com.google.common.collect.Sets;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -20,32 +18,21 @@ import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class BichoServiceDueloTest {
+class BichoServiceDueloTest extends AbstractServiceTest {
 
     private BichoService service = ServiceFactory.getBichoService();
-    private TestService testService = ServiceFactory.getTestService();
 
     @BeforeAll
     static void prepare() {
-        TestService testService = ServiceFactory.getTestService();
-
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
         testService.save(e);
-
-        testService.save(Nivel.create());
-        testService.save(new XPuntos());
-    }
-
-    @AfterAll
-    static void cleanup() {
-        SessionFactoryProvider.destroy();
     }
 
     private void newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
         // TODO pasar creacion de entrenador a un service !!
         Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
-        this.testService.save(e);
+        testService.save(e);
     }
 
     @Test

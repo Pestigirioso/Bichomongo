@@ -4,27 +4,24 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
+import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
-import epers.bichomon.service.runner.SessionFactoryProvider;
-import epers.bichomon.service.test.TestService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EspecieServiceTest {
+class EspecieServiceTest extends AbstractServiceTest {
 
     private EspecieService service = ServiceFactory.getEspecieService();
-    private TestService testService = ServiceFactory.getTestService();
 
     @BeforeAll
     static void prepare() {
-        TestService testService = ServiceFactory.getTestService();
         testService.save(new Especie("Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/rojomon.jpg"));
         testService.save(new Especie("Amarillomon", TipoBicho.AIRE, 170, 69, 300, "/amarillomon.jpg"));
         testService.save(new Especie("Verdemon", TipoBicho.PLANTA, 150, 55, 500, "/verdemon.jpg"));
@@ -38,17 +35,8 @@ class EspecieServiceTest {
         testService.save(new Especie("Turquesamon", TipoBicho.PLANTA, 150, 55, 500, ""));
     }
 
-    @AfterAll
-    static void cleanup() {
-        SessionFactoryProvider.destroy();
-    }
-
     private void borrarBichos(List<Integer> bichos) {
         bichos.forEach(b -> testService.delete(Bicho.class, b));
-    }
-
-    private void borrarEspecies(List<String> especies) {
-        especies.forEach(especie -> testService.deleteByName(Especie.class, especie));
     }
 
     private List<Integer> crearBichos(List<String> especies, Entrenador entrenador) {
@@ -56,7 +44,7 @@ class EspecieServiceTest {
         especies.forEach(especie -> {
             Especie e = testService.getByName(Especie.class, especie);
             Bicho b = e.crearBicho();
-            if (entrenador != null) {
+            if(entrenador != null) {
                 b.capturadoPor(entrenador);
             }
             testService.save(b);
@@ -173,7 +161,7 @@ class EspecieServiceTest {
     void al_recuperar_las_impopulares_no_esta_la_popular() {
         Entrenador e = new Entrenador("unEntrenador");
         testService.save(e);
-        crearBichos(Arrays.asList("Rojomon"), e);
+        crearBichos(Collections.singletonList("Rojomon"), e);
         List<String> especiesImpopulares = Arrays.asList("Turquesamon", "Amarillomon", "Verdemon", "Violetamon", "Azulmon", "Lilamon", "Celestemon", "Marronmon", "Naranjamon", "Ocremon");
         List<Integer> bichos = crearBichos(especiesImpopulares, null);
 
