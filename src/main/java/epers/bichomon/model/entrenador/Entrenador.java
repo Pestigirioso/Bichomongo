@@ -83,7 +83,7 @@ public class Entrenador {
         this.nivel = nivel;
     }
 
-    public Integer getXP() {
+    public int getXP() {
         return this.xp;
     }
 

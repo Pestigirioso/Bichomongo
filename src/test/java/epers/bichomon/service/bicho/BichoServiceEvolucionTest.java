@@ -20,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BichoServiceEvolucionTest extends AbstractServiceTest {
 
-    //TODO testear que efectivamente evolucionan
     private BichoService service = ServiceFactory.getBichoService();
 
     @BeforeAll
@@ -30,6 +29,7 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
         crearEspecieEvolucionable("EspecieEnergia", Sets.newHashSet(new CondicionEnergia(10)));
         crearEspecieEvolucionable("EspecieNivel", Sets.newHashSet(new CondicionNivel(5)));
         crearEspecieEvolucionable("EspecieVictorias", Sets.newHashSet(new CondicionVictorias(5)));
+        crearEspecieEvolucionable("EspecieBase", Sets.newHashSet());
     }
 
     private static void crearEspecieEvolucionable(String nombre, Set<Condicion> condiciones) {
@@ -55,7 +55,6 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
 
     @Test
     void evolucionar_un_bicho_evolucionable_sin_condicion_especifica_tiene_especie_final() {
-        crearEspecieEvolucionable("EspecieBase", Sets.newHashSet());
         Bicho b = this.crearBicho("EspecieBase", null);
         service.evolucionar(b.getID());
         assertEquals("EspecieFinal", testService.get(Bicho.class, b.getID()).getEspecie().getNombre());
@@ -158,5 +157,13 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
         b.incEnergia(10);
         testService.upd(b);
         assertTrue(service.puedeEvolucionar(b.getID()));
+    }
+
+    @Test
+    void al_evolucionar_un_bicho_el_entrenador_gana_exp(){
+        Bicho b = new Bicho(testService.getByName(Especie.class, "EspecieBase"));
+        newEntrenador("Entrenador", Sets.newHashSet(b));
+        service.evolucionar(b.getID());
+        assertEquals(5,testService.getByName(Entrenador.class, "Entrenador").getXP());
     }
 }

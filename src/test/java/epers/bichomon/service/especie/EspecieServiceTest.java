@@ -136,8 +136,6 @@ class EspecieServiceTest extends AbstractServiceTest {
         testService.deleteByName(Entrenador.class, "unEntrenador3");
     }
 
-    // TODO Pulirlas
-
     @Test
     void sin_bichos_creados_no_hay_especies_impopulares() {
         assertEquals(0, service.impopulares().size());
