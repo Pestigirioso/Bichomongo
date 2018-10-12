@@ -11,19 +11,19 @@ import java.util.List;
 public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
 
     @Override
-    public void guardar(Especie especie) {
-        super.guardar(especie);
+    public void save(Especie especie) {
+        super.save(especie);
     }
 
     @Override
-    public void actualizar(Especie especie) {
-        super.actualizar(especie);
+    public void upd(Especie especie) {
+        super.upd(especie);
     }
 
     @Override
-    public Especie recuperar(String nombreEspecie) {
+    public Especie get(String nombreEspecie) {
         try {
-            return super.recuperarByName(Especie.class, nombreEspecie);
+            return super.getByName(Especie.class, nombreEspecie);
         } catch(NoResultException e) {
             return null;
         }

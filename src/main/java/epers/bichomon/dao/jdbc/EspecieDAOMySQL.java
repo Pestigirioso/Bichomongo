@@ -38,7 +38,7 @@ public class EspecieDAOMySQL implements EspecieDAO {
     }
 
     @Override
-    public void guardar(Especie especie) {
+    public void save(Especie especie) {
         final String sqlInsert = "INSERT INTO especie (altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial, nombre) VALUES (?,?,?,?,?,?,?)";
         executeWithEspecie(especie, sqlInsert, "No se inserto la especie ");
 
@@ -59,13 +59,13 @@ public class EspecieDAOMySQL implements EspecieDAO {
     }
 
     @Override
-    public void actualizar(Especie especie) {
+    public void upd(Especie especie) {
         final String sqlUpdate = "UPDATE especie SET altura=?, peso=?, tipo=?, urlFoto=?, cantidadBichos=?, energiaInicial=? WHERE nombre=?";
         executeWithEspecie(especie, sqlUpdate, "No se actualizo la especie ");
     }
 
     @Override
-    public Especie recuperar(String nombreEspecie) {
+    public Especie get(String nombreEspecie) {
         final String sqlSelect = "SELECT id, nombre, altura, peso, tipo, urlFoto, cantidadBichos, energiaInicial FROM especie WHERE nombre = ?";
         return this.con.executeWithConnection(conn -> {
             PreparedStatement ps = conn.prepareStatement(sqlSelect);

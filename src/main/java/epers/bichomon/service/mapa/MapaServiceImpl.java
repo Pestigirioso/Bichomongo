@@ -23,10 +23,10 @@ public class MapaServiceImpl implements MapaService {
     @Override
     public void mover(String nombreEntrenador, String nuevaUbicacion) {
         Runner.runInSession(() -> {
-            Entrenador entrenador = entrenadorDAO.recuperar(nombreEntrenador);
-            Ubicacion ubicacion = ubicacionDAO.recuperar(nuevaUbicacion);
+            Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
+            Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
             entrenador.moverA(ubicacion);
-            entrenadorDAO.actualizar(entrenador);
+            entrenadorDAO.upd(entrenador);
             return null;
         });
     }
@@ -44,7 +44,7 @@ public class MapaServiceImpl implements MapaService {
      */
     @Override
     public Bicho campeon(String dojo) {
-        return Runner.runInSession(() -> ubicacionDAO.recuperarDojo(dojo).getCampeon());
+        return Runner.runInSession(() -> ubicacionDAO.getDojo(dojo).getCampeon());
     }
 
     /**

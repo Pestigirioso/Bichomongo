@@ -9,13 +9,13 @@ import java.util.List;
 
 public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
     @Override
-    public void actualizar(Entrenador entrenador) {
-        super.actualizar(entrenador);
+    public void upd(Entrenador entrenador) {
+        super.upd(entrenador);
     }
 
     @Override
-    public Entrenador recuperar(String nombreEntrenador) {
-        return super.recuperarByName(Entrenador.class, nombreEntrenador);
+    public Entrenador get(String nombreEntrenador) {
+        return super.getByName(Entrenador.class, nombreEntrenador);
     }
 
     @Override
