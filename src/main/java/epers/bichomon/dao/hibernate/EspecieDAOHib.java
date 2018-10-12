@@ -59,7 +59,7 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
      */
     @Override
     public Especie lider() {
-        String hq1 = "select e from Campeon c inner join c.campeon.especie e group by e order by COUNT(DISTINCT c.campeon) desc";
+        String hq1 = "select c.campeon.especie from Campeon c group by c.campeon.especie order by COUNT(DISTINCT c.campeon) desc";
         Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
         query.setMaxResults(1);
         return query.getSingleResult();

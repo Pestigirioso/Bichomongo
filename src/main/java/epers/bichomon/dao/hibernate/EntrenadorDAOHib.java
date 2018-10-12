@@ -43,7 +43,7 @@ public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
      */
     @Override
     public List<Entrenador> lideres() {
-        String hq1 = "select e from Entrenador e inner join e.bichos b group by e order by sum(b.energia) desc";
+        String hq1 = "select b.entrenador from Bicho b where b.entrenador is not null group by b.entrenador order by sum(b.energia) desc";
         Query<Entrenador> query = Runner.getCurrentSession().createQuery(hq1, Entrenador.class);
         query.setMaxResults(10);
         return query.getResultList();
