@@ -85,10 +85,6 @@ public class Especie {
         return this.evolucion;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
     /**
      * @return la altura de todos los bichos de esta especie
      */
@@ -156,10 +152,6 @@ public class Especie {
 
     public void setCantidadBichos(int i) {
         this.cantidadBichos = i;
-    }
-
-    public Integer getId() {
-        return id;
     }
 
     public void setId(Integer id) {

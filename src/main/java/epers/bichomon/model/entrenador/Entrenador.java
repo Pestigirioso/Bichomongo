@@ -3,6 +3,7 @@ package epers.bichomon.model.entrenador;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
+import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -25,11 +26,13 @@ public class Entrenador {
 
     private int xp = 0;
 
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Nivel nivel;
 
     // nivel1 para que se persista toda la cadena de niveles
-    @ManyToOne(cascade = CascadeType.REFRESH)
+    @ManyToOne
+    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Nivel nivel1;
 
     @ManyToOne

@@ -32,10 +32,6 @@ public class Campeon {
         this.hasta = hasta;
     }
 
-    public Integer getId() {
-        return this.id;
-    }
-
     public Bicho getCampeon() {
         return campeon;
     }

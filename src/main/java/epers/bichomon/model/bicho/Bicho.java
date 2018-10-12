@@ -51,12 +51,6 @@ public class Bicho {
         this.fechaCaptura = fechaDeCaptura;
     }
 
-    //-------> Para test condicion nivel
-    public Bicho(Especie especie, Entrenador e) {
-        this(especie);
-        entrenador = e;
-    }
-
     public void capturadoPor(Entrenador entrenador) {
         this.entrenador = entrenador;
         this.fechaCaptura = LocalDate.now();

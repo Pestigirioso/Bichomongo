@@ -9,6 +9,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import javax.persistence.Transient;
+import java.util.Iterator;
 import java.util.List;
 
 @Entity
@@ -55,12 +56,13 @@ public class Pueblo extends Ubicacion {
     private Especie getEspecie() {
         int nro = random.getInt(1, probabilidades.stream().mapToInt(p -> p.probabilidad).sum());
         int accum = 0;
-        for (Probabilidad p : probabilidades) {
+        Probabilidad p = null;
+        Iterator<Probabilidad> it = probabilidades.iterator();
+        while (it.hasNext() && accum <= nro) {
+            p = it.next();
             accum += p.probabilidad;
-            if (accum > nro)
-                return p.especie;
         }
-        return null;
+        return p == null ? null : p.especie;
     }
 
     @Override
