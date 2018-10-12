@@ -6,6 +6,7 @@ import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import org.hibernate.annotations.Cascade;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -38,11 +39,14 @@ public class Entrenador {
     @ManyToOne
     private XPuntos xpuntos;
 
+    private LocalDate ultimaCaptura;
+
     protected Entrenador() {
     }
 
     public Entrenador(String nombre) {
         this.nombre = nombre;
+        this.ultimaCaptura = LocalDate.now();
     }
 
     public Entrenador(String nombre, Nivel nivel, XPuntos xpuntos) {
@@ -87,6 +91,10 @@ public class Entrenador {
         return this.xp;
     }
 
+    public LocalDate getUltimaCaptura() {
+        return this.ultimaCaptura;
+    }
+
     public void incXP(int puntos) {
         this.xp += puntos;
         this.nivel.subeNivel(this);
@@ -103,6 +111,7 @@ public class Entrenador {
         bichos.add(b);
         b.capturadoPor(this);
         incXP(xpuntos.getCapturar());
+        ultimaCaptura = LocalDate.now();
         return b;
     }
 

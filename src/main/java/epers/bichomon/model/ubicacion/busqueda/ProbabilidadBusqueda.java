@@ -3,8 +3,6 @@ package epers.bichomon.model.ubicacion.busqueda;
 import epers.bichomon.model.entrenador.Entrenador;
 
 public interface ProbabilidadBusqueda {
-    // TODO implementar calculo real
-
     /**
      * La probabilidad que una busqueda de bichos en un cualquier localización
      * resulte exitosa se resolverá de la siguiente forma.

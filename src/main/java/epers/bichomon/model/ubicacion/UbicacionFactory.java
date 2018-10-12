@@ -9,6 +9,7 @@ import epers.bichomon.model.ubicacion.duelo.DueloRandomMock;
 public class UbicacionFactory {
 
     public static ProbabilidadBusqueda getBusqueda() {
+//        return new ProbabilidadBusquedaImpl();
         return new ProbabilidadBusquedaMock();
     }
 

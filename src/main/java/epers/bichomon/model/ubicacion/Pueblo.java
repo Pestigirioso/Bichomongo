@@ -72,4 +72,8 @@ public class Pueblo extends Ubicacion {
         return especie.crearBicho();
     }
 
+    @Override
+    public int getPoblacion() {
+        return this.entrenadores.size();
+    }
 }

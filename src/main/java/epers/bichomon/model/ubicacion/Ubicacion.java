@@ -7,6 +7,7 @@ import epers.bichomon.model.ubicacion.busqueda.ProbabilidadBusqueda;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 
 import javax.persistence.*;
+import java.util.Set;
 
 @Entity
 public abstract class Ubicacion {
@@ -16,6 +17,9 @@ public abstract class Ubicacion {
 
     @Column(unique = true)
     private String nombre;
+
+    @OneToMany(mappedBy = "ubicacion")
+    protected Set<Entrenador> entrenadores;
 
     @Transient
     private ProbabilidadBusqueda busqueda = UbicacionFactory.getBusqueda();
@@ -46,4 +50,10 @@ public abstract class Ubicacion {
     public String getNombre() {
         return nombre;
     }
+
+    public int getPoblacion() {
+        return -1;
+    }
+
+    ;
 }

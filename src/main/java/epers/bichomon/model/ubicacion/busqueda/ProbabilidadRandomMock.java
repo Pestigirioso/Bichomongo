@@ -10,6 +10,6 @@ public class ProbabilidadRandomMock implements IRandom {
 
     @Override
     public double getDouble(double min, double max) {
-        return 50;
+        return 1;
     }
 }
