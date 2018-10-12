@@ -5,9 +5,9 @@ import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 public interface UbicacionDAO {
-    Ubicacion recuperar(String ubicacion);
+    Ubicacion get(String ubicacion);
 
-    Dojo recuperarDojo(String dojo);
+    Dojo getDojo(String dojo);
 
     Bicho campeonHistorico(String dojo);
 }

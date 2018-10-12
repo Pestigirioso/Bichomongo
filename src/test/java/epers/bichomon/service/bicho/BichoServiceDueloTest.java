@@ -30,10 +30,10 @@ public class BichoServiceDueloTest {
         TestService testService = ServiceFactory.getTestService();
 
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
-        testService.crearEntidad(e);
+        testService.save(e);
 
-        testService.crearEntidad(Nivel.create());
-        testService.crearEntidad(new XPuntos());
+        testService.save(Nivel.create());
+        testService.save(new XPuntos());
     }
 
     @AfterAll
@@ -43,18 +43,17 @@ public class BichoServiceDueloTest {
 
     private void newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
         // TODO pasar creacion de entrenador a un service !!
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
-                testService.recuperar(XPuntos.class, 1), bichos);
+        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
-        this.testService.crearEntidad(e);
+        this.testService.save(e);
     }
 
     @Test
     void duelo_esta_en_guarderia_raise_exception() {
         Guarderia g = new Guarderia("guarderia");
-        testService.crearEntidad(g);
+        testService.save(g);
 
-        Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("misty", g, Sets.newHashSet(b));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("misty", b.getID()));
@@ -63,9 +62,9 @@ public class BichoServiceDueloTest {
     @Test
     void duelo_esta_en_pueblo_raise_exception() {
         Pueblo p = new Pueblo("pueblo");
-        testService.crearEntidad(p);
+        testService.save(p);
 
-        Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("ash", p, Sets.newHashSet(b));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("ash", b.getID()));
@@ -74,27 +73,27 @@ public class BichoServiceDueloTest {
     @Test
     void duelo_en_dojo_sin_campeon_es_nuevo_campeon() {
         Dojo d = new Dojo("dojo");
-        testService.crearEntidad(d);
+        testService.save(d);
 
-        Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("brock", d, Sets.newHashSet(b));
 
         ResultadoCombate r = service.duelo("brock", b.getID());
         assertEquals(b, r.getGanador());
         assertNull(r.getPerdedor());
         assertEquals(0, r.getAtaques().size());
-        assertEquals(b, testService.recuperarByName(Dojo.class, "dojo").getCampeon());
+        assertEquals(b, testService.getByName(Dojo.class, "dojo").getCampeon());
     }
 
     @Test
     void duelo_en_dojo_con_campeon_gana() {
-        Bicho campeon = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
-        testService.crearEntidad(campeon);
+        Bicho campeon = testService.getByName(Especie.class, "Rojomon").crearBicho();
+        testService.save(campeon);
 
         Dojo d = new Dojo("dojo2", campeon);
-        testService.crearEntidad(d);
+        testService.save(d);
 
-        Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         b.incEnergia(100);
         newEntrenador("julio", d, Sets.newHashSet(b));
 
@@ -106,19 +105,19 @@ public class BichoServiceDueloTest {
         assertEquals(110, r.getAtaques().get(0).getPuntos());
         assertEquals(1, r.getGanador().getVictorias());
         assertEquals(111, r.getGanador().getEnergia());
-        assertEquals(b, testService.recuperarByName(Dojo.class, "dojo2").getCampeon());
+        assertEquals(b, testService.getByName(Dojo.class, "dojo2").getCampeon());
     }
 
     @Test
     void duelo_en_dojo_con_campeon_pierde() {
-        Bicho campeon = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho campeon = testService.getByName(Especie.class, "Rojomon").crearBicho();
         campeon.incEnergia(100);
-        testService.crearEntidad(campeon);
+        testService.save(campeon);
 
         Dojo d = new Dojo("dojo3", campeon);
-        testService.crearEntidad(d);
+        testService.save(d);
 
-        Bicho b = testService.recuperarByName(Especie.class, "Rojomon").crearBicho();
+        Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("agosto", d, Sets.newHashSet(b));
 
         ResultadoCombate r = service.duelo("agosto", b.getID());
@@ -135,6 +134,6 @@ public class BichoServiceDueloTest {
 
         assertEquals(1, r.getGanador().getVictorias());
         assertEquals(111, r.getGanador().getEnergia());
-        assertEquals(campeon, testService.recuperarByName(Dojo.class, "dojo3").getCampeon());
+        assertEquals(campeon, testService.getByName(Dojo.class, "dojo3").getCampeon());
     }
 }

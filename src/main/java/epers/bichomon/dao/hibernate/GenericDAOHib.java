@@ -8,22 +8,22 @@ import java.io.Serializable;
 
 public class GenericDAOHib implements GenericDAO {
     @Override
-    public void guardar(Object object) {
+    public void save(Object object) {
         Runner.getCurrentSession().save(object);
     }
 
     @Override
-    public void actualizar(Object object) {
+    public void upd(Object object) {
         Runner.getCurrentSession().update(object);
     }
 
     @Override
-    public <T> T recuperar(Class<T> tipo, Serializable key) {
+    public <T> T get(Class<T> tipo, Serializable key) {
         return Runner.getCurrentSession().get(tipo, key);
     }
 
     @Override
-    public <T> T recuperarBy(Class<T> tipo, String param, Serializable value) {
+    public <T> T getBy(Class<T> tipo, String param, Serializable value) {
         String hq1 = String.format("from %s i where i.%s = :val", tipo.getName(), param);
         Query<T> query = Runner.getCurrentSession().createQuery(hq1, tipo);
         query.setParameter("val", value);
@@ -32,17 +32,17 @@ public class GenericDAOHib implements GenericDAO {
     }
 
     @Override
-    public <T> T recuperarByName(Class<T> tipo, String name) {
-        return this.recuperarBy(tipo, "nombre", name);
+    public <T> T getByName(Class<T> tipo, String name) {
+        return this.getBy(tipo, "nombre", name);
     }
 
     @Override
-    public <T> void borrar(Class<T> tipo, Serializable key) {
-        Runner.getCurrentSession().delete(this.recuperar(tipo, key));
+    public <T> void delete(Class<T> tipo, Serializable key) {
+        Runner.getCurrentSession().delete(this.get(tipo, key));
     }
 
     @Override
-    public <T> void borrarByName(Class<T> tipo, String name) {
-        Runner.getCurrentSession().delete(this.recuperarByName(tipo, name));
+    public <T> void deleteByName(Class<T> tipo, String name) {
+        Runner.getCurrentSession().delete(this.getByName(tipo, name));
     }
 }

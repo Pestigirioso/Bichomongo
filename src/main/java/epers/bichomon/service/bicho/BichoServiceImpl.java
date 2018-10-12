@@ -20,9 +20,9 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public Bicho buscar(String entrenador) {
         return Runner.runInSession(() -> {
-            Entrenador e = entrenadorDAO.recuperar(entrenador);
+            Entrenador e = entrenadorDAO.get(entrenador);
             Bicho b = e.buscar();
-            entrenadorDAO.actualizar(e);
+            entrenadorDAO.upd(e);
             return b;
         });
     }
@@ -30,10 +30,10 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public void abandonar(String entrenador, int bicho) {
         Runner.runInSession(() -> {
-            Entrenador e = this.entrenadorDAO.recuperar(entrenador);
-            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
+            Entrenador e = this.entrenadorDAO.get(entrenador);
+            Bicho b = this.genericDAO.get(Bicho.class, bicho);
             e.abandonar(b);
-            entrenadorDAO.actualizar(e);
+            entrenadorDAO.upd(e);
             return null;
         });
     }
@@ -41,25 +41,25 @@ public class BichoServiceImpl implements BichoService {
     @Override
     public ResultadoCombate duelo(String entrenador, int bicho) {
         return Runner.runInSession(() -> {
-            Entrenador e = this.entrenadorDAO.recuperar(entrenador);
-            Bicho b = this.genericDAO.recuperar(Bicho.class, bicho);
+            Entrenador e = this.entrenadorDAO.get(entrenador);
+            Bicho b = this.genericDAO.get(Bicho.class, bicho);
             ResultadoCombate resultado = e.duelo(b);
-            entrenadorDAO.actualizar(e);
+            entrenadorDAO.upd(e);
             return resultado;
         });
     }
 
     @Override
     public boolean puedeEvolucionar(int bicho) {
-        return Runner.runInSession(() -> this.genericDAO.recuperar(Bicho.class, bicho).puedeEvolucionar());
+        return Runner.runInSession(() -> this.genericDAO.get(Bicho.class, bicho).puedeEvolucionar());
     }
 
     @Override
     public Bicho evolucionar(int bicho) {
         return Runner.runInSession(() -> {
-            Bicho b = genericDAO.recuperar(Bicho.class, bicho);
+            Bicho b = genericDAO.get(Bicho.class, bicho);
             b.evolucionar();
-            genericDAO.actualizar(b);
+            genericDAO.upd(b);
             return b;
         });
     }

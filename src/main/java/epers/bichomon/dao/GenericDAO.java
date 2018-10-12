@@ -3,17 +3,18 @@ package epers.bichomon.dao;
 import java.io.Serializable;
 
 public interface GenericDAO {
-    void guardar(Object object);
 
-    void actualizar(Object object);
+    void save(Object object);
 
-    <T> T recuperar(Class<T> tipo, Serializable key);
+    void upd(Object object);
 
-    <T> T recuperarBy(Class<T> tipo, String param, Serializable value);
+    <T> T get(Class<T> tipo, Serializable key);
 
-    <T> T recuperarByName(Class<T> tipo, String name);
+    <T> T getBy(Class<T> tipo, String param, Serializable value);
 
-    <T> void borrar(Class<T> tipo, Serializable key);
+    <T> T getByName(Class<T> tipo, String name);
 
-    <T> void borrarByName(Class<T> tipo, String name);
+    <T> void delete(Class<T> tipo, Serializable key);
+
+    <T> void deleteByName(Class<T> tipo, String name);
 }

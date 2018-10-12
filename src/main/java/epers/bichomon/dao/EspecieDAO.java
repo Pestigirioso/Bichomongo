@@ -5,11 +5,11 @@ import epers.bichomon.model.especie.Especie;
 import java.util.List;
 
 public interface EspecieDAO {
-    void guardar(Especie especie);
+    void save(Especie especie);
 
-    void actualizar(Especie especie);
+    void upd(Especie especie);
 
-    Especie recuperar(String nombreEspecie);
+    Especie get(String nombreEspecie);
 
     List<Especie> recuperarTodos();
 

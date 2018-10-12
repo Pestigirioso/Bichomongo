@@ -34,25 +34,25 @@ class BichoServiceTest {
         TestService testService = ServiceFactory.getTestService();
 
         Especie e = new Especie("Rojomon", TipoBicho.FUEGO, 10);
-        testService.crearEntidad(e);
+        testService.save(e);
         Especie lagarto = new Especie("Lagartomon", TipoBicho.FUEGO, 10);
-        testService.crearEntidad(lagarto);
-        testService.crearEntidad(new Especie("Reptilomon", TipoBicho.FUEGO, lagarto, 10));
-        testService.crearEntidad(new Especie("Dragonmon", TipoBicho.FUEGO, lagarto, 10));
+        testService.save(lagarto);
+        testService.save(new Especie("Reptilomon", TipoBicho.FUEGO, lagarto, 10));
+        testService.save(new Especie("Dragonmon", TipoBicho.FUEGO, lagarto, 10));
 
         Bicho b = new Bicho(e);
-        testService.crearEntidad(b);
+        testService.save(b);
 
         Guarderia g = new Guarderia("guardaBicho");
         g.abandonar(b);
-        testService.crearEntidad(g);
+        testService.save(g);
 
-        testService.crearEntidad(new Guarderia("guarderia"));
-        testService.crearEntidad(new Pueblo("Pueblo"));
-        testService.crearEntidad(new Dojo("Dojo"));
+        testService.save(new Guarderia("guarderia"));
+        testService.save(new Pueblo("Pueblo"));
+        testService.save(new Dojo("Dojo"));
 
-        testService.crearEntidad(Nivel.create());
-        testService.crearEntidad(new XPuntos());
+        testService.save(Nivel.create());
+        testService.save(new XPuntos());
     }
 
     @AfterAll
@@ -62,9 +62,8 @@ class BichoServiceTest {
 
 
     private Entrenador newEntrenador(String nombre) {
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
-                testService.recuperar(XPuntos.class, 1));
-        this.testService.crearEntidad(e);
+        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1));
+        this.testService.save(e);
         return e;
     }
 
@@ -73,93 +72,92 @@ class BichoServiceTest {
     }
 
     private Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
-        Entrenador e = new Entrenador(nombre, testService.recuperarBy(Nivel.class, "nro", 1),
-                testService.recuperar(XPuntos.class, 1), bichos);
+        Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
         e.moverA(ubicacion);
-        this.testService.crearEntidad(e);
+        this.testService.save(e);
         return e;
     }
 
     @Test
     void entrenador_busca_y_la_probabilidad_da_falso_lanza_exception() {
-        newEntrenador("ash", this.testService.recuperarByName(Guarderia.class, "guarderia"));
+        newEntrenador("ash", this.testService.getByName(Guarderia.class, "guarderia"));
 
         assertThrows(BusquedaFracasoException.class, () -> this.service.buscar("ash"));
     }
 
     @Test
     void entrenador_busca_y_la_probabilidad_da_verdadero_obtiene_bicho_abandonado_en_guarderia() {
-        newEntrenador("misty", this.testService.recuperarByName(Guarderia.class, "guardaBicho"));
+        newEntrenador("misty", this.testService.getByName(Guarderia.class, "guardaBicho"));
 
         Bicho b = this.service.buscar("misty");
         assertEquals(1, b.getID());
-        assertTrue(this.testService.recuperarByName(Entrenador.class, "misty").contains(b));
+        assertTrue(this.testService.getByName(Entrenador.class, "misty").contains(b));
     }
 
     @Test
     void entrenador_abandona_en_pueblo_y_se_lanza_exception() {
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
         Bicho b1 = e.crearBicho();
         Bicho b2 = e.crearBicho();
-        newEntrenador("pepe", this.testService.recuperarByName(Pueblo.class, "Pueblo"), Sets.newHashSet(b1, b2));
+        newEntrenador("pepe", this.testService.getByName(Pueblo.class, "Pueblo"), Sets.newHashSet(b1, b2));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.abandonar("pepe", b1.getID()));
     }
 
     @Test
     void entrenador_abandona_en_dojo_y_se_lanza_exception() {
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
         Bicho b1 = e.crearBicho();
         Bicho b2 = e.crearBicho();
-        newEntrenador("brock", this.testService.recuperarByName(Dojo.class, "Dojo"), Sets.newHashSet(b1, b2));
+        newEntrenador("brock", this.testService.getByName(Dojo.class, "Dojo"), Sets.newHashSet(b1, b2));
 
         assertThrows(UbicacionIncorrrectaException.class, () -> this.service.abandonar("brock", b1.getID()));
     }
 
     @Test
     void entrenador_abandona_bicho_que_no_tiene_y_se_lanza_exception() {
-        newEntrenador("alberto", this.testService.recuperarByName(Dojo.class, "Dojo"));
+        newEntrenador("alberto", this.testService.getByName(Dojo.class, "Dojo"));
 
         assertThrows(BichoIncorrectoException.class, () -> this.service.abandonar("alberto", 1));
     }
 
     @Test
     void entrenador_busca_pero_no_tiene_espacio() {
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
-        newEntrenador("pedro", this.testService.recuperarByName(Dojo.class, "Dojo"), Sets.newHashSet(e.crearBicho()));
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
+        newEntrenador("pedro", this.testService.getByName(Dojo.class, "Dojo"), Sets.newHashSet(e.crearBicho()));
 
         assertNull(this.service.buscar("pedro"));
     }
 
     @Test
     void entrenador_abandona_pero_es_su_ultimo_bicho_lanza_exception() {
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
         Bicho b = e.crearBicho();
-        newEntrenador("marce", this.testService.recuperarByName(Guarderia.class, "guarderia"), Sets.newHashSet(b));
+        newEntrenador("marce", this.testService.getByName(Guarderia.class, "guarderia"), Sets.newHashSet(b));
 
         assertThrows(BichoIncorrectoException.class, () -> this.service.abandonar("marce", b.getID()));
     }
 
     @Test
     void entrenador_abandona_y_su_bicho_queda_en_guarderia() {
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
         Bicho b1 = e.crearBicho();
         Bicho b2 = e.crearBicho();
 
-        newEntrenador("lucas", this.testService.recuperarByName(Guarderia.class, "guarderia"), Sets.newHashSet(b1, b2));
+        newEntrenador("lucas", this.testService.getByName(Guarderia.class, "guarderia"), Sets.newHashSet(b1, b2));
 
         this.service.abandonar("lucas", b1.getID());
-        Bicho abandonado = this.testService.recuperar(Bicho.class, b1.getID());
-        assertFalse(this.testService.recuperarByName(Entrenador.class, "lucas").contains(abandonado));
-        assertTrue(this.testService.recuperarByName(Guarderia.class, "guarderia").contains(abandonado));
+        Bicho abandonado = this.testService.get(Bicho.class, b1.getID());
+        assertFalse(this.testService.getByName(Entrenador.class, "lucas").contains(abandonado));
+        assertTrue(this.testService.getByName(Guarderia.class, "guarderia").contains(abandonado));
     }
 
     @Test
     void entrenador_busca_y_solo_hay_bicho_abandonado_por_el() {
         Guarderia g = new Guarderia("guarderia2");
-        testService.crearEntidad(g);
+        testService.save(g);
 
-        Especie e = this.testService.recuperarByName(Especie.class, "Rojomon");
+        Especie e = this.testService.getByName(Especie.class, "Rojomon");
         Bicho b1 = e.crearBicho();
         Bicho b2 = e.crearBicho();
 
@@ -173,7 +171,7 @@ class BichoServiceTest {
     @Test
     void entrenador_busca_en_dojo_y_no_hay_campeon_devuelve_null() {
         Dojo d = new Dojo("CobraKai1");
-        testService.crearEntidad(d);
+        testService.save(d);
         newEntrenador("marta", d);
 
         assertNull(this.service.buscar("marta"));
@@ -181,115 +179,109 @@ class BichoServiceTest {
 
     @Test
     void entrenador_busca_en_dojo_con_campeon_raiz() {
-        Bicho b = new Bicho(testService.recuperarByName(Especie.class, "Lagartomon"));
-        testService.crearEntidad(b);
+        Bicho b = new Bicho(testService.getByName(Especie.class, "Lagartomon"));
+        testService.save(b);
         Dojo d = new Dojo("CobraKai2", b);
-        testService.crearEntidad(d);
+        testService.save(d);
         newEntrenador("andrea", d);
 
         Bicho be = this.service.buscar("andrea");
         assertEquals("Lagartomon", be.getEspecie().getNombre());
-        assertTrue(testService.recuperarByName(Entrenador.class, "andrea").contains(be));
+        assertTrue(testService.getByName(Entrenador.class, "andrea").contains(be));
     }
 
     @Test
     void entrenador_busca_en_dojo_con_campeon_evolucion() {
-        Bicho b = testService.recuperarByName(Especie.class, "Dragonmon").crearBicho();
-        testService.crearEntidad(b);
+        Bicho b = testService.getByName(Especie.class, "Dragonmon").crearBicho();
+        testService.save(b);
         Dojo d = new Dojo("CobraKai3", b);
-        testService.crearEntidad(d);
+        testService.save(d);
         newEntrenador("laura", d);
 
         Bicho be = this.service.buscar("laura");
         assertEquals("Lagartomon", be.getEspecie().getNombre());
-        assertTrue(testService.recuperarByName(Entrenador.class, "laura").contains(be));
+        assertTrue(testService.getByName(Entrenador.class, "laura").contains(be));
     }
 
     @Test
     void entrenador_busca_en_pueblo_con_una_sola_especie() {
-        Pueblo p = new Pueblo("Paleta",
-                Collections.singletonList(new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 100)));
-        testService.crearEntidad(p);
+        Pueblo p = new Pueblo("Paleta", Collections.singletonList(new Probabilidad(testService.getByName(Especie.class, "Lagartomon"), 100)));
+        testService.save(p);
         newEntrenador("ana", p);
 
         Bicho b = this.service.buscar("ana");
         assertEquals("Lagartomon", b.getEspecie().getNombre());
-        assertTrue(testService.recuperarByName(Entrenador.class, "ana").contains(b));
+        assertTrue(testService.getByName(Entrenador.class, "ana").contains(b));
     }
 
     @Test
     void entrenador_busca_en_pueblo_con_dos_especies() {
         Pueblo p = new Pueblo("Quilmes",
-                Arrays.asList(
-                        new Probabilidad(testService.recuperarByName(Especie.class, "Rojomon"), 90),
-                        new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 10)
+                Arrays.asList(new Probabilidad(testService.getByName(Especie.class, "Rojomon"), 90), new Probabilidad(testService.getByName(Especie.class, "Lagartomon"), 10)
                 ));
-        testService.crearEntidad(p);
+        testService.save(p);
         newEntrenador("albert", p);
 
         Bicho b = this.service.buscar("albert");
         assertEquals("Rojomon", b.getEspecie().getNombre());
-        assertTrue(testService.recuperarByName(Entrenador.class, "albert").contains(b));
+        assertTrue(testService.getByName(Entrenador.class, "albert").contains(b));
     }
 
     @Test
     void entrenador_busca_en_pueblo_con_tres_especies() {
         Pueblo p = new Pueblo("Bera",
-                Arrays.asList(
-                        new Probabilidad(testService.recuperarByName(Especie.class, "Reptilomon"), 10),
-                        new Probabilidad(testService.recuperarByName(Especie.class, "Rojomon"), 20),
-                        new Probabilidad(testService.recuperarByName(Especie.class, "Lagartomon"), 70)
+                Arrays.asList(new Probabilidad(testService.getByName(Especie.class, "Reptilomon"), 10), new Probabilidad(testService.getByName(Especie.class, "Rojomon"), 20), new Probabilidad(testService.getByName(Especie.class, "Lagartomon"), 70)
                 ));
-        testService.crearEntidad(p);
+        testService.save(p);
         newEntrenador("brian", p);
 
         Bicho b = this.service.buscar("brian");
         assertEquals("Lagartomon", b.getEspecie().getNombre());
-        assertTrue(testService.recuperarByName(Entrenador.class, "brian").contains(b));
+        assertTrue(testService.getByName(Entrenador.class, "brian").contains(b));
     }
 
     @Test
     void entrenador_gana_xp_sube_nivel_de_a_1() {
         newEntrenador("ENivel1");
 
-        Entrenador e = testService.recuperarByName(Entrenador.class, "ENivel1");
+        Entrenador e = testService.getByName(Entrenador.class, "ENivel1");
         e.incXP(120);
-        testService.actualizar(e);
-        assertEquals(2, testService.recuperarByName(Entrenador.class, "ENivel1").getNivel());
+        testService.upd(e);
+        assertEquals(2, testService.getByName(Entrenador.class, "ENivel1").getNivel());
 
         e.incXP(300);
-        testService.actualizar(e);
-        assertEquals(3, testService.recuperarByName(Entrenador.class, "ENivel1").getNivel());
+        testService.upd(e);
+        assertEquals(3, testService.getByName(Entrenador.class, "ENivel1").getNivel());
 
         IntStream.range(4, 10).boxed().forEach(i -> {
             e.incXP(1000);
-            testService.actualizar(e);
-            assertEquals((int) i, testService.recuperarByName(Entrenador.class, "ENivel1").getNivel());
+            testService.upd(e);
+            assertEquals((int) i, testService.getByName(Entrenador.class, "ENivel1").getNivel());
         });
 
         e.incXP(1000);
-        testService.actualizar(e);
-        assertEquals(10, testService.recuperarByName(Entrenador.class, "ENivel1").getNivel());
+        testService.upd(e);
+        assertEquals(10, testService.getByName(Entrenador.class, "ENivel1").getNivel());
     }
 
     @Test
     void entrenador_gana_xp_sube_nivel_de_a_varios() {
         Entrenador e = newEntrenador("ENivel2");
         e.incXP(500);
-        testService.actualizar(e);
-        assertEquals(3, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());
+        testService.upd(e);
+        assertEquals(3, testService.getByName(Entrenador.class, "ENivel2").getNivel());
 
-        e = testService.recuperarByName(Entrenador.class, "ENivel2");
+        e = testService.getByName(Entrenador.class, "ENivel2");
         e.incXP(2000);
-        testService.actualizar(e);
-        assertEquals(5, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());
+        testService.upd(e);
+        assertEquals(5, testService.getByName(Entrenador.class, "ENivel2").getNivel());
 
         e.incXP(2000);
-        testService.actualizar(e);
-        assertEquals(7, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());
+        testService.upd(e);
+        assertEquals(7, testService.getByName(Entrenador.class, "ENivel2").getNivel());
 
         e.incXP(200000);
-        testService.actualizar(e);
-        assertEquals(10, testService.recuperarByName(Entrenador.class, "ENivel2").getNivel());
+        testService.upd(e);
+        assertEquals(10, testService.getByName(Entrenador.class, "ENivel2").getNivel());
     }
 }

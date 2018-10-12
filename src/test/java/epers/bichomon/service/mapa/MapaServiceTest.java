@@ -30,15 +30,15 @@ class MapaServiceTest {
     static void prepare() {
         TestService testService = ServiceFactory.getTestService();
 
-        testService.crearEntidad(new Entrenador("Alex"));
-        testService.crearEntidad(new Entrenador("Magali"));
-        testService.crearEntidad(new Entrenador("Paco"));
+        testService.save(new Entrenador("Alex"));
+        testService.save(new Entrenador("Magali"));
+        testService.save(new Entrenador("Paco"));
 
-        testService.crearEntidad(new Pueblo("Pueblo Paleta"));
-        testService.crearEntidad(new Guarderia("Guarderia Bicho Feliz"));
-        testService.crearEntidad(new Dojo("Escuela de la vida"));
+        testService.save(new Pueblo("Pueblo Paleta"));
+        testService.save(new Guarderia("Guarderia Bicho Feliz"));
+        testService.save(new Dojo("Escuela de la vida"));
 
-        testService.crearEntidad(new Especie("poke", TipoBicho.TIERRA));
+        testService.save(new Especie("poke", TipoBicho.TIERRA));
     }
 
     @AfterAll
@@ -49,16 +49,14 @@ class MapaServiceTest {
     @Test
     void le_digo_a_un_entrenador_que_se_mueva_y_lo_hace() {
         service.mover("Alex", "Pueblo Paleta");
-        assertEquals("Pueblo Paleta",
-                testService.recuperarByName(Entrenador.class, "Alex").getUbicacion().getNombre());
+        assertEquals("Pueblo Paleta", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
     }
 
     @Test
     void le_digo_a_un_entrenador_que_se_mueva_dos_veces_y_lo_hace() {
         service.mover("Alex", "Pueblo Paleta");
         service.mover("Alex", "Guarderia Bicho Feliz");
-        assertEquals("Guarderia Bicho Feliz",
-                testService.recuperarByName(Entrenador.class, "Alex").getUbicacion().getNombre());
+        assertEquals("Guarderia Bicho Feliz", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
     }
 
     @Test
@@ -78,33 +76,33 @@ class MapaServiceTest {
 
     @Test
     void dojo_con_campeon() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        testService.crearEntidad(new Dojo("DojoCampeon", b));
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        testService.save(new Dojo("DojoCampeon", b));
         assertEquals(b, service.campeon("DojoCampeon"));
     }
 
     @Test
     void dojo_sin_campeon() {
-        testService.crearEntidad(new Dojo("DojoSinCampeon"));
+        testService.save(new Dojo("DojoSinCampeon"));
         assertNull(service.campeon("DojoSinCampeon"));
     }
 
     @Test
     void campeon_historico_de_dojo_con_un_solo_campeon() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico1", b));
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        testService.save(new Dojo("DojoCampeonHistorico1", b));
         assertEquals(b, service.campeonHistorico("DojoCampeonHistorico1"));
     }
 
     @Test
     void campeon_historico_de_dojo_con_dos_campeones() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b1);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico2", b,
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        Bicho b1 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b1);
+        testService.save(new Dojo("DojoCampeonHistorico2", b,
                 Sets.newHashSet(new Campeon(b1,
                         LocalDate.of(2018, 10, 1),
                         LocalDate.of(2018, 10, 10))
@@ -114,13 +112,13 @@ class MapaServiceTest {
 
     @Test
     void campeon_historico_de_dojo_con_tres_campeones() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b1);
-        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b2);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico3", b,
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        Bicho b1 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b1);
+        Bicho b2 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b2);
+        testService.save(new Dojo("DojoCampeonHistorico3", b,
                 Sets.newHashSet(
                         new Campeon(b1,
                                 LocalDate.of(2018, 10, 1),
@@ -134,15 +132,15 @@ class MapaServiceTest {
 
     @Test
     void campeon_historico_de_dojo_con_cuatro_campeones() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b1);
-        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b2);
-        Bicho b3 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b3);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico4", b,
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        Bicho b1 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b1);
+        Bicho b2 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b2);
+        Bicho b3 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b3);
+        testService.save(new Dojo("DojoCampeonHistorico4", b,
                 Sets.newHashSet(
                         new Campeon(b1,
                                 LocalDate.of(2018, 10, 1),
@@ -159,13 +157,13 @@ class MapaServiceTest {
 
     @Test
     void campeon_historico_de_dojo_con_tres_campeones_es_el_actual() {
-        Bicho b = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b);
-        Bicho b1 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b1);
-        Bicho b2 = testService.recuperarByName(Especie.class, "poke").crearBicho();
-        testService.crearEntidad(b2);
-        testService.crearEntidad(new Dojo("DojoCampeonHistorico5",
+        Bicho b = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b);
+        Bicho b1 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b1);
+        Bicho b2 = testService.getByName(Especie.class, "poke").crearBicho();
+        testService.save(b2);
+        testService.save(new Dojo("DojoCampeonHistorico5",
                 new Campeon(b, LocalDate.of(2010, 10, 1), null),
                 Sets.newHashSet(
                         new Campeon(b1,

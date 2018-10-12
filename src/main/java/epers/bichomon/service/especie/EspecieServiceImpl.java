@@ -18,7 +18,7 @@ public class EspecieServiceImpl implements EspecieService {
     @Override
     public void crearEspecie(Especie especie) {
         Runner.runInSession(() -> {
-            especieDAO.guardar(especie);
+            especieDAO.save(especie);
             return null;
         });
     }
@@ -26,7 +26,7 @@ public class EspecieServiceImpl implements EspecieService {
     @Override
     public Especie getEspecie(String nombreEspecie) {
         return Runner.runInSession(() -> {
-            Especie especie = especieDAO.recuperar(nombreEspecie);
+            Especie especie = especieDAO.get(nombreEspecie);
             if (especie == null) {
                 throw new EspecieNoExistente(nombreEspecie);
             }
@@ -42,9 +42,9 @@ public class EspecieServiceImpl implements EspecieService {
     @Override
     public Bicho crearBicho(String nombreEspecie) {
         return Runner.runInSession(() -> {
-            Especie especie = especieDAO.recuperar(nombreEspecie);
+            Especie especie = especieDAO.get(nombreEspecie);
             Bicho bicho = especie.crearBicho();
-            especieDAO.actualizar(especie);
+            especieDAO.upd(especie);
             return bicho;
         });
     }

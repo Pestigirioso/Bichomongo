@@ -9,13 +9,13 @@ import org.hibernate.query.Query;
 
 public class UbicacionDAOHib extends GenericDAOHib implements UbicacionDAO {
     @Override
-    public Ubicacion recuperar(String ubicacion) {
-        return super.recuperarByName(Ubicacion.class, ubicacion);
+    public Ubicacion get(String ubicacion) {
+        return super.getByName(Ubicacion.class, ubicacion);
     }
 
     @Override
-    public Dojo recuperarDojo(String dojo) {
-        return super.recuperarByName(Dojo.class, dojo);
+    public Dojo getDojo(String dojo) {
+        return super.getByName(Dojo.class, dojo);
     }
 
     @Override

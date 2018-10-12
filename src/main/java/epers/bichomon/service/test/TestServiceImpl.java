@@ -7,42 +7,42 @@ import java.io.Serializable;
 
 public class TestServiceImpl extends GenericDAOHib implements TestService {
 
-    public void crearEntidad(Object object) {
+    public void save(Object object) {
         Runner.runInSession(() -> {
-            super.guardar(object);
+            super.save(object);
             return null;
         });
     }
 
-    public void actualizar(Object object) {
+    public void upd(Object object) {
         Runner.runInSession(() -> {
-            super.actualizar(object);
+            super.upd(object);
             return null;
         });
     }
 
-    public <T> T recuperar(Class<T> tipo, Serializable key) {
-        return Runner.runInSession(() -> super.recuperar(tipo, key));
+    public <T> T get(Class<T> tipo, Serializable key) {
+        return Runner.runInSession(() -> super.get(tipo, key));
     }
 
-    public <T> T recuperarBy(Class<T> tipo, String param, Serializable value) {
-        return Runner.runInSession(() -> super.recuperarBy(tipo, param, value));
+    public <T> T getBy(Class<T> tipo, String param, Serializable value) {
+        return Runner.runInSession(() -> super.getBy(tipo, param, value));
     }
 
-    public <T> T recuperarByName(Class<T> tipo, String name) {
-        return Runner.runInSession(() -> super.recuperarByName(tipo, name));
+    public <T> T getByName(Class<T> tipo, String name) {
+        return Runner.runInSession(() -> super.getByName(tipo, name));
     }
 
-    public <T> void borrar(Class<T> tipo, Serializable key) {
+    public <T> void delete(Class<T> tipo, Serializable key) {
         Runner.runInSession(() -> {
-            super.borrar(tipo, key);
+            super.delete(tipo, key);
             return null;
         });
     }
 
-    public <T> void borrarByName(Class<T> tipo, String nombre) {
+    public <T> void deleteByName(Class<T> tipo, String nombre) {
         Runner.runInSession(() -> {
-            super.borrarByName(tipo, nombre);
+            super.deleteByName(tipo, nombre);
             return null;
         });
     }

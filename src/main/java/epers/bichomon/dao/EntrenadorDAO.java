@@ -5,9 +5,9 @@ import epers.bichomon.model.entrenador.Entrenador;
 import java.util.List;
 
 public interface EntrenadorDAO {
-    void actualizar(Entrenador entrenador);
+    void upd(Entrenador entrenador);
 
-    Entrenador recuperar(String nombreEntrenador);
+    Entrenador get(String nombreEntrenador);
 
     Integer cantidadEntrenadores(String ubicacion);
 
