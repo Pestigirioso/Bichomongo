@@ -106,7 +106,6 @@ public class Entrenador {
         return b;
     }
 
-    // TODO testear que entrenador gane XP al buscar, evolucionar y combatir !!
     public void evolucion() {
         incXP(xpuntos.getEvolucionar());
     }

@@ -1,6 +1,7 @@
 package epers.bichomon.service.bicho;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
@@ -60,6 +61,7 @@ class BichoServiceDueloTest extends AbstractServiceTest {
         assertNull(r.getPerdedor());
         assertEquals(0, r.getAtaques().size());
         assertEquals(b, testService.getByName(Dojo.class, "dojo").getCampeon());
+        assertEquals(10, testService.getByName(Entrenador.class, "brock").getXP());
     }
 
     @Test
@@ -83,6 +85,7 @@ class BichoServiceDueloTest extends AbstractServiceTest {
         assertEquals(1, r.getGanador().getVictorias());
         assertEquals(111, r.getGanador().getEnergia());
         assertEquals(b, testService.getByName(Dojo.class, "dojo2").getCampeon());
+        assertEquals(10, testService.getByName(Entrenador.class, "julio").getXP());
     }
 
     @Test

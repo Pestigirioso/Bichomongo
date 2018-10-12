@@ -58,6 +58,7 @@ class BichoServiceTest extends AbstractServiceTest {
         Bicho b = service.buscar("misty");
         assertEquals(1, b.getID());
         assertTrue(testService.getByName(Entrenador.class, "misty").contains(b));
+        assertEquals(10, testService.getByName(Entrenador.class, "misty").getXP());
     }
 
     @Test
