@@ -204,4 +204,6 @@ public class BichoServiceEvolucionTest {
         testService.actualizar(b);
         assertTrue(service.puedeEvolucionar(b.getID()));
     }
+
+
 }
