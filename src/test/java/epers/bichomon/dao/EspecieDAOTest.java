@@ -1,13 +1,10 @@
 package epers.bichomon.dao;
 
+import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.dao.hibernate.EspecieDAOHib;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
-import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.runner.Runner;
-import epers.bichomon.service.runner.SessionFactoryProvider;
-import epers.bichomon.service.test.TestService;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -15,14 +12,12 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class EspecieDAOTest {
+class EspecieDAOTest extends AbstractServiceTest {
 
     private EspecieDAO dao = new EspecieDAOHib();
-    private TestService testService = ServiceFactory.getTestService();
 
     @BeforeAll
     static void prepare() {
-        TestService testService = ServiceFactory.getTestService();
         testService.save(new Especie("Rojomon", TipoBicho.FUEGO, 180, 75, 100, "/image/rojomon.jpg"));
         testService.save(new Especie("Amarillomon", TipoBicho.ELECTRICIDAD, 170, 69, 300, "/image/amarillomon.jpg"));
         testService.save(new Especie("Verdemon", TipoBicho.PLANTA, 150, 55, 5000, "/image/verdemon.jpg"));
@@ -31,11 +26,6 @@ class EspecieDAOTest {
         testService.save(new Especie("Vampiron", TipoBicho.AIRE, 1050, 99, 5000, "/image/vampiromon.jpg"));
         testService.save(new Especie("Fortmon", TipoBicho.CHOCOLATE, 1050, 99, 5000, "/image/fortmon.jpg"));
         testService.save(new Especie("Dientemon", TipoBicho.AGUA, 1050, 99, 5000, "/image/dientmon.jpg"));
-    }
-
-    @AfterAll
-    static void cleanup() {
-        SessionFactoryProvider.destroy();
     }
 
     @Test

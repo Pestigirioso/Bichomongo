@@ -1,12 +1,12 @@
 package epers.bichomon.service.leaderboard;
 
+import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.duelo.Campeon;
-import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeAll;

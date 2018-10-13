@@ -1,5 +1,6 @@
 package epers.bichomon.service.bicho;
 
+import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
@@ -9,7 +10,6 @@ import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
-import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeAll;

@@ -1,10 +1,11 @@
-package epers.bichomon.service;
+package epers.bichomon;
 
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.entrenador.Nivel;
 import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.ubicacion.Ubicacion;
+import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.runner.SessionFactoryProvider;
 import epers.bichomon.service.test.TestService;
 import jersey.repackaged.com.google.common.collect.Sets;

@@ -1,10 +1,10 @@
 package epers.bichomon.service.especie;
 
+import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
-import epers.bichomon.service.AbstractServiceTest;
 import epers.bichomon.service.ServiceFactory;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
