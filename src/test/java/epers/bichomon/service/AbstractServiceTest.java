@@ -24,7 +24,7 @@ public abstract class AbstractServiceTest {
 
     @AfterAll
     static void cleanup() {
-        SessionFactoryProvider.destroy();
+        SessionFactoryProvider.clear();
     }
 
     protected Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
