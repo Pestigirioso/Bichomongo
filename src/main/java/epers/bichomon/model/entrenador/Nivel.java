@@ -16,8 +16,6 @@ public class Nivel {
     @OneToOne(cascade = CascadeType.ALL)
     private Nivel next;
 
-    private Integer rangoMax;
-
     /**
      * La cantidad de bichos capturados no podrá superar un número máximo
      * preestablecido en función de cada nivel. De haberse llegado a dicho
@@ -29,38 +27,29 @@ public class Nivel {
     }
 
     public Nivel(Integer nro, Integer limite, Nivel next) {
-        this(nro, limite, 0);
+        this(nro, limite);
         this.next = next;
     }
 
-    public Nivel(Integer nro, Integer limite, Integer rangoMax) {
+    public Nivel(Integer nro, Integer limite) {
         this.nro = nro;
         this.limite = limite;
-        this.rangoMax = rangoMax;
         this.cantMax = nro * 3;
     }
 
-    public void subeNivel(Entrenador entrenador) {
-        Integer maxNivel = 10;
-        if (this.nro < maxNivel && entrenador.getXP() > this.limite) {
-            entrenador.setNivel(this.getNext());
-            this.getNext().subeNivel(entrenador);
+    void subeNivel(Entrenador entrenador) {
+        if (this.next != null && entrenador.getXP() > this.limite) {
+            entrenador.setNivel(this.next);
+            this.next.subeNivel(entrenador);
         }
     }
 
-    public Integer getCantMax() {
+    Integer getCantMax() {
         return this.cantMax;
     }
 
-    public Integer getNro() {
+    Integer getNro() {
         return this.nro;
-    }
-
-    private Nivel getNext() {
-        if (this.next == null) {
-            this.next = new Nivel(this.nro + 1, this.limite + this.rangoMax, this.rangoMax);
-        }
-        return this.next;
     }
 
     /**
@@ -73,7 +62,10 @@ public class Nivel {
      * que se tenga información real sobre el uso que los jugadores daran al juego.
      */
     public static Nivel create() {
-        Integer rango = 1000;
-        return new Nivel(1, 99, new Nivel(2, 400, new Nivel(3, 1000, rango)));
+        Nivel n = new Nivel(10, 8000);
+        for (int i = 9; i >= 3; i--) {
+            n = new Nivel(i, (i - 2) * 1000, n);
+        }
+        return new Nivel(1, 99, new Nivel(2, 400, n));
     }
 }

@@ -4,7 +4,6 @@ import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.bicho.BichoNoEvolucionableException;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.entrenador.Nivel;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.especie.condicion.*;
@@ -111,11 +110,10 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
 
     @Test
     void un_bicho_que_cumple_con_la_condicion_de_nivel_puede_evolucionar() {
-        Nivel lvl = new Nivel(5, 1, 1);
-        testService.save(lvl);
-        Entrenador e = new Entrenador("Entrenador3", lvl);
-        testService.save(e);
-        Bicho b = this.crearBicho("EspecieNivel", e);
+        Bicho b = testService.getByName(Especie.class, "EspecieNivel").crearBicho();
+        Entrenador e = newEntrenador("Entrenador28", Sets.newHashSet(b));
+        e.incXP(1000000000);
+        testService.upd(e);
         assertTrue(service.puedeEvolucionar(b.getID()));
     }
 

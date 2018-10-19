@@ -31,11 +31,6 @@ public class Entrenador {
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Nivel nivel;
 
-    // nivel1 para que se persista toda la cadena de niveles
-    @ManyToOne
-    @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
-    private Nivel nivel1;
-
     @ManyToOne
     private XPuntos xpuntos;
 
@@ -52,7 +47,6 @@ public class Entrenador {
     public Entrenador(String nombre, Nivel nivel, XPuntos xpuntos) {
         this(nombre);
         this.nivel = nivel;
-        this.nivel1 = nivel;
         this.xpuntos = xpuntos;
     }
 
