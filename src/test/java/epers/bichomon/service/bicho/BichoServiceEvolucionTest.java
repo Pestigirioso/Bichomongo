@@ -70,9 +70,8 @@ class BichoServiceEvolucionTest extends AbstractServiceTest {
 
     @Test
     void puede_evolucionar_un_bicho_que_no_cumple_con_la_condicion_de_edad_false() {
-        Entrenador e = newEntrenador("unEntrenador10", Sets.newHashSet());
-        Bicho b = new Bicho(testService.getByName(Especie.class, "EspecieEdad"), e, LocalDate.of(2018, 10, 7));
-        testService.save(b);
+        Bicho b = testService.getByName(Especie.class, "EspecieEdad").crearBicho();
+        newEntrenador("unEntrenador10", Sets.newHashSet(b));
         assertFalse(service.puedeEvolucionar(b.getID()));
     }
 
