@@ -7,6 +7,8 @@ import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
 
+import java.util.List;
+
 public class MapaServiceImpl implements MapaService {
 
     private UbicacionDAO ubicacionDAO;
@@ -29,6 +31,28 @@ public class MapaServiceImpl implements MapaService {
             entrenadorDAO.upd(entrenador);
             return null;
         });
+        // TODO reimplementar
+    }
+
+    @Override
+    public void moverMasCorto(String entrenador, String ubicacion) {
+        // TODO implementar
+    }
+
+    @Override
+    public List<Ubicacion> conectados(String ubicacion, String tipoCamino) {
+        // TODO implementar
+        return null;
+    }
+
+    @Override
+    public void crearUbicacion(Ubicacion ubicacion) {
+        // TODO implementar
+    }
+
+    @Override
+    public void conectar(String ubicacion1, String ubicacion2, String tipoCamino) {
+        // TODO implementar
     }
 
     /**
