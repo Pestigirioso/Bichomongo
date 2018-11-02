@@ -31,6 +31,10 @@ public abstract class Ubicacion {
         this.nombre = nombreUbicacion;
     }
 
+    public Integer getID() {
+        return this.id;
+    }
+
     public Bicho buscar(Entrenador e) {
         if (!this.busqueda.exitosa(e))
             throw new BusquedaFracasoException(nombre);

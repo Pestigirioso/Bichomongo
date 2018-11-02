@@ -20,7 +20,18 @@ public class MapaServiceImpl implements MapaService {
     }
 
     /**
-     * se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
+     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
+     *
+     * - Arroje una excepcion UbicacionMuyLejana si no es posible llegar desde la actual ubicación
+     *      del entrenador a la nueva por medio de un camino.
+     *
+     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
+     *
+     * - Arrojar una excepcion CaminoMuyCostoso si el entrenador no tiene suficientes monedas para
+     *      pagar el costo del camino que une a la actual ubicación con la ubicación nueva.
+     *      En caso de existir más de un camino que conecte ambas ubicaciones entonces se deberá
+     *      optar por el más barato.
+     *
      */
     @Override
     public void mover(String nombreEntrenador, String nuevaUbicacion) {
@@ -34,25 +45,44 @@ public class MapaServiceImpl implements MapaService {
         // TODO reimplementar
     }
 
+    /**
+     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
+     * Optando por el camino mas corto
+     */
     @Override
     public void moverMasCorto(String entrenador, String ubicacion) {
         // TODO implementar
     }
 
+    /**
+     * Devolver todas las Ubicaciones conectadas directamente a una ubicación
+     * provista por medio de un tipo de camino especificado.
+     */
     @Override
     public List<Ubicacion> conectados(String ubicacion, String tipoCamino) {
-        // TODO implementar
-        return null;
+        return Runner.runInSession(() -> ubicacionDAO.conectados(ubicacion, tipoCamino));
     }
 
+    /**
+     * Crea una nueva ubicación (la cual es provista por parametro) tanto en hibernate como en neo4j.
+     */
     @Override
     public void crearUbicacion(Ubicacion ubicacion) {
-        // TODO implementar
+        Runner.runInSession(() -> {
+            ubicacionDAO.save(ubicacion);
+            return null;
+        });
     }
 
+    /**
+     * Conectar dos ubicaciones (se asumen preexistentes) por medio de un tipo de camino.
+     */
     @Override
     public void conectar(String ubicacion1, String ubicacion2, String tipoCamino) {
-        // TODO implementar
+        Runner.runInSession(() -> {
+            ubicacionDAO.conectar(ubicacion1, ubicacion2, tipoCamino);
+            return null;
+        });
     }
 
     /**
