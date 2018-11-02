@@ -54,7 +54,7 @@ public class MapaServiceImpl implements MapaService {
      */
     @Override
     public void moverMasCorto(String entrenador, String ubicacion) {
-        // TODO implementar
+        //TODO Implementar
     }
 
     /**

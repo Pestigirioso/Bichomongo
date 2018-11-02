@@ -1,6 +1,7 @@
 package epers.bichomon.service.mapa;
 
 import epers.bichomon.AbstractServiceTest;
+import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
@@ -79,6 +80,14 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
 //        assertEquals(0, service.cantidadEntrenadores("Guarderia Bicho Feliz"));
 //        assertEquals(0, service.cantidadEntrenadores("Escuela de la vida"));
 //    }
+
+    @Test
+    void alViajarPorCaminoTerrestreEntrenadorPierdeUnaMoneda() {
+        newEntrenador("Trainer", testService.getByName(Ubicacion.class, "Agualandia"));
+        service.mover("Trainer", "Bicholandia");
+        assertEquals(4, testService.getByName(Entrenador.class, "Trainer").getMonedas());
+        testService.deleteByName(Entrenador.class, "Trainer");
+    }
 
 //    /**
 //     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.

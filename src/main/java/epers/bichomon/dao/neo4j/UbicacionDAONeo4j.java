@@ -30,6 +30,11 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run(q, Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID())));
     }
 
+    public int calcularPrecioMasBaratoViaje(Ubicacion desde, Ubicacion hasta) {
+//        String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p]->(hasta:Ubicacion {id: {idHasta}})) RETURN ";
+        //TODO terminar de implementar
+    }
+
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
         String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]->(u) RETURN DISTINCT u";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));

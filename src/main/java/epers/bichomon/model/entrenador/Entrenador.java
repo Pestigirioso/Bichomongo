@@ -27,6 +27,8 @@ public class Entrenador {
 
     private int xp = 0;
 
+    private int monedas = 10;
+
     @ManyToOne
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
     private Nivel nivel;
@@ -87,6 +89,10 @@ public class Entrenador {
 
     public LocalDate getUltimaCaptura() {
         return this.ultimaCaptura;
+    }
+
+    public int getMonedas() {
+        return monedas;
     }
 
     public void incXP(int puntos) {
