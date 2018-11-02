@@ -31,12 +31,18 @@ public class UbicacionDAONeo4j {
     }
 
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
-        String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]-(u) RETURN DISTINCT u";
+        String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]->(u) RETURN DISTINCT u";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));
         return result.list(record -> {
             Value u = record.get(0);
             return u.get("id").asInt();
         });
+    }
+
+    public Boolean existeCamino(Ubicacion desde, Ubicacion hasta) {
+        String q = "MATCH(:Ubicacion {id: {desde}})-[*]->(:Ubicacion {id: {hasta}}) RETURN d";
+        StatementResult result = runWithSession(s -> s.run(q, Values.parameters("desde", desde, "hasta", hasta)));
+        return result.hasNext();
     }
 
 //    public List<Persona> getHijosDe(Persona padre) {

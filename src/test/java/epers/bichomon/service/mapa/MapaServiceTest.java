@@ -2,7 +2,6 @@ package epers.bichomon.service.mapa;
 
 import epers.bichomon.AbstractServiceTest;
 import epers.bichomon.model.bicho.Bicho;
-import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
@@ -25,38 +24,11 @@ class MapaServiceTest extends AbstractServiceTest {
 
     @BeforeAll
     static void prepare() {
-        testService.save(new Entrenador("Alex"));
-        testService.save(new Entrenador("Magali"));
-        testService.save(new Entrenador("Paco"));
-
         testService.save(new Pueblo("Pueblo Paleta"));
         testService.save(new Guarderia("Guarderia Bicho Feliz"));
         testService.save(new Dojo("Escuela de la vida"));
 
         testService.save(new Especie("poke", TipoBicho.TIERRA));
-    }
-
-    @Test
-    void le_digo_a_un_entrenador_que_se_mueva_y_lo_hace() {
-        service.mover("Alex", "Pueblo Paleta");
-        assertEquals("Pueblo Paleta", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
-    }
-
-    @Test
-    void le_digo_a_un_entrenador_que_se_mueva_dos_veces_y_lo_hace() {
-        service.mover("Alex", "Pueblo Paleta");
-        service.mover("Alex", "Guarderia Bicho Feliz");
-        assertEquals("Guarderia Bicho Feliz", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
-    }
-
-    @Test
-    void muevo_3_entrenadores_al_pueblo_y_hay_3_entrenadores() {
-        service.mover("Alex", "Pueblo Paleta");
-        service.mover("Magali", "Pueblo Paleta");
-        service.mover("Paco", "Pueblo Paleta");
-        assertEquals(3, service.cantidadEntrenadores("Pueblo Paleta"));
-        assertEquals(0, service.cantidadEntrenadores("Guarderia Bicho Feliz"));
-        assertEquals(0, service.cantidadEntrenadores("Escuela de la vida"));
     }
 
     @Test

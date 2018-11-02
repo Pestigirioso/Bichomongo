@@ -18,4 +18,6 @@ public interface UbicacionDAO {
     void conectar(String ubicacion1, String ubicacion2, String tipoCamino);
 
     List<Ubicacion> conectados(String ubicacion, String tipoCamino);
+
+    boolean existeCamino(Ubicacion ubicacion, Ubicacion ubicacion1);
 }

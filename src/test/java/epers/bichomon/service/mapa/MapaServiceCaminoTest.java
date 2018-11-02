@@ -12,8 +12,7 @@ import org.junit.jupiter.api.Test;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MapaServiceCaminoTest extends AbstractServiceTest {
 
@@ -28,6 +27,7 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
         service.crearUbicacion(new Pueblo("Lagartolandia"));
         service.crearUbicacion(new Dojo("Tibet Dojo"));
         service.crearUbicacion(new Guarderia("St.Blah"));
+        service.crearUbicacion(new Guarderia("Poke"));
         service.conectar("St.Blah", "Plantalandia", "Aereo");
         service.conectar("St.Blah", "Agualandia", "Terrestre");
         service.conectar("Agualandia", "St.Blah", "Terrestre");
@@ -41,6 +41,7 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
         service.conectar("Bicholandia", "Tibet Dojo", "Aereo");
         service.conectar("Tibet Dojo", "Bicholandia", "Aereo");
         service.conectar("Tibet Dojo", "Plantalandia", "Terrestre");
+        service.conectar("Poke", "Plantalandia", "Terrestre");
     }
 
     @Test
@@ -55,6 +56,29 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
     void conectadosAStBlahPorMaritimoNoTiene() {
         assertEquals(0, service.conectados("St.Blah", "Maritimo").size());
     }
+
+    @Test
+    void entrenadorMoverNoPuedeExceptionUbicacionMuyLejana() {
+        newEntrenador("Alex", testService.getByName(Pueblo.class, "Plantalandia"));
+        assertThrows(UbicacionMuyLejanaException.class, () -> service.mover("Alex", "poke"));
+    }
+
+//    @Test
+//    void le_digo_a_un_entrenador_que_se_mueva_dos_veces_y_lo_hace() {
+//        service.mover("Alex", "Pueblo Paleta");
+//        service.mover("Alex", "Guarderia Bicho Feliz");
+//        assertEquals("Guarderia Bicho Feliz", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
+//    }
+//
+//    @Test
+//    void muevo_3_entrenadores_al_pueblo_y_hay_3_entrenadores() {
+//        service.mover("Alex", "Pueblo Paleta");
+//        service.mover("Magali", "Pueblo Paleta");
+//        service.mover("Paco", "Pueblo Paleta");
+//        assertEquals(3, service.cantidadEntrenadores("Pueblo Paleta"));
+//        assertEquals(0, service.cantidadEntrenadores("Guarderia Bicho Feliz"));
+//        assertEquals(0, service.cantidadEntrenadores("Escuela de la vida"));
+//    }
 
 //    /**
 //     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.

@@ -25,12 +25,12 @@ public class MapaServiceImpl implements MapaService {
      * - Arroje una excepcion UbicacionMuyLejana si no es posible llegar desde la actual ubicación
      *      del entrenador a la nueva por medio de un camino.
      *
-     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
-     *
      * - Arrojar una excepcion CaminoMuyCostoso si el entrenador no tiene suficientes monedas para
      *      pagar el costo del camino que une a la actual ubicación con la ubicación nueva.
      *      En caso de existir más de un camino que conecte ambas ubicaciones entonces se deberá
      *      optar por el más barato.
+     *
+     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
      *
      */
     @Override
@@ -38,6 +38,9 @@ public class MapaServiceImpl implements MapaService {
         Runner.runInSession(() -> {
             Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
             Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
+            if (!ubicacionDAO.existeCamino(entrenador.getUbicacion(), ubicacion)) {
+                throw new UbicacionMuyLejanaException(nuevaUbicacion);
+            }
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
             return null;
