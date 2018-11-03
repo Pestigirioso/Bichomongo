@@ -6,7 +6,6 @@ import epers.bichomon.model.entrenador.Nivel;
 import epers.bichomon.model.entrenador.XPuntos;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.ServiceFactory;
-import epers.bichomon.service.runner.SessionFactoryProvider;
 import epers.bichomon.service.test.TestService;
 import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.AfterAll;
@@ -25,7 +24,7 @@ public abstract class AbstractServiceTest {
 
     @AfterAll
     static void cleanup() {
-        SessionFactoryProvider.clear();
+        testService.clear();
     }
 
     protected Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {

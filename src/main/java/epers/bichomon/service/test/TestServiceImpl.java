@@ -1,7 +1,9 @@
 package epers.bichomon.service.test;
 
 import epers.bichomon.dao.hibernate.GenericDAOHib;
+import epers.bichomon.dao.neo4j.UbicacionDAONeo4j;
 import epers.bichomon.service.runner.Runner;
+import epers.bichomon.service.runner.SessionFactoryProvider;
 
 import java.io.Serializable;
 
@@ -45,5 +47,11 @@ public class TestServiceImpl extends GenericDAOHib implements TestService {
             super.deleteByName(tipo, nombre);
             return null;
         });
+    }
+
+    @Override
+    public void clear() {
+        SessionFactoryProvider.clear();
+        new UbicacionDAONeo4j().clear();
     }
 }

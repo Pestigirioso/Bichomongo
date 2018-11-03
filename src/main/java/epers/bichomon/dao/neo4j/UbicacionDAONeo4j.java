@@ -30,17 +30,22 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run(q, Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID())));
     }
 
-    public int calcularPrecioMasBaratoViaje(Ubicacion desde, Ubicacion hasta){
+    public int viajeMasBarato(Ubicacion desde, Ubicacion hasta) {
         String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p*]->(hasta:Ubicacion {id: {idHasta}})) " +
-                   "FOREACH(way IN p|REDUCE(valorTotal = 0, way IN p| valorTotal + way.precio)) as precios " +
-                   "RETURN MIN(precios)";
+                "FOREACH(way IN p|REDUCE(valorTotal = 0, way IN p| valorTotal + way.precio)) as precios " +
+                "RETURN MIN(precios)";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("idDesde",desde.getID(),
-                                                            "idHasta", hasta.getID())));
+                "idHasta", hasta.getID())));
         return result.single().get(0).asInt();
     }
 
+    public int viajeMasCorto(Ubicacion desde, Ubicacion hasta) {
+        // TODO implementar !!
+        return 0;
+    }
+
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
-        String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]-(u) RETURN DISTINCT u";
+        String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]->(u) RETURN DISTINCT u";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));
         return result.list(record -> {
             Value u = record.get(0);
@@ -48,19 +53,15 @@ public class UbicacionDAONeo4j {
         });
     }
 
-//    public List<Persona> getHijosDe(Persona padre) {
-//        String query = "MATCH (padre:Persona {dni: {elDniPadre}}) " +
-//                "MATCH (hijo)-[:hijoDe]->(padre) " +
-//                "RETURN hijo";
-//        StatementResult result = runWithSession(session ->
-//                session.run(query, Values.parameters("elDniPadre", padre.getDni())));
-//        //Similar a list.stream().map(...)
-//        return result.list(record -> {
-//            Value hijo = record.get(0);
-//            String dni = hijo.get("dni").asString();
-//            String nombre = hijo.get("nombre").asString();
-//            String apellido = hijo.get("apellido").asString();
-//            return new Persona(dni, nombre, apellido);
-//        });
-//    }
+    public Boolean existeCamino(Ubicacion desde, Ubicacion hasta) {
+        String q = "MATCH(c:Ubicacion {id: {desde}})-[*]->(:Ubicacion {id: {hasta}}) RETURN c";
+        StatementResult result = runWithSession(s -> s.run(q,
+                Values.parameters("desde", desde.getID(), "hasta", hasta.getID())));
+        return result.hasNext();
+    }
+
+    public void clear() {
+        runWithSession(s -> s.run("MATCH (n) DETACH DELETE n"));
+    }
+
 }

@@ -2,6 +2,7 @@ package epers.bichomon.service.mapa;
 
 import epers.bichomon.dao.EntrenadorDAO;
 import epers.bichomon.dao.UbicacionDAO;
+import epers.bichomon.dao.neo4j.CalculoViajeBlock;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.ubicacion.Ubicacion;
@@ -21,28 +22,36 @@ public class MapaServiceImpl implements MapaService {
 
     /**
      * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
-     *
+     * <p>
      * - Arroje una excepcion UbicacionMuyLejana si no es posible llegar desde la actual ubicación
-     *      del entrenador a la nueva por medio de un camino.
-     *
-     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
-     *
+     * del entrenador a la nueva por medio de un camino.
+     * <p>
      * - Arrojar una excepcion CaminoMuyCostoso si el entrenador no tiene suficientes monedas para
-     *      pagar el costo del camino que une a la actual ubicación con la ubicación nueva.
-     *      En caso de existir más de un camino que conecte ambas ubicaciones entonces se deberá
-     *      optar por el más barato.
-     *
+     * pagar el costo del camino que une a la actual ubicación con la ubicación nueva.
+     * En caso de existir más de un camino que conecte ambas ubicaciones entonces se deberá
+     * optar por el más barato.
+     * <p>
+     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
      */
-    @Override
-    public void mover(String nombreEntrenador, String nuevaUbicacion) {
+    private void moverA(String nombreEntrenador, String nuevaUbicacion, CalculoViajeBlock viaje) {
         Runner.runInSession(() -> {
             Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
             Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
+            if (!ubicacionDAO.existeCamino(entrenador.getUbicacion(), ubicacion)) {
+                throw new UbicacionMuyLejanaException(nuevaUbicacion);
+            }
+            if (entrenador.getMonedas() < viaje.calcular(entrenador.getUbicacion(), ubicacion)) {
+                throw new CaminoMuyCostosoException(nuevaUbicacion);
+            }
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
             return null;
         });
-        // TODO reimplementar
+    }
+
+    @Override
+    public void mover(String entrenador, String ubicacion) {
+        moverA(entrenador, ubicacion, ((d, h) -> ubicacionDAO.viajeMasBarato(d, h)));
     }
 
     /**
@@ -51,7 +60,7 @@ public class MapaServiceImpl implements MapaService {
      */
     @Override
     public void moverMasCorto(String entrenador, String ubicacion) {
-        //TODO Implementar
+        moverA(entrenador, ubicacion, ((d, h) -> ubicacionDAO.viajeMasCorto(d, h)));
     }
 
     /**

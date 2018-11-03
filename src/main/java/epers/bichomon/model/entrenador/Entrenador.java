@@ -27,7 +27,7 @@ public class Entrenador {
 
     private int xp = 0;
 
-    private int monedas=10;
+    private int monedas = 10;
 
     @ManyToOne
     @Cascade({org.hibernate.annotations.CascadeType.SAVE_UPDATE})
