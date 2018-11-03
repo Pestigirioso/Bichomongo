@@ -23,25 +23,50 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run("MERGE (n:Ubicacion {id: {elID}})", Values.parameters("elID", ubicacion.getID())));
     }
 
+    private int getCosto(String camino) {
+        // TODO parametrizar costos!!!
+        int costo;
+        switch (camino) {
+            case "Terrestre":
+                costo = 1;
+                break;
+            case "Maritimo":
+                costo = 2;
+                break;
+            case "Aereo":
+                costo = 5;
+                break;
+            default:
+                costo = 0;
+                break;
+        }
+        return costo;
+    }
+
     public void saveCamino(Ubicacion desde, String camino, Ubicacion hasta) {
         String q = "MATCH (desde:Ubicacion {id: {idDesde}}) " +
                 "MATCH (hasta:Ubicacion {id: {idHasta}}) " +
-                "MERGE (desde)-[:" + camino + "]->(hasta)";
-        runWithSession(s -> s.run(q, Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID())));
+                "MERGE (desde)-[c:" + camino + " {costo: {unCosto}}]->(hasta)";
+        runWithSession(s -> s.run(q,
+                Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID(), "unCosto", getCosto(camino))));
     }
 
-    public int viajeMasBarato(Ubicacion desde, Ubicacion hasta) {
-        String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p*]->(hasta:Ubicacion {id: {idHasta}})) " +
-                "FOREACH(way IN p|REDUCE(valorTotal = 0, way IN p| valorTotal + way.precio)) as precios " +
-                "RETURN MIN(precios)";
-        StatementResult result = runWithSession(s -> s.run(q, Values.parameters("idDesde",desde.getID(),
-                "idHasta", hasta.getID())));
+    private int viajeMas(String q, Ubicacion desde, Ubicacion hasta) {
+        StatementResult result = runWithSession(s -> s.run(q,
+                Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID())));
         return result.single().get(0).asInt();
     }
 
+    public int viajeMasBarato(Ubicacion desde, Ubicacion hasta) {
+        String q = "MATCH(:Ubicacion {id: {idDesde}})-[r*]->(:Ubicacion {id: {idHasta}}) " +
+                "return reduce(total=0, c IN r | total+c.costo ) as total order by total limit 1";
+        return viajeMas(q, desde, hasta);
+    }
+
     public int viajeMasCorto(Ubicacion desde, Ubicacion hasta) {
-        // TODO implementar !!
-        return 0;
+        String q = "MATCH shortestPath((:Ubicacion {id: {idDesde}})-[r*]->(:Ubicacion {id: {idHasta}})) " +
+                "return reduce(total=0, c IN r | total+c.costo)";
+        return viajeMas(q, desde, hasta);
     }
 
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {

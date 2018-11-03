@@ -58,11 +58,6 @@ public class Entrenador {
         this.bichos.forEach(b -> b.capturadoPor(this));
     }
 
-    public Entrenador(String nombre, Nivel nivel) {
-        this(nombre);
-        this.nivel=nivel;
-    }
-
     public Ubicacion getUbicacion() {
         return ubicacion;
     }
@@ -135,5 +130,9 @@ public class Entrenador {
         ResultadoCombate res = ubicacion.duelo(b);
         if (res != null) incXP(xpuntos.getCombatir());
         return res;
+    }
+
+    public void pagar(int costo) {
+        this.monedas -= costo;
     }
 }

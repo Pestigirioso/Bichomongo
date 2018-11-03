@@ -40,9 +40,11 @@ public class MapaServiceImpl implements MapaService {
             if (!ubicacionDAO.existeCamino(entrenador.getUbicacion(), ubicacion)) {
                 throw new UbicacionMuyLejanaException(nuevaUbicacion);
             }
-            if (entrenador.getMonedas() < viaje.calcular(entrenador.getUbicacion(), ubicacion)) {
+            int costo = viaje.calcular(entrenador.getUbicacion(), ubicacion);
+            if (entrenador.getMonedas() < costo) {
                 throw new CaminoMuyCostosoException(nuevaUbicacion);
             }
+            entrenador.pagar(costo);
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
             return null;

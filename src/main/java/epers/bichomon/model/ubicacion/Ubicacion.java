@@ -58,6 +58,4 @@ public abstract class Ubicacion {
     public int getPoblacion() {
         return -1;
     }
-
-    ;
 }
