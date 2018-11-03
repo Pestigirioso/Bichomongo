@@ -31,8 +31,12 @@ public class UbicacionDAONeo4j {
     }
 
     public int calcularPrecioMasBaratoViaje(Ubicacion desde, Ubicacion hasta){
-//        String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p]->(hasta:Ubicacion {id: {idHasta}})) RETURN ";
-    //TODO terminar de implementar
+        String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p*]->(hasta:Ubicacion {id: {idHasta}})) " +
+                   "FOREACH(way IN p|REDUCE(valorTotal = 0, way IN p| valorTotal + way.precio)) as precios " +
+                   "RETURN MIN(precios)";
+        StatementResult result = runWithSession(s -> s.run(q, Values.parameters("idDesde",desde.getID(),
+                                                            "idHasta", hasta.getID())));
+        return result.single().get(0).asInt();
     }
 
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
