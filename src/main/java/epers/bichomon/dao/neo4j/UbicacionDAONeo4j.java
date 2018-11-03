@@ -30,9 +30,15 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run(q, Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID())));
     }
 
-    public int calcularPrecioMasBaratoViaje(Ubicacion desde, Ubicacion hasta) {
+    public int viajeMasBarato(Ubicacion desde, Ubicacion hasta) {
 //        String q = "MATCH(desde:Ubicacion {id: {idDesde}}-[p]->(hasta:Ubicacion {id: {idHasta}})) RETURN ";
         //TODO terminar de implementar
+        return 0;
+    }
+
+    public int viajeMasCorto(Ubicacion desde, Ubicacion hasta) {
+        // TODO implementar !!
+        return 0;
     }
 
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
@@ -45,24 +51,14 @@ public class UbicacionDAONeo4j {
     }
 
     public Boolean existeCamino(Ubicacion desde, Ubicacion hasta) {
-        String q = "MATCH(:Ubicacion {id: {desde}})-[*]->(:Ubicacion {id: {hasta}}) RETURN d";
-        StatementResult result = runWithSession(s -> s.run(q, Values.parameters("desde", desde, "hasta", hasta)));
+        String q = "MATCH(c:Ubicacion {id: {desde}})-[*]->(:Ubicacion {id: {hasta}}) RETURN c";
+        StatementResult result = runWithSession(s -> s.run(q,
+                Values.parameters("desde", desde.getID(), "hasta", hasta.getID())));
         return result.hasNext();
     }
 
-//    public List<Persona> getHijosDe(Persona padre) {
-//        String query = "MATCH (padre:Persona {dni: {elDniPadre}}) " +
-//                "MATCH (hijo)-[:hijoDe]->(padre) " +
-//                "RETURN hijo";
-//        StatementResult result = runWithSession(session ->
-//                session.run(query, Values.parameters("elDniPadre", padre.getDni())));
-//        //Similar a list.stream().map(...)
-//        return result.list(record -> {
-//            Value hijo = record.get(0);
-//            String dni = hijo.get("dni").asString();
-//            String nombre = hijo.get("nombre").asString();
-//            String apellido = hijo.get("apellido").asString();
-//            return new Persona(dni, nombre, apellido);
-//        });
-//    }
+    public void clear() {
+        runWithSession(s -> s.run("MATCH (n) DETACH DELETE n"));
+    }
+
 }

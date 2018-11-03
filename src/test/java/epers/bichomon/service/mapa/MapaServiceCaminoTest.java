@@ -29,6 +29,8 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
         service.crearUbicacion(new Dojo("Tibet Dojo"));
         service.crearUbicacion(new Guarderia("St.Blah"));
         service.crearUbicacion(new Guarderia("Poke"));
+        service.crearUbicacion(new Dojo("A1"));
+        service.crearUbicacion(new Dojo("A2"));
         service.conectar("St.Blah", "Plantalandia", "Aereo");
         service.conectar("St.Blah", "Agualandia", "Terrestre");
         service.conectar("Agualandia", "St.Blah", "Terrestre");
@@ -43,6 +45,8 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
         service.conectar("Tibet Dojo", "Bicholandia", "Aereo");
         service.conectar("Tibet Dojo", "Plantalandia", "Terrestre");
         service.conectar("Poke", "Plantalandia", "Terrestre");
+        service.conectar("A1", "Poke", "Aereo");
+        service.conectar("A2", "A1", "Aereo");
     }
 
     @Test
@@ -64,63 +68,46 @@ public class MapaServiceCaminoTest extends AbstractServiceTest {
         assertThrows(UbicacionMuyLejanaException.class, () -> service.mover("Alex", "poke"));
     }
 
-//    @Test
-//    void le_digo_a_un_entrenador_que_se_mueva_dos_veces_y_lo_hace() {
-//        service.mover("Alex", "Pueblo Paleta");
-//        service.mover("Alex", "Guarderia Bicho Feliz");
-//        assertEquals("Guarderia Bicho Feliz", testService.getByName(Entrenador.class, "Alex").getUbicacion().getNombre());
-//    }
-//
-//    @Test
-//    void muevo_3_entrenadores_al_pueblo_y_hay_3_entrenadores() {
-//        service.mover("Alex", "Pueblo Paleta");
-//        service.mover("Magali", "Pueblo Paleta");
-//        service.mover("Paco", "Pueblo Paleta");
-//        assertEquals(3, service.cantidadEntrenadores("Pueblo Paleta"));
-//        assertEquals(0, service.cantidadEntrenadores("Guarderia Bicho Feliz"));
-//        assertEquals(0, service.cantidadEntrenadores("Escuela de la vida"));
-//    }
-
     @Test
-    void alViajarPorCaminoTerrestreEntrenadorPierdeUnaMoneda() {
-        newEntrenador("Trainer", testService.getByName(Ubicacion.class, "Agualandia"));
-        service.mover("Trainer", "Bicholandia");
-        assertEquals(4, testService.getByName(Entrenador.class, "Trainer").getMonedas());
-        testService.deleteByName(Entrenador.class, "Trainer");
+    void entrenadorMoverMasCortoNoPuedeExceptionUbicacionMuyLejana() {
+        newEntrenador("Alex1", testService.getByName(Pueblo.class, "Plantalandia"));
+        assertThrows(UbicacionMuyLejanaException.class, () -> service.moverMasCorto("Alex1", "poke"));
     }
 
-//    /**
-//     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
-//     *
-//     * - Arroje una excepcion UbicacionMuyLejana si no es posible llegar desde la actual ubicación
-//     *      del entrenador a la nueva por medio de un camino.
-//     *
-//     * - Luego de moverse se decrementa la cantidad de monedas del entrenador en el número adecuado.
-//     *
-//     * - Arrojar una excepcion CaminoMuyCostoso si el entrenador no tiene suficientes monedas para
-//     *      pagar el costo del camino que une a la actual ubicación con la ubicación nueva.
-//     *      En caso de existir más de un camino que conecte ambas ubicaciones entonces se deberá
-//     *      optar por el más barato.
-//     *
-//     */
-//    @Override
-//    public void mover(String nombreEntrenador, String nuevaUbicacion) {
-//        Runner.runInSession(() -> {
-//            Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
-//            Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
-//            entrenador.moverA(ubicacion);
-//            entrenadorDAO.upd(entrenador);
-//            return null;
-//        });
-//        // TODO reimplementar
-//    }
-//
-//    /**
-//     * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
-//     * Optando por el camino mas corto
-//     */
-//    @Override
-//    public void moverMasCorto(String entrenador, String ubicacion) {
-//        // TODO implementar
-//    }
+    @Test
+    void entrenadorMoverNoPuedeExceptionCaminoMuyCostoso() {
+        newEntrenador("pepe", testService.getByName(Dojo.class, "A2"));
+        assertThrows(CaminoMuyCostosoException.class, () -> service.mover("pepe", "Plantalandia"));
+    }
+
+    @Test
+    void entrenadorMoverMasCortoNoPuedeExceptionCaminoMuyCostoso() {
+        newEntrenador("pepe2", testService.getByName(Dojo.class, "A2"));
+        assertThrows(CaminoMuyCostosoException.class, () -> service.moverMasCorto("pepe2", "Plantalandia"));
+    }
+
+    @Test
+    void entrenadorMoverMasBarato() {
+        newEntrenador("jose", testService.getByName(Guarderia.class, "St.Blah"));
+        service.mover("jose", "Plantalandia");
+        assertEquals(7, testService.getByName(Entrenador.class, "jose").getMonedas());
+    }
+
+    @Test
+    void entrenadorMoverMasCorto() {
+        newEntrenador("jose2", testService.getByName(Guarderia.class, "St.Blah"));
+        service.moverMasCorto("jose2", "Plantalandia");
+        Entrenador jose2 = testService.getByName(Entrenador.class, "jose2");
+        assertEquals(5, jose2.getMonedas());
+        assertEquals("Plantalandia", jose2.getUbicacion().getNombre());
+    }
+
+    @Test
+    void muevo_1_entrenadores_al_pueblo_y_hay_1_entrenadores() {
+        newEntrenador("ronny", testService.getByName(Pueblo.class, "Agualandia"));
+        service.mover("ronny", "Bicholandia");
+        assertEquals(1, service.cantidadEntrenadores("Bicholandia"));
+        assertEquals(0, service.cantidadEntrenadores("Agualandia"));
+    }
+
 }
