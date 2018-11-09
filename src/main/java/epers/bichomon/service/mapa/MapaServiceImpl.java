@@ -20,6 +20,17 @@ public class MapaServiceImpl implements MapaService {
         this.entrenadorDAO = entrenadorDAO;
     }
 
+    private int costoMoverA(Entrenador entrenador, Ubicacion ubicacion, CalculoViajeBlock viaje) {
+        if (!ubicacionDAO.existeCamino(entrenador.getUbicacion(), ubicacion)) {
+            throw new UbicacionMuyLejanaException(ubicacion.getNombre());
+        }
+        int costo = viaje.calcular(entrenador.getUbicacion(), ubicacion);
+        if (entrenador.getMonedas() < costo) {
+            throw new CaminoMuyCostosoException(ubicacion.getNombre());
+        }
+        return costo;
+    }
+
     /**
      * Se cambiará al entrenador desde su ubicación actual a la especificada por parametro.
      * <p>
@@ -37,14 +48,7 @@ public class MapaServiceImpl implements MapaService {
         Runner.runInSession(() -> {
             Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
             Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
-            if (!ubicacionDAO.existeCamino(entrenador.getUbicacion(), ubicacion)) {
-                throw new UbicacionMuyLejanaException(nuevaUbicacion);
-            }
-            int costo = viaje.calcular(entrenador.getUbicacion(), ubicacion);
-            if (entrenador.getMonedas() < costo) {
-                throw new CaminoMuyCostosoException(nuevaUbicacion);
-            }
-            entrenador.pagar(costo);
+            entrenador.pagar(costoMoverA(entrenador, ubicacion, viaje));
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
             return null;
