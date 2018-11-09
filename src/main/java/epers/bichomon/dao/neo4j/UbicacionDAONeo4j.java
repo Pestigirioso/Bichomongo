@@ -23,32 +23,13 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run("MERGE (n:Ubicacion {id: {elID}})", Values.parameters("elID", ubicacion.getID())));
     }
 
-    private int getCosto(String camino) {
-        // TODO parametrizar costos!!!
-        int costo;
-        switch (camino) {
-            case "Terrestre":
-                costo = 1;
-                break;
-            case "Maritimo":
-                costo = 2;
-                break;
-            case "Aereo":
-                costo = 5;
-                break;
-            default:
-                costo = 0;
-                break;
-        }
-        return costo;
-    }
-
     public void saveCamino(Ubicacion desde, String camino, Ubicacion hasta) {
         String q = "MATCH (desde:Ubicacion {id: {idDesde}}) " +
                 "MATCH (hasta:Ubicacion {id: {idHasta}}) " +
                 "MERGE (desde)-[c:" + camino + " {costo: {unCosto}}]->(hasta)";
         runWithSession(s -> s.run(q,
-                Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID(), "unCosto", getCosto(camino))));
+                Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID(),
+                        "unCosto", TipoCamino.valueOf(camino).getCosto())));
     }
 
     private int viajeMas(String q, Ubicacion desde, Ubicacion hasta) {
