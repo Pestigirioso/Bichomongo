@@ -17,24 +17,26 @@ import epers.bichomon.service.mapa.MapaServiceImpl;
 import epers.bichomon.service.test.TestService;
 import epers.bichomon.service.test.TestServiceImpl;
 
-public class ServiceFactory {
-    public static TestService getTestService() {
+public enum ServiceFactory {
+    INSTANCE;
+
+    public TestService getTestService() {
         return new TestServiceImpl();
     }
 
-    public static EspecieService getEspecieService() {
+    public EspecieService getEspecieService() {
         return new EspecieServiceImpl(new EspecieDAOHib());
     }
 
-    public static MapaService getMapService() {
+    public MapaService getMapService() {
         return new MapaServiceImpl(new UbicacionDAOImpl(new UbicacionDAOHib(), new UbicacionDAONeo4j()), new EntrenadorDAOHib());
     }
 
-    public static BichoService getBichoService() {
+    public BichoService getBichoService() {
         return new BichoServiceImpl(new EntrenadorDAOHib(), new GenericDAOHib());
     }
 
-    public static LeaderboardService getLeaderboardService() {
+    public LeaderboardService getLeaderboardService() {
         return new LeaderboardServiceImpl(new EntrenadorDAOHib(), new EspecieDAOHib());
     }
 }

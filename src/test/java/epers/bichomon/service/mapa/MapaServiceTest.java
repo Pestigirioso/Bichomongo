@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 
 class MapaServiceTest extends AbstractServiceTest {
 
-    private MapaService service = ServiceFactory.getMapService();
+    private MapaService service = ServiceFactory.INSTANCE.getMapService();
 
     @BeforeAll
     static void prepare() {

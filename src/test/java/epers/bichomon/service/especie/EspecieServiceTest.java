@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class EspecieServiceTest extends AbstractServiceTest {
 
-    private EspecieService service = ServiceFactory.getEspecieService();
+    private EspecieService service = ServiceFactory.INSTANCE.getEspecieService();
 
     @BeforeAll
     static void prepare() {
