@@ -22,7 +22,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class LeaderboardServiceTest extends AbstractServiceTest {
 
-    private LeaderboardService service = ServiceFactory.getLeaderboardService();
+    private LeaderboardService service = ServiceFactory.INSTANCE.getLeaderboardService();
 
     @BeforeAll
     static void prepare() {

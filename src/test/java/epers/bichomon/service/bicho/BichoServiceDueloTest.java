@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class BichoServiceDueloTest extends AbstractServiceTest {
 
-    private BichoService service = ServiceFactory.getBichoService();
+    private BichoService service = ServiceFactory.INSTANCE.getBichoService();
 
     @BeforeAll
     static void prepare() {

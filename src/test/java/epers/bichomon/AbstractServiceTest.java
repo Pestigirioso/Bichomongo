@@ -14,7 +14,7 @@ import org.junit.jupiter.api.BeforeAll;
 import java.util.Set;
 
 public abstract class AbstractServiceTest {
-    protected static TestService testService = ServiceFactory.getTestService();
+    protected static TestService testService = ServiceFactory.INSTANCE.getTestService();
 
     @BeforeAll
     protected static void setUp() {

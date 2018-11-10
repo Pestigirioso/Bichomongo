@@ -17,11 +17,11 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MapaServiceCaminoTest extends AbstractServiceTest {
 
-    private MapaService service = ServiceFactory.getMapService();
+    private MapaService service = ServiceFactory.INSTANCE.getMapService();
 
     @BeforeAll
     static void prepare() {
-        MapaService service = ServiceFactory.getMapService();
+        MapaService service = ServiceFactory.INSTANCE.getMapService();
         service.crearUbicacion(new Pueblo("Plantalandia"));
         service.crearUbicacion(new Pueblo("Agualandia"));
         service.crearUbicacion(new Pueblo("Bicholandia"));
