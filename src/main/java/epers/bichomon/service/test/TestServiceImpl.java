@@ -51,7 +51,7 @@ public class TestServiceImpl extends GenericDAOHib implements TestService {
 
     @Override
     public void clear() {
-        SessionFactoryProvider.clear();
+        SessionFactoryProvider.INSTANCE.clear();
         new UbicacionDAONeo4j().clear();
     }
 }

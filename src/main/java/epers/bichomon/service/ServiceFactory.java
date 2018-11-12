@@ -10,6 +10,8 @@ import epers.bichomon.service.bicho.BichoService;
 import epers.bichomon.service.bicho.BichoServiceImpl;
 import epers.bichomon.service.especie.EspecieService;
 import epers.bichomon.service.especie.EspecieServiceImpl;
+import epers.bichomon.service.feed.FeedService;
+import epers.bichomon.service.feed.FeedServiceImpl;
 import epers.bichomon.service.leaderboard.LeaderboardService;
 import epers.bichomon.service.leaderboard.LeaderboardServiceImpl;
 import epers.bichomon.service.mapa.MapaService;
@@ -38,5 +40,9 @@ public enum ServiceFactory {
 
     public LeaderboardService getLeaderboardService() {
         return new LeaderboardServiceImpl(new EntrenadorDAOHib(), new EspecieDAOHib());
+    }
+
+    public FeedService getFeedService() {
+        return new FeedServiceImpl();
     }
 }

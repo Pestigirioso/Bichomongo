@@ -10,7 +10,7 @@ public class Runner {
 
     public static <T> T runInSession(Supplier<T> bloque) {
         // permite anidar llamadas a Runner sin abrir una nueva
-        // Sessino cada vez (usa la que abrio la primera vez)
+        // Session cada vez (usa la que abrio la primera vez)
         if (CONTEXTO.get() != null) {
             return bloque.get();
         }
@@ -19,7 +19,7 @@ public class Runner {
         Transaction tx = null;
 
         try {
-            session = SessionFactoryProvider.getInstance().createSession();
+            session = SessionFactoryProvider.INSTANCE.createSession();
             tx = session.beginTransaction();
 
             CONTEXTO.set(session);
