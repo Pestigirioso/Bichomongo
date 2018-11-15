@@ -1,6 +1,8 @@
 package epers.bichomon.service.test;
 
+import epers.bichomon.dao.EventoDAO;
 import epers.bichomon.dao.hibernate.GenericDAOHib;
+import epers.bichomon.dao.mongodb.EventoDAOMongo;
 import epers.bichomon.dao.neo4j.UbicacionDAONeo4j;
 import epers.bichomon.service.runner.Runner;
 import epers.bichomon.service.runner.SessionFactoryProvider;
@@ -53,5 +55,6 @@ public class TestServiceImpl extends GenericDAOHib implements TestService {
     public void clear() {
         SessionFactoryProvider.INSTANCE.clear();
         new UbicacionDAONeo4j().clear();
+        new EventoDAOMongo().deleteAll();
     }
 }

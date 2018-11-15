@@ -1,11 +1,15 @@
 package epers.bichomon.model.evento;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jongo.marshall.jackson.oid.MongoId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Date;
 
-public abstract class Evento {
+public class Evento {
     @MongoId
     @MongoObjectId
     private String id;
@@ -14,12 +18,22 @@ public abstract class Evento {
 
     private String ubicacion;
 
-    private LocalDateTime fecha = LocalDateTime.now();
+    private Date fecha = new Date();
 
     private TipoEvento tipoEvento;
 
-    protected Evento() {
+    protected Evento() {}
+
+    public Evento(String entrenador, String ubicacion, TipoEvento tipo) {
+        this.entrenador = entrenador;
+        this.ubicacion = ubicacion;
+        this.tipoEvento = tipo;
     }
+//
+//    public Evento(String entrenador, String ubicacion, TipoEvento tipo, Date fecha){
+//        this(entrenador, ubicacion, tipo);
+//        this.fecha = fecha;
+//    }
 
     public String getEntrenador() {
         return entrenador;
@@ -32,6 +46,4 @@ public abstract class Evento {
     public TipoEvento getTipoEvento() {
         return tipoEvento;
     }
-
-
 }

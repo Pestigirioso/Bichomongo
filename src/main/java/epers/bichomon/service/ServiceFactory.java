@@ -1,5 +1,6 @@
 package epers.bichomon.service;
 
+import epers.bichomon.dao.EventoDAO;
 import epers.bichomon.dao.UbicacionDAO;
 import epers.bichomon.dao.UbicacionDAOImpl;
 import epers.bichomon.dao.hibernate.EntrenadorDAOHib;
@@ -37,11 +38,11 @@ public enum ServiceFactory {
     }
 
     public MapaService getMapService() {
-        return new MapaServiceImpl(getUbicacionDAO(), new EntrenadorDAOHib());
+        return new MapaServiceImpl(getUbicacionDAO(), new EntrenadorDAOHib(), new EventoDAOMongo());
     }
 
     public BichoService getBichoService() {
-        return new BichoServiceImpl(new EntrenadorDAOHib(), new GenericDAOHib());
+        return new BichoServiceImpl(new EntrenadorDAOHib(), new GenericDAOHib(), new EventoDAOMongo());
     }
 
     public LeaderboardService getLeaderboardService() {

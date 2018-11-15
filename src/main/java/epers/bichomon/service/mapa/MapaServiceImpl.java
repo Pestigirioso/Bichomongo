@@ -1,10 +1,13 @@
 package epers.bichomon.service.mapa;
 
 import epers.bichomon.dao.EntrenadorDAO;
+import epers.bichomon.dao.EventoDAO;
 import epers.bichomon.dao.UbicacionDAO;
 import epers.bichomon.dao.neo4j.CalculoViajeBlock;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.evento.Evento;
+import epers.bichomon.model.evento.TipoEvento;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
 
@@ -14,10 +17,12 @@ public class MapaServiceImpl implements MapaService {
 
     private UbicacionDAO ubicacionDAO;
     private EntrenadorDAO entrenadorDAO;
+    private EventoDAO eventoDAO;
 
-    public MapaServiceImpl(UbicacionDAO ubicacionDAO, EntrenadorDAO entrenadorDAO) {
+    public MapaServiceImpl(UbicacionDAO ubicacionDAO, EntrenadorDAO entrenadorDAO, EventoDAO eventoDAO) {
         this.ubicacionDAO = ubicacionDAO;
         this.entrenadorDAO = entrenadorDAO;
+        this.eventoDAO = eventoDAO;
     }
 
     private int costoMoverA(Entrenador entrenador, Ubicacion ubicacion, CalculoViajeBlock viaje) {
@@ -51,6 +56,7 @@ public class MapaServiceImpl implements MapaService {
             entrenador.pagar(costoMoverA(entrenador, ubicacion, viaje));
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
+            eventoDAO.save(new Evento(entrenador.getNombre(), nuevaUbicacion, TipoEvento.Arribo));
             return null;
         });
     }

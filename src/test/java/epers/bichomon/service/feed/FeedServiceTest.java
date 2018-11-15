@@ -83,10 +83,21 @@ public class FeedServiceTest extends AbstractServiceTest {
     void siElEntrenadorCapturaUnBichoFeedEntrenadorMuestraLaCaptura(){
         Especie esp = new Especie("rocamon", TipoBicho.TIERRA);
         testService.save(esp);
+
         Bicho bichin = esp.crearBicho();
+        testService.save(bichin);
         String trainer = "trainer";
-        Entrenador entren = newEntrenador(trainer,testService.getByName(Ubicacion.class, "Plantalandia"));
+        Ubicacion place  = new Guarderia("guardaBicho");
+        testService.save(place);
+        place.abandonar(bichin);
+        testService.upd(place);
+        newEntrenador(trainer,place);
+
         bichoService.buscar(trainer);
-        assertEquals(1, service.feedEntrenador(trainer).size());
+
+        List<Evento> eventos = service.feedEntrenador(trainer);
+        assertEquals(1, eventos.size());
+        assertEquals(trainer,eventos.get(0).getEntrenador());
+        assertEquals("guardaBicho", eventos.get(0).getUbicacion());
     }
 }

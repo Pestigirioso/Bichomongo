@@ -8,6 +8,7 @@ import org.jongo.MongoCursor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Supplier;
 
 public class GenericDAOMongo<T> {
 
@@ -41,19 +42,21 @@ public class GenericDAOMongo<T> {
 		return this.mongoCollection.findOne(objectId).as(this.entityType);
 	}
 
-	public List<T> find(String query, Object... parameters) {
+	public List<T> find(String query, FindBlock block, Object... parameters) {
 		try {
-			MongoCursor<T> all = this.mongoCollection.find(query, parameters).as(this.entityType);
-
+			MongoCursor<T> all = block.executeWith(this.mongoCollection.find(query, parameters)).as(this.entityType);
 			List<T> result = this.copyToList(all);
 			all.close();
-			
 			return result;
 		} catch (IOException e) {
 			throw new RuntimeException(e);
 		}
 	}
-	
+
+	public List<T> find(String query, Object... parameters) {
+		return this.find(query, (f) -> f, parameters);
+	}
+
 	/**
 	 * Copia el contenido de un iterable en una lista
 	 */

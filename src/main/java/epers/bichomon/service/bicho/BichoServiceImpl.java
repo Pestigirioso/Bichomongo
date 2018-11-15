@@ -1,9 +1,12 @@
 package epers.bichomon.service.bicho;
 
 import epers.bichomon.dao.EntrenadorDAO;
+import epers.bichomon.dao.EventoDAO;
 import epers.bichomon.dao.GenericDAO;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.evento.Evento;
+import epers.bichomon.model.evento.TipoEvento;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.runner.Runner;
 
@@ -11,10 +14,12 @@ public class BichoServiceImpl implements BichoService {
 
     private EntrenadorDAO entrenadorDAO;
     private GenericDAO genericDAO;
+    private EventoDAO eventoDAO;
 
-    public BichoServiceImpl(EntrenadorDAO entrenadorDAO, GenericDAO genericDAO) {
+    public BichoServiceImpl(EntrenadorDAO entrenadorDAO, GenericDAO genericDAO, EventoDAO eventoDAO) {
         this.entrenadorDAO = entrenadorDAO;
         this.genericDAO = genericDAO;
+        this.eventoDAO = eventoDAO;
     }
 
     @Override
@@ -23,6 +28,9 @@ public class BichoServiceImpl implements BichoService {
             Entrenador e = entrenadorDAO.get(entrenador);
             Bicho b = e.buscar();
             entrenadorDAO.upd(e);
+            if (b != null){
+                eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Captura));
+            }
             return b;
         });
     }
