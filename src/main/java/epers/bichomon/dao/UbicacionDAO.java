@@ -19,6 +19,8 @@ public interface UbicacionDAO {
 
     List<Ubicacion> conectados(String ubicacion, String tipoCamino);
 
+    List<Ubicacion> conectados(String ubicacion);
+
     boolean existeCamino(Ubicacion desde, Ubicacion hasta);
 
     int viajeMasBarato(Ubicacion desde, Ubicacion hasta);

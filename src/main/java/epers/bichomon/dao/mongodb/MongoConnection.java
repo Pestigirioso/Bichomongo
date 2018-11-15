@@ -1,8 +1,7 @@
 package epers.bichomon.dao.mongodb;
 
-import org.jongo.Jongo;
-
 import com.mongodb.MongoClient;
+import org.jongo.Jongo;
 
 /**
  * As per documentation:
@@ -12,24 +11,15 @@ import com.mongodb.MongoClient;
  *
  * This singleton ensures that only one instance of MongoClient ever exists
  */
-public class MongoConnection {
+enum MongoConnection {
+    INSTANCE;
 
-    private static MongoConnection INSTANCE;
-
-    private MongoClient client;
     private Jongo jongo;
 
-    public static synchronized MongoConnection getInstance() {
-        if (INSTANCE == null) {
-            INSTANCE = new MongoConnection();
-        }
-        return INSTANCE;
-    }
-
     @SuppressWarnings("deprecation")
-    private MongoConnection() {
-        this.client = new MongoClient("localhost", 27017);
-        this.jongo = new Jongo(this.client.getDB("bichomongo"));
+    MongoConnection() {
+        MongoClient client = new MongoClient("localhost", 27017);
+        this.jongo = new Jongo(client.getDB("bichomongo"));
     }
 
     public Jongo getJongo() {

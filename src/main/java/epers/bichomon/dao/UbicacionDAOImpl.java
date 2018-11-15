@@ -51,6 +51,13 @@ public class UbicacionDAOImpl implements UbicacionDAO {
         return ids.stream().map(i -> ubicacionDAOHib.getByID(i)).collect(Collectors.toList());
     }
 
+    // TODO refactor!!
+    @Override
+    public List<Ubicacion> conectados(String ubicacion) {
+        List<Integer> ids = ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion));
+        return ids.stream().map(i -> ubicacionDAOHib.getByID(i)).collect(Collectors.toList());
+    }
+
     @Override
     public boolean existeCamino(Ubicacion desde, Ubicacion hasta) {
         return ubicacionDAONeo4j.existeCamino(desde, hasta);

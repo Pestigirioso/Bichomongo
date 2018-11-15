@@ -5,6 +5,7 @@ import epers.bichomon.dao.hibernate.EntrenadorDAOHib;
 import epers.bichomon.dao.hibernate.EspecieDAOHib;
 import epers.bichomon.dao.hibernate.GenericDAOHib;
 import epers.bichomon.dao.hibernate.UbicacionDAOHib;
+import epers.bichomon.dao.mongodb.EventoDAOMongo;
 import epers.bichomon.dao.neo4j.UbicacionDAONeo4j;
 import epers.bichomon.service.bicho.BichoService;
 import epers.bichomon.service.bicho.BichoServiceImpl;
@@ -43,6 +44,6 @@ public enum ServiceFactory {
     }
 
     public FeedService getFeedService() {
-        return new FeedServiceImpl();
+        return new FeedServiceImpl(new EventoDAOMongo());
     }
 }

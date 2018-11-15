@@ -9,18 +9,18 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GenericMongoDAO<T> {
+public class GenericDAOMongo<T> {
 
 	private Class<T> entityType;
 	protected MongoCollection mongoCollection;
-	
-	public GenericMongoDAO(Class<T> entityType){
+
+	public GenericDAOMongo(Class<T> entityType) {
 		this.entityType = entityType;
 		this.mongoCollection = this.getCollectionFor(entityType);
 	}
-	
+
 	private MongoCollection getCollectionFor(Class<T> entityType) {
-		Jongo jongo = MongoConnection.getInstance().getJongo();
+		Jongo jongo = MongoConnection.INSTANCE.getJongo();
 		return jongo.getCollection(entityType.getSimpleName());
 	}
 
