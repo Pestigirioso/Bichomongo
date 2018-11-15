@@ -13,9 +13,8 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.fail;
 
 public class FeedServiceTest extends AbstractServiceTest {
 
@@ -53,15 +52,23 @@ public class FeedServiceTest extends AbstractServiceTest {
     }
 
     @Test
-    void feedEntrenadorInexistenteFalla() {
-        assertThrows(NullPointerException.class, () -> service.feedEntrenador(""));
+    void entrenadorInexistenteRetornaListaVacia() {
+        assertTrue(service.feedEntrenador("").isEmpty());
+    }
+
+    @Test
+    void entrenadorNuevoSinEventosRetornaListaVacia() {
+        newEntrenador("nuevo", testService.getByName(Ubicacion.class, "Plantalandia"));
+        assertTrue(service.feedEntrenador("nuevo").isEmpty());
     }
 
     @Test
     void siElEntrenadorViajoFeedEntrenadorMuestraElViaje() {
-        newEntrenador("entrenador", testService.getByName(Ubicacion.class, "Plantalandia"));
-        mapService.mover("entrenador","Agualandia");
-        List<Evento> eventos = service.feedEntrenador("entrenador");
-        assertTrue(eventos.contains());
+        String e = "entrenador";
+        newEntrenador(e, testService.getByName(Ubicacion.class, "Plantalandia"));
+        mapService.mover(e, "Agualandia");
+        List<Evento> eventos = service.feedEntrenador(e);
+        assertEquals(1, eventos.size());
+        assertEquals(e, eventos.get(0).getEntrenador());
     }
 }

@@ -1,5 +1,6 @@
 package epers.bichomon.service;
 
+import epers.bichomon.dao.UbicacionDAO;
 import epers.bichomon.dao.UbicacionDAOImpl;
 import epers.bichomon.dao.hibernate.EntrenadorDAOHib;
 import epers.bichomon.dao.hibernate.EspecieDAOHib;
@@ -23,6 +24,10 @@ import epers.bichomon.service.test.TestServiceImpl;
 public enum ServiceFactory {
     INSTANCE;
 
+    private UbicacionDAO getUbicacionDAO() {
+        return new UbicacionDAOImpl(new UbicacionDAOHib(), new UbicacionDAONeo4j());
+    }
+
     public TestService getTestService() {
         return new TestServiceImpl();
     }
@@ -32,7 +37,7 @@ public enum ServiceFactory {
     }
 
     public MapaService getMapService() {
-        return new MapaServiceImpl(new UbicacionDAOImpl(new UbicacionDAOHib(), new UbicacionDAONeo4j()), new EntrenadorDAOHib());
+        return new MapaServiceImpl(getUbicacionDAO(), new EntrenadorDAOHib());
     }
 
     public BichoService getBichoService() {
@@ -44,6 +49,6 @@ public enum ServiceFactory {
     }
 
     public FeedService getFeedService() {
-        return new FeedServiceImpl(new EventoDAOMongo());
+        return new FeedServiceImpl(new EventoDAOMongo(), getUbicacionDAO(), new EntrenadorDAOHib());
     }
 }
