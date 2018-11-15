@@ -16,6 +16,8 @@ public abstract class Evento {
 
     private LocalDateTime fecha = LocalDateTime.now();
 
+    private TipoEvento tipoEvento;
+
     protected Evento() {
     }
 
@@ -26,5 +28,10 @@ public abstract class Evento {
     public String getUbicacion() {
         return ubicacion;
     }
+
+    public TipoEvento getTipoEvento() {
+        return tipoEvento;
+    }
+
 
 }

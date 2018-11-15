@@ -1,13 +1,19 @@
 package epers.bichomon.service.feed;
 
 import epers.bichomon.AbstractServiceTest;
+import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.entrenador.Entrenador;
+import epers.bichomon.model.especie.Especie;
+import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.evento.Evento;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.ServiceFactory;
+import epers.bichomon.service.bicho.BichoService;
 import epers.bichomon.service.mapa.MapaService;
+import jersey.repackaged.com.google.common.collect.Sets;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
@@ -19,6 +25,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 public class FeedServiceTest extends AbstractServiceTest {
 
     private MapaService mapService = ServiceFactory.INSTANCE.getMapService();
+    private BichoService bichoService = ServiceFactory.INSTANCE.getBichoService();
     private FeedService service = ServiceFactory.INSTANCE.getFeedService();
 
     @BeforeAll
@@ -70,5 +77,16 @@ public class FeedServiceTest extends AbstractServiceTest {
         List<Evento> eventos = service.feedEntrenador(e);
         assertEquals(1, eventos.size());
         assertEquals(e, eventos.get(0).getEntrenador());
+    }
+
+    @Test
+    void siElEntrenadorCapturaUnBichoFeedEntrenadorMuestraLaCaptura(){
+        Especie esp = new Especie("rocamon", TipoBicho.TIERRA);
+        testService.save(esp);
+        Bicho bichin = esp.crearBicho();
+        String trainer = "trainer";
+        Entrenador entren = newEntrenador(trainer,testService.getByName(Ubicacion.class, "Plantalandia"));
+        bichoService.buscar(trainer);
+        assertEquals(1, service.feedEntrenador(trainer).size());
     }
 }
