@@ -16,7 +16,11 @@ public abstract class Evento {
 
     private LocalDateTime fecha = LocalDateTime.now();
 
-    protected Evento() {
+    protected Evento() {}
+
+    public Evento(String entrenador, String ubicacion) {
+        this.entrenador = entrenador;
+        this.ubicacion = ubicacion;
     }
 
     public String getEntrenador() {

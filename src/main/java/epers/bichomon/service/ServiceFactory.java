@@ -37,7 +37,7 @@ public enum ServiceFactory {
     }
 
     public MapaService getMapService() {
-        return new MapaServiceImpl(getUbicacionDAO(), new EntrenadorDAOHib());
+        return new MapaServiceImpl(getUbicacionDAO(), new EntrenadorDAOHib(), new EventoDAOMongo());
     }
 
     public BichoService getBichoService() {
