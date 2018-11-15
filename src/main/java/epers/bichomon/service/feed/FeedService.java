@@ -1,6 +1,6 @@
 package epers.bichomon.service.feed;
 
-import epers.bichomon.model.Evento;
+import epers.bichomon.model.evento.Evento;
 
 import java.util.List;
 
