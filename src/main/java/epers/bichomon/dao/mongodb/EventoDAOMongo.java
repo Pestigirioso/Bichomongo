@@ -18,11 +18,13 @@ public class EventoDAOMongo extends GenericDAOMongo<Evento> implements EventoDAO
 
     @Override
     public List<Evento> getByUbicaciones(List<String> ubicaciones) {
-        return this.find("{ ubicacion: { $in: # }}", this::findOrderByDateDesc, ubicaciones);
+        return this.find("{ $or: [{ubicacion: {$in:#}}, {origen: {$in:#}}, {destino: {$in:#}}] }",
+                this::findOrderByDateDesc, ubicaciones, ubicaciones, ubicaciones);
     }
 
     @Override
     public List<Evento> getByEntrenador(String entrenador) {
-        return this.find("{ entrenador: # }", this::findOrderByDateDesc, entrenador);
+        return this.find("{ $or: [{ coronado: # }, { descoronado: # }, { entrenador: # }] }"
+                , this::findOrderByDateDesc, entrenador, entrenador, entrenador);
     }
 }

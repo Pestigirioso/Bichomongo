@@ -34,7 +34,7 @@ public class FeedEntrenadorServiceTest extends AbstractCaminoTest {
 
     @Test
     void entrenadorInexistenteRetornaListaVacia() {
-        assertTrue(feedService.feedEntrenador("").isEmpty());
+        assertTrue(feedService.feedEntrenador("fruta").isEmpty());
     }
 
     @Test
@@ -138,25 +138,25 @@ public class FeedEntrenadorServiceTest extends AbstractCaminoTest {
         checkEvento((EventoCoronacion) eventos.get(0), "brock", "", "Tibet Dojo");
     }
 
-//    @Test
-//    void FeedEntrenadorConEventoCoronadoYDescoronado() {
-//        String dojo = "A1";
-//        Bicho b1 = testService.getByName(Especie.class, "rocamon").crearBicho();
-//        newEntrenador("alberto", testService.getByName(Dojo.class, dojo), Sets.newHashSet(b1));
-//        Bicho b2 = testService.getByName(Especie.class, "metalmon").crearBicho();
-//        newEntrenador("julio", testService.getByName(Dojo.class, dojo), Sets.newHashSet(b2));
-//
-//        bichoService.duelo("alberto", b1.getID());
-//        bichoService.duelo("julio", b2.getID());
-//
-//        List<Evento> eventosAlberto = feedService.feedEntrenador("alberto");
-//        assertEquals(2, eventosAlberto.size());
-//        checkEvento(eventosAlberto.get(0), "alberto", dojo, TipoEvento.Coronacion);
-//        checkEvento(eventosAlberto.get(1), "alberto", dojo, TipoEvento.Coronacion);
-//
-//        List<Evento> eventosJulio = feedService.feedEntrenador("julio");
-//        assertEquals(1, eventosJulio.size());
-//        checkEvento(eventosJulio.get(0), "julio", dojo, TipoEvento.Coronacion);
-//    }
+    @Test
+    void FeedEntrenadorConEventoCoronadoYDescoronado() {
+        String dojo = "A1";
+        Bicho b1 = testService.getByName(Especie.class, "rocamon").crearBicho();
+        newEntrenador("alberto", testService.getByName(Dojo.class, dojo), Sets.newHashSet(b1));
+        Bicho b2 = testService.getByName(Especie.class, "metalmon").crearBicho();
+        newEntrenador("julio", testService.getByName(Dojo.class, dojo), Sets.newHashSet(b2));
+
+        bichoService.duelo("alberto", b1.getID());
+        bichoService.duelo("julio", b2.getID());
+
+        List<Evento> eventosAlberto = feedService.feedEntrenador("alberto");
+        assertEquals(2, eventosAlberto.size());
+        checkEvento((EventoCoronacion) eventosAlberto.get(0), "julio", "alberto", dojo);
+        checkEvento((EventoCoronacion) eventosAlberto.get(1), "alberto", "", dojo);
+
+        List<Evento> eventosJulio = feedService.feedEntrenador("julio");
+        assertEquals(1, eventosJulio.size());
+        checkEvento((EventoCoronacion) eventosJulio.get(0), "julio", "alberto", dojo);
+    }
 
 }

@@ -24,7 +24,7 @@ public abstract class AbstractServiceTest {
 
     @AfterAll
     static void cleanup() {
-//        testService.clear();
+        testService.clear();
     }
 
     protected Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
