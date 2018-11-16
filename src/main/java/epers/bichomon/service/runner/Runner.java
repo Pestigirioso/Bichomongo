@@ -5,6 +5,7 @@ import org.hibernate.Transaction;
 
 import java.util.function.Supplier;
 
+// TODO implementar transacciones para Neo4j y MongoDB
 public class Runner {
     private static final ThreadLocal<Session> CONTEXTO = new ThreadLocal<>();
 
