@@ -1,49 +1,26 @@
 package epers.bichomon.model.evento;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.jongo.marshall.jackson.oid.MongoId;
 import org.jongo.marshall.jackson.oid.MongoObjectId;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.Date;
 
-public class Evento {
+@JsonTypeInfo(use = JsonTypeInfo.Id.CLASS, property = "_class")
+@JsonSubTypes({
+        @JsonSubTypes.Type(value = EventoAbandono.class),
+        @JsonSubTypes.Type(value = EventoArribo.class),
+        @JsonSubTypes.Type(value = EventoCaptura.class),
+        @JsonSubTypes.Type(value = EventoCoronacion.class)
+})
+public abstract class Evento {
     @MongoId
     @MongoObjectId
     private String id;
 
-    private String entrenador;
-
-    private String ubicacion;
-
     private Date fecha = new Date();
-
-    private TipoEvento tipoEvento;
 
     protected Evento() {}
 
-    public Evento(String entrenador, String ubicacion, TipoEvento tipo) {
-        this.entrenador = entrenador;
-        this.ubicacion = ubicacion;
-        this.tipoEvento = tipo;
-    }
-//
-//    public Evento(String entrenador, String ubicacion, TipoEvento tipo, Date fecha){
-//        this(entrenador, ubicacion, tipo);
-//        this.fecha = fecha;
-//    }
-
-    public String getEntrenador() {
-        return entrenador;
-    }
-
-    public String getUbicacion() {
-        return ubicacion;
-    }
-
-    public TipoEvento getTipoEvento() {
-        return tipoEvento;
-    }
 }

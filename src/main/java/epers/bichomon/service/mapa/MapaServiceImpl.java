@@ -6,8 +6,7 @@ import epers.bichomon.dao.UbicacionDAO;
 import epers.bichomon.dao.neo4j.CalculoViajeBlock;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.evento.Evento;
-import epers.bichomon.model.evento.TipoEvento;
+import epers.bichomon.model.evento.EventoArribo;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
 
@@ -52,11 +51,12 @@ public class MapaServiceImpl implements MapaService {
     private void moverA(String nombreEntrenador, String nuevaUbicacion, CalculoViajeBlock viaje) {
         Runner.runInSession(() -> {
             Entrenador entrenador = entrenadorDAO.get(nombreEntrenador);
+            String origen = entrenador.getUbicacion().getNombre();
             Ubicacion ubicacion = ubicacionDAO.get(nuevaUbicacion);
             entrenador.pagar(costoMoverA(entrenador, ubicacion, viaje));
             entrenador.moverA(ubicacion);
             entrenadorDAO.upd(entrenador);
-            eventoDAO.save(new Evento(entrenador.getNombre(), nuevaUbicacion, TipoEvento.Arribo));
+            eventoDAO.save(new EventoArribo(entrenador.getNombre(), origen, nuevaUbicacion));
             return null;
         });
     }

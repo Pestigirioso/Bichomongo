@@ -5,8 +5,9 @@ import epers.bichomon.dao.EventoDAO;
 import epers.bichomon.dao.GenericDAO;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.evento.Evento;
-import epers.bichomon.model.evento.TipoEvento;
+import epers.bichomon.model.evento.EventoAbandono;
+import epers.bichomon.model.evento.EventoCaptura;
+import epers.bichomon.model.evento.EventoCoronacion;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.runner.Runner;
 
@@ -29,7 +30,7 @@ public class BichoServiceImpl implements BichoService {
             Bicho b = e.buscar();
             entrenadorDAO.upd(e);
             if (b != null){
-                eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Captura));
+                eventoDAO.save(new EventoCaptura(e.getNombre(), e.getUbicacion().getNombre(), b.getEspecie().getNombre()));
             }
             return b;
         });
@@ -42,7 +43,7 @@ public class BichoServiceImpl implements BichoService {
             Bicho b = this.genericDAO.get(Bicho.class, bicho);
             e.abandonar(b);
             entrenadorDAO.upd(e);
-            eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Abandono));
+            eventoDAO.save(new EventoAbandono(e.getNombre(), e.getUbicacion().getNombre(), b.getEspecie().getNombre()));
             return null;
         });
     }
@@ -55,14 +56,8 @@ public class BichoServiceImpl implements BichoService {
             ResultadoCombate resultado = e.duelo(b);
             entrenadorDAO.upd(e);
             if (resultado.getGanador().equals(b)) {
-                eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Coronacion));
-
-                // TODO arreglar esta poronga
-                if (resultado.getPerdedor() != null) {
-                    String descoronado = resultado.getPerdedor().getEntrenador().getNombre();
-                    // TODO preguntar descoronado tiene evento de coronacion ??
-                    eventoDAO.save(new Evento(descoronado, e.getUbicacion().getNombre(), TipoEvento.Coronacion));
-                }
+                String descoronado = resultado.getPerdedor() != null ? resultado.getPerdedor().getEntrenador().getNombre() : "";
+                eventoDAO.save(new EventoCoronacion(entrenador, descoronado, e.getUbicacion().getNombre()));
             }
             return resultado;
         });
