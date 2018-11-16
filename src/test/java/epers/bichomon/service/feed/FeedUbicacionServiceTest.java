@@ -1,6 +1,6 @@
 package epers.bichomon.service.feed;
 
-import epers.bichomon.AbstractCaminoTest;
+import epers.bichomon.AbstractConectadosTest;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Pueblo;
@@ -14,7 +14,7 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FeedUbicacionServiceTest extends AbstractCaminoTest {
+public class FeedUbicacionServiceTest extends AbstractConectadosTest {
 
     private MapaService mapService = ServiceFactory.INSTANCE.getMapService();
     private BichoService bichoService = ServiceFactory.INSTANCE.getBichoService();

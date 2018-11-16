@@ -13,7 +13,7 @@ import org.junit.jupiter.api.BeforeAll;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-public class AbstractCaminoTest extends AbstractServiceTest {
+public class AbstractConectadosTest extends AbstractServiceTest {
 
     @BeforeAll
     static void prepareCamino() {

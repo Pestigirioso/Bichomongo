@@ -1,6 +1,6 @@
 package epers.bichomon.service.mapa;
 
-import epers.bichomon.AbstractCaminoTest;
+import epers.bichomon.AbstractConectadosTest;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-public class MapaServiceCaminoTest extends AbstractCaminoTest {
+public class MapaServiceCaminoTest extends AbstractConectadosTest {
 
     private MapaService service = ServiceFactory.INSTANCE.getMapService();
 
