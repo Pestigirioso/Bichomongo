@@ -21,7 +21,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class FeedServiceTest extends AbstractCaminoTest {
+public class FeedEntrenadorServiceTest extends AbstractCaminoTest {
 
     private MapaService mapService = ServiceFactory.INSTANCE.getMapService();
     private BichoService bichoService = ServiceFactory.INSTANCE.getBichoService();

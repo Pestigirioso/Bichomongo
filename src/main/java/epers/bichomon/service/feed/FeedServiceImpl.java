@@ -6,7 +6,9 @@ import epers.bichomon.dao.UbicacionDAO;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.evento.Evento;
 import epers.bichomon.model.ubicacion.Ubicacion;
+import epers.bichomon.service.runner.Runner;
 
+import javax.persistence.NoResultException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,30 +24,40 @@ public class FeedServiceImpl implements FeedService {
         this.entrenadorDAO = entrenadorDAO;
     }
 
-    /** Devolverá la lista de eventos que involucren al entrenador provisto.
-     *
+    /**
+     * Devolverá la lista de eventos que involucren al entrenador provisto.
+     * <p>
      * Esa lista incluirá eventos relacionados a:
-     *  -   Todos los viajes que haya hecho el entrenador (arribos),
-     *  -   Todas las capturas
-     *  -   Todos los bichos que haya abandonado
-     *  -   Todas las coronaciones en las que haya sido coronado o destronado.
-     *
-     *  Dicha lista debe contener primero a los eventos más recientes. */
+     * -   Todos los viajes que haya hecho el entrenador (arribos),
+     * -   Todas las capturas
+     * -   Todos los bichos que haya abandonado
+     * -   Todas las coronaciones en las que haya sido coronado o destronado.
+     * <p>
+     * Dicha lista debe contener primero a los eventos más recientes.
+     */
     @Override
     public List<Evento> feedEntrenador(String entrenador) {
         return eventoDAO.getByEntrenador(entrenador);
     }
 
-    /** Devolverá el feed de eventos principal que debe mostrarse al usuario.
+    /**
+     * Devolverá el feed de eventos principal que debe mostrarse al usuario.
      * El mismo deberá incluír todas los eventos de :
-     *  -   Su ubicación actual
-     *  -   Ubicaciones que estén conectadas con la actual
-     *
-     *  Dicha lista debe contener primero a los eventos más recientes. */
+     * -   Su ubicación actual
+     * -   Ubicaciones que estén conectadas con la actual
+     * <p>
+     * Dicha lista debe contener primero a los eventos más recientes.
+     */
     @Override
     public List<Evento> feedUbicacion(String entrenador) {
-        Entrenador e = entrenadorDAO.get(entrenador);
-        return eventoDAO.getByUbicaciones(conectadasA(e.getUbicacion()));
+        return Runner.runInSession(() -> {
+            try {
+                Entrenador e = entrenadorDAO.get(entrenador);
+                return eventoDAO.getByUbicaciones(conectadasA(e.getUbicacion()));
+            } catch (NoResultException e) {
+                throw new EntrenadorInexistenteException(entrenador);
+            }
+        });
     }
 
     private List<String> conectadasA(Ubicacion ubicacion) {
