@@ -43,30 +43,6 @@ public class FeedEntrenadorServiceTest extends AbstractCaminoTest {
         assertTrue(feedService.feedEntrenador("nuevo").isEmpty());
     }
 
-    private void checkEvento(EventoArribo evento, String entrenador, String origen, String destino) {
-        assertEquals(entrenador, evento.getEntrenador());
-        assertEquals(origen, evento.getOrigen());
-        assertEquals(destino, evento.getDestino());
-    }
-
-    private void checkEvento(EventoCoronacion evento, String coronado, String descoronado, String ubicacion) {
-        assertEquals(coronado, evento.getCoronado());
-        assertEquals(descoronado, evento.getDescoronado());
-        assertEquals(ubicacion, evento.getUbicacion());
-    }
-
-    private void checkEvento(EventoCaptura evento, String entrenador, String ubicacion, String especie) {
-        assertEquals(entrenador, evento.getEntrenador());
-        assertEquals(ubicacion, evento.getUbicacion());
-        assertEquals(especie, evento.getEspecie());
-    }
-
-    private void checkEvento(EventoAbandono evento, String entrenador, String ubicacion, String especie) {
-        assertEquals(entrenador, evento.getEntrenador());
-        assertEquals(ubicacion, evento.getUbicacion());
-        assertEquals(especie, evento.getEspecie());
-    }
-
     @Test
     void EntrenadorViajoFeedEntrenadorMuestraElViaje() {
         String e = "entrenador";

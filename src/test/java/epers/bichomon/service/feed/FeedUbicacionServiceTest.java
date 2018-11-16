@@ -38,12 +38,6 @@ public class FeedUbicacionServiceTest extends AbstractCaminoTest {
         assertTrue(feedService.feedEntrenador("nuevo").isEmpty());
     }
 
-//    private void checkEvento(Evento evento, String entrenador, String ubicacion, TipoEvento tipo) {
-//        assertEquals(entrenador, evento.getEntrenador());
-//        assertEquals(ubicacion, evento.getUbicacion());
-//        assertEquals(tipo, evento.getTipoEvento());
-//    }
-
 //    @Test
 //    void EntrenadorViajoFeedUbicacionMuestraElViaje() {
 //        String e = "entrenador";

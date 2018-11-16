@@ -1,11 +1,17 @@
 package epers.bichomon;
 
+import epers.bichomon.model.evento.EventoAbandono;
+import epers.bichomon.model.evento.EventoArribo;
+import epers.bichomon.model.evento.EventoCaptura;
+import epers.bichomon.model.evento.EventoCoronacion;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.mapa.MapaService;
 import org.junit.jupiter.api.BeforeAll;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class AbstractCaminoTest extends AbstractServiceTest {
 
@@ -37,5 +43,29 @@ public class AbstractCaminoTest extends AbstractServiceTest {
         service.conectar("Poke", "Plantalandia", "Terrestre");
         service.conectar("A1", "Poke", "Aereo");
         service.conectar("A2", "A1", "Aereo");
+    }
+
+    protected void checkEvento(EventoArribo evento, String entrenador, String origen, String destino) {
+        assertEquals(entrenador, evento.getEntrenador());
+        assertEquals(origen, evento.getOrigen());
+        assertEquals(destino, evento.getDestino());
+    }
+
+    protected void checkEvento(EventoCoronacion evento, String coronado, String descoronado, String ubicacion) {
+        assertEquals(coronado, evento.getCoronado());
+        assertEquals(descoronado, evento.getDescoronado());
+        assertEquals(ubicacion, evento.getUbicacion());
+    }
+
+    protected void checkEvento(EventoCaptura evento, String entrenador, String ubicacion, String especie) {
+        assertEquals(entrenador, evento.getEntrenador());
+        assertEquals(ubicacion, evento.getUbicacion());
+        assertEquals(especie, evento.getEspecie());
+    }
+
+    protected void checkEvento(EventoAbandono evento, String entrenador, String ubicacion, String especie) {
+        assertEquals(entrenador, evento.getEntrenador());
+        assertEquals(ubicacion, evento.getUbicacion());
+        assertEquals(especie, evento.getEspecie());
     }
 }
