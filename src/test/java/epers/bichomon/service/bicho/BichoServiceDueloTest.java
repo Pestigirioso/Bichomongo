@@ -66,11 +66,12 @@ class BichoServiceDueloTest extends AbstractServiceTest {
 
     @Test
     void duelo_en_dojo_con_campeon_gana() {
-        Bicho campeon = testService.getByName(Especie.class, "Rojomon").crearBicho();
-        testService.save(campeon);
-
-        Dojo d = new Dojo("dojo2", campeon);
+        Dojo d = new Dojo("dojo2");
         testService.save(d);
+
+        Bicho campeon = testService.getByName(Especie.class, "Rojomon").crearBicho();
+        newEntrenador("alguien", d, Sets.newHashSet(campeon));
+        service.duelo("alguien", campeon.getID());
 
         Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         b.incEnergia(100);

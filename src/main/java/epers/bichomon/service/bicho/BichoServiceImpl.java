@@ -42,6 +42,7 @@ public class BichoServiceImpl implements BichoService {
             Bicho b = this.genericDAO.get(Bicho.class, bicho);
             e.abandonar(b);
             entrenadorDAO.upd(e);
+            eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Abandono));
             return null;
         });
     }
@@ -53,6 +54,16 @@ public class BichoServiceImpl implements BichoService {
             Bicho b = this.genericDAO.get(Bicho.class, bicho);
             ResultadoCombate resultado = e.duelo(b);
             entrenadorDAO.upd(e);
+            if (resultado.getGanador().equals(b)) {
+                eventoDAO.save(new Evento(e.getNombre(), e.getUbicacion().getNombre(), TipoEvento.Coronacion));
+
+                // TODO arreglar esta poronga
+                if (resultado.getPerdedor() != null) {
+                    String descoronado = resultado.getPerdedor().getEntrenador().getNombre();
+                    // TODO preguntar descoronado tiene evento de coronacion ??
+                    eventoDAO.save(new Evento(descoronado, e.getUbicacion().getNombre(), TipoEvento.Coronacion));
+                }
+            }
             return resultado;
         });
     }

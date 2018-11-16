@@ -133,4 +133,8 @@ public class Bicho {
     private void subirEnergiaPorDuelo() {
         incEnergia(rnd.getInt(1, 5));
     }
+
+    public Entrenador getEntrenador(){
+        return this.entrenador;
+    }
 }
