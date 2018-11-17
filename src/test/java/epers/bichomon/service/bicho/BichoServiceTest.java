@@ -68,7 +68,7 @@ class BichoServiceTest extends AbstractServiceTest {
         Bicho b2 = e.crearBicho();
         newEntrenador("pepe", testService.getByName(Pueblo.class, "Pueblo"), Sets.newHashSet(b1, b2));
 
-        assertThrows(UbicacionIncorrrectaException.class, () -> service.abandonar("pepe", b1.getID()));
+        assertThrows(UbicacionIncorrectaException.class, () -> service.abandonar("pepe", b1.getID()));
     }
 
     @Test
@@ -78,7 +78,7 @@ class BichoServiceTest extends AbstractServiceTest {
         Bicho b2 = e.crearBicho();
         newEntrenador("brock", testService.getByName(Dojo.class, "Dojo"), Sets.newHashSet(b1, b2));
 
-        assertThrows(UbicacionIncorrrectaException.class, () -> service.abandonar("brock", b1.getID()));
+        assertThrows(UbicacionIncorrectaException.class, () -> service.abandonar("brock", b1.getID()));
     }
 
     @Test

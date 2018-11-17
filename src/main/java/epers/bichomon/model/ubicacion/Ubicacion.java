@@ -44,11 +44,11 @@ public abstract class Ubicacion {
     protected abstract Bicho buscarBicho(Entrenador entrenador);
 
     public void abandonar(Bicho bicho) {
-        throw new UbicacionIncorrrectaException(nombre);
+        throw new UbicacionIncorrectaException(nombre);
     }
 
     public ResultadoCombate duelo(Bicho bicho) {
-        throw new UbicacionIncorrrectaException(nombre);
+        throw new UbicacionIncorrectaException(nombre);
     }
 
     public String getNombre() {
