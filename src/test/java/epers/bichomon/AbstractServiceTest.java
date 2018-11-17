@@ -27,24 +27,24 @@ public abstract class AbstractServiceTest {
         testService.clear();
     }
 
-    protected Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
+    protected static Entrenador newEntrenador(String nombre, Set<Bicho> bichos) {
         Entrenador e = new Entrenador(nombre, testService.getBy(Nivel.class, "nro", 1), testService.get(XPuntos.class, 1), bichos);
         testService.save(e);
         return e;
     }
 
-    protected Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
+    protected static Entrenador newEntrenador(String nombre, Ubicacion ubicacion, Set<Bicho> bichos) {
         Entrenador e = newEntrenador(nombre, bichos);
         e.moverA(ubicacion);
         testService.upd(e);
         return e;
     }
 
-    protected Entrenador newEntrenador(String nombre, Ubicacion ubicacion) {
+    protected static Entrenador newEntrenador(String nombre, Ubicacion ubicacion) {
         return newEntrenador(nombre, ubicacion, Sets.newHashSet());
     }
 
-    protected Entrenador newEntrenador(String nombre) {
+    protected static Entrenador newEntrenador(String nombre) {
         return newEntrenador(nombre, Sets.newHashSet());
     }
 }

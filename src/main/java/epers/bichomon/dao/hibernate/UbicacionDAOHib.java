@@ -6,6 +6,9 @@ import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
 import org.hibernate.query.Query;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 public class UbicacionDAOHib extends GenericDAOHib {
 
     public void save(Ubicacion ubicacion) {
@@ -16,8 +19,12 @@ public class UbicacionDAOHib extends GenericDAOHib {
         return super.getByName(Ubicacion.class, ubicacion);
     }
 
-    public Ubicacion getByID(Integer ubicacion) {
+    private Ubicacion getByID(Integer ubicacion) {
         return super.get(Ubicacion.class, ubicacion);
+    }
+
+    public List<Ubicacion> getByIDs(List<Integer> ids) {
+        return ids.stream().map(this::getByID).collect(Collectors.toList());
     }
 
     public Dojo getDojo(String dojo) {

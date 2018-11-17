@@ -51,7 +51,8 @@ public class UbicacionDAONeo4j {
     }
 
     public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
-        String q = "MATCH (:Ubicacion {id: {elID}})-[:" + tipoCamino + "]->(u) RETURN DISTINCT u";
+        String camino = tipoCamino.isEmpty() ? "" : ":" + tipoCamino;
+        String q = "MATCH (:Ubicacion {id: {elID}})-[" + camino + "]->(u) RETURN DISTINCT u";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));
         return result.list(record -> {
             Value u = record.get(0);
@@ -59,14 +60,8 @@ public class UbicacionDAONeo4j {
         });
     }
 
-    // TODO refactorizar!!!
     public List<Integer> conectados(Ubicacion ubicacion) {
-        String q = "MATCH (:Ubicacion {id: {elID}})-[]->(u) RETURN DISTINCT u";
-        StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));
-        return result.list(record -> {
-            Value u = record.get(0);
-            return u.get("id").asInt();
-        });
+        return conectados(ubicacion, "");
     }
 
     public Boolean existeCamino(Ubicacion desde, Ubicacion hasta) {

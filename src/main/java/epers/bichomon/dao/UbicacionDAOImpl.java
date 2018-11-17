@@ -7,7 +7,6 @@ import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UbicacionDAOImpl implements UbicacionDAO {
 
@@ -47,15 +46,12 @@ public class UbicacionDAOImpl implements UbicacionDAO {
 
     @Override
     public List<Ubicacion> conectados(String ubicacion, String tipoCamino) {
-        List<Integer> ids = ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion), tipoCamino);
-        return ids.stream().map(i -> ubicacionDAOHib.getByID(i)).collect(Collectors.toList());
+        return ubicacionDAOHib.getByIDs(ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion), tipoCamino));
     }
 
-    // TODO refactor!!
     @Override
     public List<Ubicacion> conectados(String ubicacion) {
-        List<Integer> ids = ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion));
-        return ids.stream().map(i -> ubicacionDAOHib.getByID(i)).collect(Collectors.toList());
+        return ubicacionDAOHib.getByIDs(ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion)));
     }
 
     @Override
