@@ -30,6 +30,8 @@ public class FeedUbicacionServiceTest extends AbstractConectadosTest {
     static void prepare() {
         testService.save(new Especie("rocamon", TipoBicho.TIERRA, 10));
         testService.save(new Especie("metalmon", TipoBicho.TIERRA, 100));
+        newEntrenador("e1", testService.getByName(Ubicacion.class, "Poke"));
+        ServiceFactory.INSTANCE.getMapService().mover("e1", "Plantalandia");
     }
 
     @Test
@@ -145,5 +147,45 @@ public class FeedUbicacionServiceTest extends AbstractConectadosTest {
         assertEquals(2, eventosJulio.size());
         checkEvento((EventoCoronacion) eventosJulio.get(0), "julio", "alberto", "p7");
         checkEvento((EventoCoronacion) eventosAlberto.get(1), "alberto", "", "p7");
+    }
+
+    @Test
+    void FeedUbicacionNoRecibeEventoDeUbicacionConectadaEn2doNivel() {
+        newEntrenador("e2", testService.getByName(Ubicacion.class, "A2"));
+        List<Evento> eventos = feedService.feedUbicacion("e2");
+        assertEquals(0, eventos.size());
+    }
+
+    @Test
+    void FeedUbicacionCentralRecibeEventosDeTodasSusConectadas() {
+        Bicho bichin = testService.getByName(Especie.class, "rocamon").crearBicho();
+        testService.save(bichin);
+        Ubicacion place = testService.getByName(Ubicacion.class, "St.Blah");
+        place.abandonar(bichin);
+        testService.upd(place);
+        newEntrenador("buscador", place);
+        bichoService.buscar("buscador");
+
+        Especie e = testService.getByName(Especie.class, "rocamon");
+        Bicho b1 = e.crearBicho();
+        Bicho b2 = e.crearBicho();
+        newEntrenador("abandonador", testService.getByName(Ubicacion.class, "St.Blah"), Sets.newHashSet(b1, b2));
+        bichoService.abandonar("abandonador", b1.getID());
+
+        newEntrenador("mochilero", testService.getByName(Ubicacion.class, "Plantalandia"));
+        mapService.mover("mochilero", "Agualandia");
+        mapService.mover("mochilero", "Lagartolandia");
+        mapService.mover("mochilero", "Bicholandia");
+
+        newEntrenador("e4", testService.getByName(Ubicacion.class, "Agualandia"));
+
+        List<Evento> eventos = feedService.feedUbicacion("e4");
+        assertEquals(6, eventos.size());
+        checkEvento((EventoArribo) eventos.get(0), "mochilero", "Lagartolandia", "Bicholandia");
+        checkEvento((EventoArribo) eventos.get(1), "mochilero", "Agualandia", "Lagartolandia");
+        checkEvento((EventoArribo) eventos.get(2), "mochilero", "Plantalandia", "Agualandia");
+        checkEvento((EventoAbandono) eventos.get(3), "abandonador", "St.Blah", "rocamon");
+        checkEvento((EventoCaptura) eventos.get(4), "buscador", "St.Blah", "rocamon");
+        checkEvento((EventoArribo) eventos.get(5), "e1", "Poke", "Plantalandia");
     }
 }
