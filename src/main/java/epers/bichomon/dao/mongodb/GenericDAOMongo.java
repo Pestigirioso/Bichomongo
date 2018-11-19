@@ -37,8 +37,7 @@ public class GenericDAOMongo<T> {
     }
 
     public T get(String id) {
-        ObjectId objectId = new ObjectId(id);
-        return this.mongoCollection.findOne(objectId).as(this.entityType);
+        return this.mongoCollection.findOne(new ObjectId(id)).as(this.entityType);
     }
 
     public List<T> find(String query, FindBlock block, Object... parameters) {
@@ -61,7 +60,7 @@ public class GenericDAOMongo<T> {
      */
     protected <X> List<X> copyToList(Iterable<X> iterable) {
         List<X> result = new ArrayList<>();
-        iterable.forEach(x -> result.add(x));
+        iterable.forEach(result::add);
         return result;
     }
 
