@@ -8,64 +8,63 @@ import org.jongo.MongoCursor;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class GenericDAOMongo<T> {
 
-	private Class<T> entityType;
-	protected MongoCollection mongoCollection;
+    private Class<T> entityType;
+    protected MongoCollection mongoCollection;
 
-	public GenericDAOMongo(Class<T> entityType) {
-		this.entityType = entityType;
-		this.mongoCollection = this.getCollectionFor(entityType);
-	}
+    public GenericDAOMongo(Class<T> entityType) {
+        this.entityType = entityType;
+        this.mongoCollection = this.getCollectionFor(entityType);
+    }
 
-	private MongoCollection getCollectionFor(Class<T> entityType) {
-		Jongo jongo = MongoConnection.INSTANCE.getJongo();
-		return jongo.getCollection(entityType.getSimpleName());
-	}
+    private MongoCollection getCollectionFor(Class<T> entityType) {
+        Jongo jongo = MongoConnection.INSTANCE.getJongo();
+        return jongo.getCollection(entityType.getSimpleName());
+    }
 
-	public void deleteAll() {
-		this.mongoCollection.drop();
-	}
-	
-	public void save(T object) {
-		this.mongoCollection.insert(object);
-	}
-	
-	public void save(List<T> objects) {
-		this.mongoCollection.insert(objects.toArray());
-	}
-	
-	public T get(String id) {
-		ObjectId objectId = new ObjectId(id);
-		return this.mongoCollection.findOne(objectId).as(this.entityType);
-	}
+    public void deleteAll() {
+        this.mongoCollection.drop();
+    }
 
-	public List<T> find(String query, FindBlock block, Object... parameters) {
-		try {
-			MongoCursor<T> all = block.executeWith(this.mongoCollection.find(query, parameters)).as(this.entityType);
-			List<T> result = this.copyToList(all);
-			all.close();
-			return result;
-		} catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-	}
+    public void save(T object) {
+        this.mongoCollection.insert(object);
+    }
 
-	public List<T> find(String query, Object... parameters) {
-		return this.find(query, (f) -> f, parameters);
-	}
+    public void save(List<T> objects) {
+        this.mongoCollection.insert(objects.toArray());
+    }
 
-	/**
-	 * Copia el contenido de un iterable en una lista
-	 */
-	protected <X> List<X> copyToList(Iterable<X> iterable) {
-		List<X> result = new ArrayList<>();
-		iterable.forEach(x -> result.add(x));
-		return result;
-	}
-	
+    public T get(String id) {
+        ObjectId objectId = new ObjectId(id);
+        return this.mongoCollection.findOne(objectId).as(this.entityType);
+    }
+
+    public List<T> find(String query, FindBlock block, Object... parameters) {
+        try {
+            MongoCursor<T> all = block.executeWith(this.mongoCollection.find(query, parameters)).as(this.entityType);
+            List<T> result = this.copyToList(all);
+            all.close();
+            return result;
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<T> find(String query, Object... parameters) {
+        return this.find(query, (f) -> f, parameters);
+    }
+
+    /**
+     * Copia el contenido de un iterable en una lista
+     */
+    protected <X> List<X> copyToList(Iterable<X> iterable) {
+        List<X> result = new ArrayList<>();
+        iterable.forEach(x -> result.add(x));
+        return result;
+    }
+
 }
 
 
