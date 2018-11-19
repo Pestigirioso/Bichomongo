@@ -5,10 +5,7 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.evento.*;
-import epers.bichomon.model.ubicacion.Dojo;
-import epers.bichomon.model.ubicacion.Guarderia;
-import epers.bichomon.model.ubicacion.Pueblo;
-import epers.bichomon.model.ubicacion.Ubicacion;
+import epers.bichomon.model.ubicacion.*;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.bicho.BichoService;
 import epers.bichomon.service.mapa.MapaService;
@@ -51,7 +48,7 @@ public class FeedUbicacionServiceTest extends AbstractConectadosTest {
         String e = "entrenador";
         mapService.crearUbicacion(new Pueblo("p1"));
         mapService.crearUbicacion(new Pueblo("p2"));
-        mapService.conectar("p1", "p2", "Terrestre");
+        mapService.conectar("p1", "p2", TipoCamino.Terrestre);
         newEntrenador(e, testService.getByName(Ubicacion.class, "p1"));
 
         mapService.mover(e, "p2");
@@ -66,8 +63,8 @@ public class FeedUbicacionServiceTest extends AbstractConectadosTest {
         String e = "viajador2";
         mapService.crearUbicacion(new Pueblo("p3"));
         mapService.crearUbicacion(new Pueblo("p4"));
-        mapService.conectar("p3", "p4", "Terrestre");
-        mapService.conectar("p4", "p3", "Terrestre");
+        mapService.conectar("p3", "p4", TipoCamino.Terrestre);
+        mapService.conectar("p4", "p3", TipoCamino.Terrestre);
         newEntrenador(e, testService.getByName(Ubicacion.class, "p3"));
 
         mapService.mover(e, "p4");

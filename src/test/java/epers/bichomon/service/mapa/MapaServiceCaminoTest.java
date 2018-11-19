@@ -2,10 +2,7 @@ package epers.bichomon.service.mapa;
 
 import epers.bichomon.AbstractConectadosTest;
 import epers.bichomon.model.entrenador.Entrenador;
-import epers.bichomon.model.ubicacion.Dojo;
-import epers.bichomon.model.ubicacion.Guarderia;
-import epers.bichomon.model.ubicacion.Pueblo;
-import epers.bichomon.model.ubicacion.Ubicacion;
+import epers.bichomon.model.ubicacion.*;
 import epers.bichomon.service.ServiceFactory;
 import org.junit.jupiter.api.Test;
 
@@ -20,7 +17,7 @@ public class MapaServiceCaminoTest extends AbstractConectadosTest {
 
     @Test
     void conectadosAAgualandiaPorMaritimo() {
-        List<Ubicacion> cs = service.conectados("Agualandia", "Maritimo");
+        List<Ubicacion> cs = service.conectados("Agualandia", TipoCamino.Maritimo);
         assertEquals(3, cs.size());
         List<String> expected = Arrays.asList("Plantalandia", "Lagartolandia", "Bicholandia");
         assertTrue(cs.stream().map(Ubicacion::getNombre).allMatch(expected::contains));
@@ -28,7 +25,7 @@ public class MapaServiceCaminoTest extends AbstractConectadosTest {
 
     @Test
     void conectadosAStBlahPorMaritimoNoTiene() {
-        assertEquals(0, service.conectados("St.Blah", "Maritimo").size());
+        assertEquals(0, service.conectados("St.Blah", TipoCamino.Maritimo).size());
     }
 
     @Test

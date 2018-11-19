@@ -2,6 +2,7 @@ package epers.bichomon.dao;
 
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Dojo;
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 import java.util.List;
@@ -15,9 +16,9 @@ public interface UbicacionDAO {
 
     void save(Ubicacion ubicacion);
 
-    void conectar(String ubicacion1, String ubicacion2, String tipoCamino);
+    void conectar(String ubicacion1, String ubicacion2, TipoCamino tipoCamino);
 
-    List<Ubicacion> conectados(String ubicacion, String tipoCamino);
+    List<Ubicacion> conectados(String ubicacion, TipoCamino tipoCamino);
 
     List<Ubicacion> conectados(String ubicacion);
 

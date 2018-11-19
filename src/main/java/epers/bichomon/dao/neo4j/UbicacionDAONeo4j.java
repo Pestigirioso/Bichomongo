@@ -1,5 +1,6 @@
 package epers.bichomon.dao.neo4j;
 
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import org.neo4j.driver.v1.*;
 
@@ -23,13 +24,13 @@ public class UbicacionDAONeo4j {
         runWithSession(s -> s.run("MERGE (n:Ubicacion {id: {elID}})", Values.parameters("elID", ubicacion.getID())));
     }
 
-    public void saveCamino(Ubicacion desde, String camino, Ubicacion hasta) {
+    public void saveCamino(Ubicacion desde, TipoCamino camino, Ubicacion hasta) {
         String q = "MATCH (desde:Ubicacion {id: {idDesde}}) " +
                 "MATCH (hasta:Ubicacion {id: {idHasta}}) " +
                 "MERGE (desde)-[c:" + camino + " {costo: {unCosto}}]->(hasta)";
         runWithSession(s -> s.run(q,
                 Values.parameters("idDesde", desde.getID(), "idHasta", hasta.getID(),
-                        "unCosto", TipoCamino.valueOf(camino).getCosto())));
+                        "unCosto", camino.getCosto())));
     }
 
     private int viajeMas(String q, Ubicacion desde, Ubicacion hasta) {
@@ -50,18 +51,15 @@ public class UbicacionDAONeo4j {
         return viajeMas(q, desde, hasta);
     }
 
-    public List<Integer> conectados(Ubicacion ubicacion, String tipoCamino) {
-        String camino = tipoCamino.isEmpty() ? "" : ":" + tipoCamino;
+    public List<Integer> conectados(Ubicacion ubicacion, TipoCamino tipoCamino) {
+        String camino = tipoCamino == null ? "" : ":" + tipoCamino;
         String q = "MATCH (:Ubicacion {id: {elID}})-[" + camino + "]->(u) RETURN DISTINCT u";
         StatementResult result = runWithSession(s -> s.run(q, Values.parameters("elID", ubicacion.getID())));
-        return result.list(record -> {
-            Value u = record.get(0);
-            return u.get("id").asInt();
-        });
+        return result.list(r -> r.get(0).get("id").asInt());
     }
 
     public List<Integer> conectados(Ubicacion ubicacion) {
-        return conectados(ubicacion, "");
+        return conectados(ubicacion, null);
     }
 
     public Boolean existeCamino(Ubicacion desde, Ubicacion hasta) {

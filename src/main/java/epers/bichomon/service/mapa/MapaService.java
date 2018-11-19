@@ -1,6 +1,7 @@
 package epers.bichomon.service.mapa;
 
 import epers.bichomon.model.bicho.Bicho;
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 import java.util.List;
@@ -38,7 +39,7 @@ public interface MapaService {
      * Devolver todas las Ubicaciones conectadas directamente a una ubicación
      * provista por medio de un tipo de camino especificado.
      */
-    List<Ubicacion> conectados(String ubicacion, String tipoCamino);
+    List<Ubicacion> conectados(String ubicacion, TipoCamino tipoCamino);
 
     /**
      * Crea una nueva ubicación (la cual es provista por parametro) tanto en hibernate como en neo4j.
@@ -48,5 +49,5 @@ public interface MapaService {
     /**
      * Conectar dos ubicaciones (se asumen preexistentes) por medio de un tipo de camino.
      */
-    void conectar(String ubicacion1, String ubicacion2, String tipoCamino);
+    void conectar(String ubicacion1, String ubicacion2, TipoCamino tipoCamino);
 }

@@ -7,6 +7,7 @@ import epers.bichomon.dao.neo4j.CalculoViajeBlock;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.model.evento.EventoArribo;
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
 
@@ -80,7 +81,7 @@ public class MapaServiceImpl implements MapaService {
      * provista por medio de un tipo de camino especificado.
      */
     @Override
-    public List<Ubicacion> conectados(String ubicacion, String tipoCamino) {
+    public List<Ubicacion> conectados(String ubicacion, TipoCamino tipoCamino) {
         return Runner.runInSession(() -> ubicacionDAO.conectados(ubicacion, tipoCamino));
     }
 
@@ -99,7 +100,7 @@ public class MapaServiceImpl implements MapaService {
      * Conectar dos ubicaciones (se asumen preexistentes) por medio de un tipo de camino.
      */
     @Override
-    public void conectar(String ubicacion1, String ubicacion2, String tipoCamino) {
+    public void conectar(String ubicacion1, String ubicacion2, TipoCamino tipoCamino) {
         Runner.runInSession(() -> {
             ubicacionDAO.conectar(ubicacion1, ubicacion2, tipoCamino);
             return null;

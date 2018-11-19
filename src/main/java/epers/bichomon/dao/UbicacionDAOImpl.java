@@ -4,6 +4,7 @@ import epers.bichomon.dao.hibernate.UbicacionDAOHib;
 import epers.bichomon.dao.neo4j.UbicacionDAONeo4j;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Dojo;
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.model.ubicacion.Ubicacion;
 
 import java.util.List;
@@ -40,12 +41,12 @@ public class UbicacionDAOImpl implements UbicacionDAO {
     }
 
     @Override
-    public void conectar(String ubicacion1, String ubicacion2, String tipoCamino) {
+    public void conectar(String ubicacion1, String ubicacion2, TipoCamino tipoCamino) {
         ubicacionDAONeo4j.saveCamino(ubicacionDAOHib.get(ubicacion1), tipoCamino, ubicacionDAOHib.get(ubicacion2));
     }
 
     @Override
-    public List<Ubicacion> conectados(String ubicacion, String tipoCamino) {
+    public List<Ubicacion> conectados(String ubicacion, TipoCamino tipoCamino) {
         return ubicacionDAOHib.getByIDs(ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion), tipoCamino));
     }
 

@@ -7,6 +7,7 @@ import epers.bichomon.model.evento.EventoCoronacion;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
+import epers.bichomon.model.ubicacion.TipoCamino;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.mapa.MapaService;
 import org.junit.jupiter.api.BeforeAll;
@@ -27,22 +28,22 @@ public class AbstractConectadosTest extends AbstractServiceTest {
         service.crearUbicacion(new Guarderia("Poke"));
         service.crearUbicacion(new Dojo("A1"));
         service.crearUbicacion(new Dojo("A2"));
-        service.conectar("St.Blah", "Plantalandia", "Aereo");
-        service.conectar("St.Blah", "Agualandia", "Terrestre");
-        service.conectar("Agualandia", "St.Blah", "Terrestre");
-        service.conectar("Agualandia", "Plantalandia", "Maritimo");
-        service.conectar("Plantalandia", "Agualandia", "Maritimo");
-        service.conectar("Agualandia", "Lagartolandia", "Maritimo");
-        service.conectar("Lagartolandia", "Agualandia", "Maritimo");
-        service.conectar("Agualandia", "Bicholandia", "Maritimo");
-        service.conectar("Bicholandia", "Lagartolandia", "Terrestre");
-        service.conectar("Lagartolandia", "Bicholandia", "Terrestre");
-        service.conectar("Bicholandia", "Tibet Dojo", "Aereo");
-        service.conectar("Tibet Dojo", "Bicholandia", "Aereo");
-        service.conectar("Tibet Dojo", "Plantalandia", "Terrestre");
-        service.conectar("Poke", "Plantalandia", "Terrestre");
-        service.conectar("A1", "Poke", "Aereo");
-        service.conectar("A2", "A1", "Aereo");
+        service.conectar("St.Blah", "Plantalandia", TipoCamino.Aereo);
+        service.conectar("St.Blah", "Agualandia", TipoCamino.Terrestre);
+        service.conectar("Agualandia", "St.Blah", TipoCamino.Terrestre);
+        service.conectar("Agualandia", "Plantalandia", TipoCamino.Maritimo);
+        service.conectar("Plantalandia", "Agualandia", TipoCamino.Maritimo);
+        service.conectar("Agualandia", "Lagartolandia", TipoCamino.Maritimo);
+        service.conectar("Lagartolandia", "Agualandia", TipoCamino.Maritimo);
+        service.conectar("Agualandia", "Bicholandia", TipoCamino.Maritimo);
+        service.conectar("Bicholandia", "Lagartolandia", TipoCamino.Terrestre);
+        service.conectar("Lagartolandia", "Bicholandia", TipoCamino.Terrestre);
+        service.conectar("Bicholandia", "Tibet Dojo", TipoCamino.Aereo);
+        service.conectar("Tibet Dojo", "Bicholandia", TipoCamino.Aereo);
+        service.conectar("Tibet Dojo", "Plantalandia", TipoCamino.Terrestre);
+        service.conectar("Poke", "Plantalandia", TipoCamino.Terrestre);
+        service.conectar("A1", "Poke", TipoCamino.Aereo);
+        service.conectar("A2", "A1", TipoCamino.Aereo);
     }
 
     protected void checkEvento(EventoArribo evento, String entrenador, String origen, String destino) {

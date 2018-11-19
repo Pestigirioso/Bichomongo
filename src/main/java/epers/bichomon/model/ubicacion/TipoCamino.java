@@ -1,4 +1,4 @@
-package epers.bichomon.dao.neo4j;
+package epers.bichomon.model.ubicacion;
 
 public enum TipoCamino {
     Terrestre(1),
