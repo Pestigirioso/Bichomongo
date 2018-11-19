@@ -8,7 +8,7 @@ import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Guarderia;
 import epers.bichomon.model.ubicacion.Pueblo;
-import epers.bichomon.model.ubicacion.UbicacionIncorrrectaException;
+import epers.bichomon.model.ubicacion.UbicacionIncorrectaException;
 import epers.bichomon.model.ubicacion.duelo.ResultadoCombate;
 import epers.bichomon.service.ServiceFactory;
 import jersey.repackaged.com.google.common.collect.Sets;
@@ -34,7 +34,7 @@ class BichoServiceDueloTest extends AbstractServiceTest {
         Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("misty", g, Sets.newHashSet(b));
 
-        assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("misty", b.getID()));
+        assertThrows(UbicacionIncorrectaException.class, () -> this.service.duelo("misty", b.getID()));
     }
 
     @Test
@@ -45,7 +45,7 @@ class BichoServiceDueloTest extends AbstractServiceTest {
         Bicho b = testService.getByName(Especie.class, "Rojomon").crearBicho();
         newEntrenador("ash", p, Sets.newHashSet(b));
 
-        assertThrows(UbicacionIncorrrectaException.class, () -> this.service.duelo("ash", b.getID()));
+        assertThrows(UbicacionIncorrectaException.class, () -> this.service.duelo("ash", b.getID()));
     }
 
     @Test

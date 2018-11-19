@@ -31,7 +31,7 @@ public class MapaServiceCaminoTest extends AbstractConectadosTest {
     @Test
     void entrenadorMoverNoPuedeExceptionUbicacionMuyLejana() {
         newEntrenador("Alex", testService.getByName(Pueblo.class, "Plantalandia"));
-        assertThrows(UbicacionMuyLejanaException.class, () -> service.mover("Alex", "poke"));
+        assertThrows(UbicacionMuyLejanaException.class, () -> service.mover("Alex", "Poke"));
     }
 
     @Test
