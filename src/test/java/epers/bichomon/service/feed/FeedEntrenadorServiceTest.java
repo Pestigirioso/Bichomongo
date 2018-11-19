@@ -1,13 +1,15 @@
 package epers.bichomon.service.feed;
 
-import com.sun.javaws.exceptions.UnsignedAccessViolationException;
 import epers.bichomon.AbstractConectadosTest;
 import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.entrenador.BichoIncorrectoException;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.model.especie.TipoBicho;
 import epers.bichomon.model.evento.*;
-import epers.bichomon.model.ubicacion.*;
+import epers.bichomon.model.ubicacion.Dojo;
+import epers.bichomon.model.ubicacion.Guarderia;
+import epers.bichomon.model.ubicacion.Pueblo;
+import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.model.ubicacion.busqueda.BusquedaFracasoException;
 import epers.bichomon.service.ServiceFactory;
 import epers.bichomon.service.bicho.BichoService;
@@ -19,9 +21,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class FeedEntrenadorServiceTest extends AbstractConectadosTest {
 
@@ -153,9 +153,7 @@ public class FeedEntrenadorServiceTest extends AbstractConectadosTest {
         List<Evento> eventosRoberto = feedService.feedEntrenador("roberto");
         assertEquals(1, eventosRoberto.size());
         checkEvento((EventoCoronacion) eventosRoberto.get(0), "roberto", "", dojo);
-
-        List<Evento> eventosAna = feedService.feedEntrenador("ana");
-        assertEquals(0, eventosAna.size());
+        assertEquals(0, feedService.feedEntrenador("ana").size());
     }
 
     @Test

@@ -27,7 +27,6 @@ class MapaServiceTest extends AbstractServiceTest {
         testService.save(new Pueblo("Pueblo Paleta"));
         testService.save(new Guarderia("Guarderia Bicho Feliz"));
         testService.save(new Dojo("Escuela de la vida"));
-
         testService.save(new Especie("poke", TipoBicho.TIERRA));
     }
 
