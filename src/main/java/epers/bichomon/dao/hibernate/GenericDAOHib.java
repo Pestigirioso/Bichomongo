@@ -2,7 +2,6 @@ package epers.bichomon.dao.hibernate;
 
 import epers.bichomon.dao.GenericDAO;
 import epers.bichomon.service.runner.Runner;
-import org.hibernate.query.Query;
 
 import java.io.Serializable;
 
@@ -25,10 +24,10 @@ public class GenericDAOHib implements GenericDAO {
     @Override
     public <T> T getBy(Class<T> tipo, String param, Serializable value) {
         String hq1 = String.format("from %s i where i.%s = :val", tipo.getName(), param);
-        Query<T> query = Runner.getCurrentSession().createQuery(hq1, tipo);
-        query.setParameter("val", value);
-        query.setMaxResults(1);
-        return query.getSingleResult();
+        return Runner.getCurrentSession().createQuery(hq1, tipo)
+                .setParameter("val", value)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 
     @Override

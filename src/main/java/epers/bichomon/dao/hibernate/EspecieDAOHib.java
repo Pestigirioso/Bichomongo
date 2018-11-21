@@ -3,7 +3,6 @@ package epers.bichomon.dao.hibernate;
 import epers.bichomon.dao.EspecieDAO;
 import epers.bichomon.model.especie.Especie;
 import epers.bichomon.service.runner.Runner;
-import org.hibernate.query.Query;
 
 import javax.persistence.NoResultException;
 import java.util.List;
@@ -24,7 +23,7 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
     public Especie get(String nombreEspecie) {
         try {
             return super.getByName(Especie.class, nombreEspecie);
-        } catch(NoResultException e) {
+        } catch (NoResultException e) {
             return null;
         }
     }
@@ -32,24 +31,23 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
     @Override
     public List<Especie> recuperarTodos() {
         String hq1 = "from Especie i order by i.nombre asc";
-        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
-        return query.getResultList();
+        return Runner.getCurrentSession().createQuery(hq1, Especie.class).getResultList();
     }
 
     @Override
     public List<Especie> getPopulares() {
         String hq1 = "select i.especie from Bicho i where i.entrenador <> null group by i.especie order by count(*) desc";
-        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
-        query.setMaxResults(10);
-        return query.getResultList();
+        return Runner.getCurrentSession().createQuery(hq1, Especie.class)
+                .setMaxResults(10)
+                .getResultList();
     }
 
     @Override
     public List<Especie> getImpopulares() {
         String hq1 = "select i.especie from Bicho i where i.entrenador = null group by i.especie order by count(*) asc";
-        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
-        query.setMaxResults(10);
-        return query.getResultList();
+        return Runner.getCurrentSession().createQuery(hq1, Especie.class)
+                .setMaxResults(10)
+                .getResultList();
     }
 
     /**
@@ -60,8 +58,8 @@ public class EspecieDAOHib extends GenericDAOHib implements EspecieDAO {
     @Override
     public Especie lider() {
         String hq1 = "select c.campeon.especie from Campeon c group by c.campeon.especie order by COUNT(DISTINCT c.campeon) desc";
-        Query<Especie> query = Runner.getCurrentSession().createQuery(hq1, Especie.class);
-        query.setMaxResults(1);
-        return query.getSingleResult();
+        return Runner.getCurrentSession().createQuery(hq1, Especie.class)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 }

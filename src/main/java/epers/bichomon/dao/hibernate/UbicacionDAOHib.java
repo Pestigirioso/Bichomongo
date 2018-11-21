@@ -4,10 +4,9 @@ import epers.bichomon.model.bicho.Bicho;
 import epers.bichomon.model.ubicacion.Dojo;
 import epers.bichomon.model.ubicacion.Ubicacion;
 import epers.bichomon.service.runner.Runner;
-import org.hibernate.query.Query;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class UbicacionDAOHib extends GenericDAOHib {
 
@@ -19,12 +18,12 @@ public class UbicacionDAOHib extends GenericDAOHib {
         return super.getByName(Ubicacion.class, ubicacion);
     }
 
-    private Ubicacion getByID(Integer ubicacion) {
-        return super.get(Ubicacion.class, ubicacion);
-    }
-
     public List<Ubicacion> getByIDs(List<Integer> ids) {
-        return ids.stream().map(this::getByID).collect(Collectors.toList());
+        if (ids.isEmpty()) return new ArrayList<>();
+        return Runner.getCurrentSession()
+                .createQuery("from Ubicacion u where u.id in (:ids)", Ubicacion.class)
+                .setParameterList("ids", ids)
+                .getResultList();
     }
 
     public Dojo getDojo(String dojo) {
@@ -32,10 +31,10 @@ public class UbicacionDAOHib extends GenericDAOHib {
     }
 
     public Bicho campeonHistorico(String dojo) {
-        String hq1 = "select c.campeon from Dojo d inner join d.campeones c where d.nombre = :dojo order by DATEDIFF(IFNULL(c.hasta,NOW()),c.desde) desc";
-        Query<Bicho> query = Runner.getCurrentSession().createQuery(hq1, Bicho.class);
-        query.setParameter("dojo", dojo);
-        query.setMaxResults(1);
-        return query.getSingleResult();
+        String hql = "select c.campeon from Dojo d inner join d.campeones c where d.nombre = :dojo order by DATEDIFF(IFNULL(c.hasta,NOW()),c.desde) desc";
+        return Runner.getCurrentSession().createQuery(hql, Bicho.class)
+                .setParameter("dojo", dojo)
+                .setMaxResults(1)
+                .getSingleResult();
     }
 }

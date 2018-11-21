@@ -3,7 +3,6 @@ package epers.bichomon.dao.hibernate;
 import epers.bichomon.dao.EntrenadorDAO;
 import epers.bichomon.model.entrenador.Entrenador;
 import epers.bichomon.service.runner.Runner;
-import org.hibernate.query.Query;
 
 import java.util.List;
 
@@ -21,9 +20,9 @@ public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
     @Override
     public Integer cantidadEntrenadores(String ubicacion) {
         String hq1 = "select count(*) from Entrenador i where i.ubicacion.nombre = :ubi";
-        Query query = Runner.getCurrentSession().createQuery(hq1);
-        query.setParameter("ubi", ubicacion);
-        return ((Long) query.uniqueResult()).intValue();
+        return ((Long) Runner.getCurrentSession().createQuery(hq1)
+                .setParameter("ubi", ubicacion)
+                .uniqueResult()).intValue();
     }
 
     /**
@@ -33,8 +32,7 @@ public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
     @Override
     public List<Entrenador> campeones() {
         String hq1 = "select c.campeon.entrenador from Campeon c where c.hasta is null group by c.campeon.entrenador order by min(c.desde)";
-        Query<Entrenador> query = Runner.getCurrentSession().createQuery(hq1, Entrenador.class);
-        return query.getResultList();
+        return Runner.getCurrentSession().createQuery(hq1, Entrenador.class).getResultList();
     }
 
     /**
@@ -44,8 +42,8 @@ public class EntrenadorDAOHib extends GenericDAOHib implements EntrenadorDAO {
     @Override
     public List<Entrenador> lideres() {
         String hq1 = "select b.entrenador from Bicho b where b.entrenador is not null group by b.entrenador order by sum(b.energia) desc";
-        Query<Entrenador> query = Runner.getCurrentSession().createQuery(hq1, Entrenador.class);
-        query.setMaxResults(10);
-        return query.getResultList();
+        return Runner.getCurrentSession().createQuery(hq1, Entrenador.class)
+                .setMaxResults(10)
+                .getResultList();
     }
 }
