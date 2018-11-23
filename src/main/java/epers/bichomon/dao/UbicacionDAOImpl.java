@@ -51,8 +51,8 @@ public class UbicacionDAOImpl implements UbicacionDAO {
     }
 
     @Override
-    public List<Ubicacion> conectados(String ubicacion) {
-        return ubicacionDAOHib.getByIDs(ubicacionDAONeo4j.conectados(ubicacionDAOHib.get(ubicacion)));
+    public List<Ubicacion> conectados(Ubicacion ubicacion) {
+        return ubicacionDAOHib.getByIDs(ubicacionDAONeo4j.conectados(ubicacion));
     }
 
     @Override

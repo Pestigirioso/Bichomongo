@@ -61,7 +61,7 @@ public class FeedServiceImpl implements FeedService {
     }
 
     private List<String> conectadasA(Ubicacion ubicacion) {
-        List<Ubicacion> ubicaciones = ubicacionDAO.conectados(ubicacion.getNombre());
+        List<Ubicacion> ubicaciones = ubicacionDAO.conectados(ubicacion);
         ubicaciones.add(ubicacion);
         return ubicaciones.stream().map(Ubicacion::getNombre).collect(Collectors.toList());
     }

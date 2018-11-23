@@ -20,7 +20,7 @@ public interface UbicacionDAO {
 
     List<Ubicacion> conectados(String ubicacion, TipoCamino tipoCamino);
 
-    List<Ubicacion> conectados(String ubicacion);
+    List<Ubicacion> conectados(Ubicacion ubicacion);
 
     boolean existeCamino(Ubicacion desde, Ubicacion hasta);
 
