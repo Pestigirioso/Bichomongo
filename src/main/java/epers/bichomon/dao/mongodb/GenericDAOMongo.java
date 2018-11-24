@@ -1,6 +1,5 @@
 package epers.bichomon.dao.mongodb;
 
-import org.bson.types.ObjectId;
 import org.jongo.Jongo;
 import org.jongo.MongoCollection;
 import org.jongo.MongoCursor;
@@ -32,14 +31,6 @@ public class GenericDAOMongo<T> {
         this.mongoCollection.insert(object);
     }
 
-    public void save(List<T> objects) {
-        this.mongoCollection.insert(objects.toArray());
-    }
-
-    public T get(String id) {
-        return this.mongoCollection.findOne(new ObjectId(id)).as(this.entityType);
-    }
-
     public List<T> find(String query, FindBlock block, Object... parameters) {
         try {
             MongoCursor<T> all = block.executeWith(this.mongoCollection.find(query, parameters)).as(this.entityType);
@@ -49,10 +40,6 @@ public class GenericDAOMongo<T> {
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public List<T> find(String query, Object... parameters) {
-        return this.find(query, (f) -> f, parameters);
     }
 
     /**
